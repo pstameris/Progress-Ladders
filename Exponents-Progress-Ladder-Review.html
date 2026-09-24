@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exponents Progress Ladder Extra Review</title>
+    <title>Exponents Progress Ladder Practice</title>
     <!-- Confetti Celebration Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
@@ -29,13 +29,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* HIDE ALL UP/DOWN ARROWS (SPINNERS) ON NUMBER INPUTS GLOBALLY */
+        /* HIDE ALL SPINNERS ON NUMBER INPUTS */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -55,7 +54,7 @@
             width: 100%;
             background-color: #080f20;
             border-bottom: 1px solid var(--border-card);
-            padding: 8px 16px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -65,21 +64,21 @@
         .header-title {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 1.05rem;
+            gap: 8px;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--cyan-accent);
         }
 
         .header-actions {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .btn-header {
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
             font-weight: 600;
             border: 1px solid transparent;
             cursor: pointer;
@@ -98,37 +97,37 @@
         .container {
             max-width: 950px;
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px;
         }
 
         .title-section {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .title-section h1 {
-            font-size: 1.35rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .title-section p {
             color: #94a3b8;
-            font-size: 0.78rem;
+            font-size: 0.85rem;
         }
 
-        /* CONCEPT CONTAINERS (THIN YELLOW BORDER) */
+        /* CONCEPT CONTAINERS */
         .concept-container {
             border: 1px solid var(--yellow-accent);
             border-radius: 8px;
-            padding: 8px 10px;
-            margin-bottom: 10px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
             background-color: rgba(250, 204, 21, 0.02);
             box-shadow: 0 0 10px rgba(250, 204, 21, 0.04);
         }
 
         .concept-title {
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: var(--yellow-accent);
             margin-bottom: 8px;
@@ -138,7 +137,7 @@
         }
 
         .topic-group {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .topic-group:last-child {
@@ -146,7 +145,7 @@
         }
 
         .topic-header {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
             color: var(--cyan-accent);
             margin-bottom: 6px;
@@ -154,19 +153,18 @@
             padding-left: 6px;
         }
 
-        /* ULTRA-COMPACT MENU BOXES */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
         }
 
         .card {
             background-color: var(--bg-card-locked);
             border: 1px solid var(--border-card);
             border-radius: 6px;
-            padding: 6px 4px;
-            min-height: 62px;
+            padding: 8px 6px;
+            min-height: 68px;
             text-align: center;
             transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
             display: flex;
@@ -181,18 +179,18 @@
         }
 
         .card.unlocked:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
             border-color: var(--cyan-accent);
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
         }
 
-        .card-icon { font-size: 0.95rem; margin-bottom: 1px; }
+        .card-icon { font-size: 1rem; margin-bottom: 2px; }
         .card.locked .card-icon { opacity: 0.4; }
-        .card-code { font-size: 0.8rem; font-weight: 800; color: var(--cyan-accent); margin-bottom: 1px; }
+        .card-code { font-size: 0.82rem; font-weight: 800; color: var(--cyan-accent); margin-bottom: 2px; }
         .card.locked .card-code { color: var(--text-locked); }
-        .card-title { font-size: 0.72rem; font-weight: 700; margin-bottom: 1px; }
+        .card-title { font-size: 0.75rem; font-weight: 700; margin-bottom: 2px; }
         .card.locked .card-title { color: var(--text-locked); }
-        .card-desc { font-size: 0.64rem; color: var(--text-muted); line-height: 1.1; }
+        .card-desc { font-size: 0.68rem; color: var(--text-muted); line-height: 1.1; }
 
         /* QUIZ VIEW */
         #quizView { display: none; }
@@ -201,10 +199,9 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: 12px;
-            padding: 25px;
+            padding: 24px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            position: relative;
         }
 
         .streak-container {
@@ -264,15 +261,6 @@
             letter-spacing: 1px;
         }
 
-        .simplify-directive {
-            color: var(--yellow-accent);
-            font-weight: 700;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            font-size: 1.15rem;
-            margin-right: 18px;
-            user-select: none;
-        }
-
         sup {
             font-size: 0.65em;
             vertical-align: super;
@@ -284,119 +272,25 @@
             margin-left: 2px;
         }
 
-        .step-container {
-            background-color: #080f20;
-            border: 1px solid var(--border-card);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .step-header {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--cyan-accent);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .format-selector-grid {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .math-structure-card {
-            background-color: #0d1527;
-            border: 2px solid var(--border-card);
-            border-radius: 8px;
-            padding: 14px 22px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-family: 'Cambria Math', 'Times New Roman', serif;
-            min-width: 120px;
-            font-size: 1.1rem;
-            user-select: none;
-        }
-
-        .math-structure-card:hover {
-            border-color: var(--cyan-accent);
-            background-color: #131d35;
-        }
-
-        .math-structure-card.selected {
-            border-color: var(--cyan-accent);
-            background-color: #1e293b;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-        }
-
-        .card-math-base { color: #ffffff; font-weight: normal; }
-        .card-math-exp { color: var(--yellow-accent); font-weight: bold; font-size: 0.75em; vertical-align: super; line-height: 0; margin-left: 1px; }
-
-        .card-frac-box {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            vertical-align: middle;
-            font-size: 0.85em;
-        }
-
-        .card-frac-num { border-bottom: 2px solid #ffffff; padding: 0 6px 2px 6px; text-align: center; }
-        .card-frac-den { padding-top: 2px; text-align: center; }
-
-        .card-label-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-family: sans-serif;
-            font-weight: 600;
-        }
-
         .values-input-area {
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 8px;
             padding: 12px 0;
-            min-height: 70px;
+            flex-wrap: wrap;
         }
 
-        .frac-container {
+        .input-group {
             display: inline-flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background-color: #0d1527;
-            padding: 14px 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-card);
-            margin: 4px auto;
+            gap: 4px;
         }
 
-        .frac-row { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 3px 0; }
-        .frac-divider { width: 100%; height: 3px; background-color: var(--cyan-accent); margin: 6px 0; border-radius: 2px; }
-
-        .var-label {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 0 3px;
-            font-family: 'Cambria Math', 'Times New Roman', serif;
-        }
-
-        .box-coeff-step {
+        .box-input {
             width: 65px;
-            height: 40px;
-            font-size: 1rem;
+            height: 42px;
+            font-size: 1.1rem;
             font-weight: bold;
             text-align: center;
             border: 2px solid var(--cyan-accent);
@@ -404,40 +298,47 @@
             background-color: #080f20;
             color: #ffffff;
             outline: none;
+            transition: border-color 0.2s, background-color 0.2s;
         }
 
-        .box-var-step {
-            width: 38px;
-            height: 36px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-align: center;
-            border: 2px solid var(--cyan-accent);
-            border-radius: 5px;
-            background-color: #080f20;
-            color: #ffffff;
-            outline: none;
-            text-transform: lowercase;
-            font-family: 'Cambria Math', 'Times New Roman', serif;
+        .box-input:focus {
+            border-color: var(--yellow-accent);
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
         }
 
-        .box-exp-step {
-            width: 38px;
-            height: 30px;
-            font-size: 0.88rem;
-            font-weight: bold;
-            text-align: center;
-            border: 2px solid var(--yellow-accent);
-            border-radius: 5px;
-            background-color: #080f20;
-            color: var(--yellow-accent);
-            outline: none;
-            transform: translateY(-8px);
+        /* DYNAMIC FEEDBACK COLORING FOR INPUT BOXES */
+        .box-input.correct-box {
+            border-color: var(--green-accent) !important;
+            background-color: rgba(34, 197, 94, 0.2) !important;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+        }
+
+        .box-input.incorrect-box {
+            border-color: var(--red-accent) !important;
+            background-color: rgba(239, 68, 68, 0.2) !important;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        }
+
+        .frac-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #0d1527;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-card);
+        }
+
+        .frac-divider {
+            width: 100%;
+            height: 2px;
+            background-color: var(--cyan-accent);
+            margin: 6px 0;
         }
 
         .btn-submit {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             padding: 12px;
             border-radius: 8px;
             border: none;
@@ -446,7 +347,7 @@
             font-size: 1rem;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 12px;
             transition: background 0.2s, transform 0.1s;
         }
 
@@ -465,10 +366,10 @@
         }
 
         .feedback-msg {
-            margin-top: 10px;
+            margin-top: 12px;
             font-size: 0.95rem;
             font-weight: bold;
-            min-height: 22px;
+            min-height: 24px;
         }
         .feedback-msg.correct { color: var(--green-accent); }
         .feedback-msg.incorrect { color: var(--red-accent); }
@@ -498,12 +399,6 @@
             animation: popIn 0.3s ease-out forwards;
         }
 
-        .modal-card.grand-card {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-            border: 3px solid #facc15;
-            box-shadow: 0 0 40px rgba(250, 204, 21, 0.5);
-        }
-
         @keyframes popIn {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -518,7 +413,7 @@
 
     <header>
         <div class="header-title">
-            <span>★</span> Exponents Progress Ladder Extra Review
+            <span>★</span> Exponents Progress Ladder Practice
         </div>
         <div class="header-actions">
             <button class="btn-header btn-save" onclick="saveProgress()">💾 Save Progress</button>
@@ -531,8 +426,8 @@
         <!-- MAP PAGE -->
         <div id="mapView">
             <div class="title-section">
-                <h1>Exponents Progress Ladder Extra Review</h1>
-                <p>Achieve 5 correct answers in a row to clear each topic level!</p>
+                <h1>Exponents Progress Ladder Map</h1>
+                <p>Achieve 5 correct answers in a row to clear each level and unlock the next stage!</p>
             </div>
             <div id="topicsContainer"></div>
         </div>
@@ -558,8 +453,8 @@
                 <div id="problemDisplay" class="math-display"></div>
 
                 <form id="quizForm" onsubmit="handleNextSubmit(event)">
-                    <div id="inputBoxesContainer"></div>
-                    <button type="submit" id="submitBtn" class="btn-submit">Submit & Next Problem ➔</button>
+                    <div id="inputBoxesContainer" class="values-input-area"></div>
+                    <button type="submit" id="submitBtn" class="btn-submit">Submit Answer ➔</button>
                 </form>
 
                 <div id="feedbackMsg" class="feedback-msg"></div>
@@ -571,22 +466,22 @@
         </div>
     </div>
 
-    <!-- CELEBRATION MODAL (LEVEL CLEAR) -->
+    <!-- CELEBRATION MODAL -->
     <div id="celebrationModal" class="modal-overlay">
         <div class="modal-card">
             <div id="modalIcon" class="modal-icon">🏅</div>
-            <h2 id="modalTitle" class="modal-title">Topic Cleared!</h2>
+            <h2 id="modalTitle" class="modal-title">Level Cleared!</h2>
             <p id="modalSubtitle" class="modal-subtitle">Awesome work! You earned 5 in a row!</p>
             <button class="btn-submit" onclick="closeModalAndContinue()">Continue ➔</button>
         </div>
     </div>
 
-    <!-- GRAND FINALE MODAL (QUEST COMPLETE) -->
+    <!-- GRAND FINALE MODAL -->
     <div id="questModal" class="modal-overlay">
-        <div class="modal-card grand-card">
-            <div class="modal-icon" style="filter: drop-shadow(0 0 15px #facc15);">👑</div>
-            <h2 class="modal-title" style="font-size: 1.8rem; color: #facc15;">QUEST CHAMPION!</h2>
-            <p class="modal-subtitle" style="color: #ffffff; font-weight: 600;">You completed every topic and conquered the entire Integer Quest!</p>
+        <div class="modal-card" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border-color: #facc15;">
+            <div class="modal-icon">👑</div>
+            <h2 class="modal-title">QUEST CHAMPION!</h2>
+            <p class="modal-subtitle">You completed every topic and conquered the Exponents Progress Ladder!</p>
             <button class="btn-submit" style="background-color: #facc15; color: #0b1329;" onclick="closeQuestModalAndContinue()">Play Again ➔</button>
         </div>
     </div>
@@ -615,17 +510,17 @@ let defaultTopics = [
         id: 3,
         title: "Topic 1C: Combined Mult & Power Rules",
         levels: [
-            { code: "1C-1", title: "1 Variable", desc: "P2P on 1st, 2nd, or both terms", unlocked: true },
-            { code: "1C-2", title: "2 Variables", desc: "P2P on 1st, 2nd, or both terms (2 vars)", unlocked: false },
-            { code: "1C-3", title: "Coefficients & 2 Vars", desc: "P2P with coefficients on 1st, 2nd, or both terms", unlocked: false }
+            { code: "1C-1", title: "1 Variable", desc: "P2P on terms e.g. (x²)³ • x⁴", unlocked: true },
+            { code: "1C-2", title: "2 Variables", desc: "Mult & P2P with 2 variables", unlocked: false },
+            { code: "1C-3", title: "Coefficients & 2 Vars", desc: "Mult & P2P with coefficients", unlocked: false }
         ]
     },
     {
         id: 4,
         title: "Topic 2A: Division Rule of Exponents",
         levels: [
-            { code: "2A-1", title: "1 Variable", desc: "Quotient rule e.g. x² / x⁴ or x⁵ / x²", unlocked: true },
-            { code: "2A-2", title: "2 Variables", desc: "Combine multiple variables e.g. x²y⁵ / (x⁵y²)", unlocked: false },
+            { code: "2A-1", title: "1 Variable", desc: "Quotient rule e.g. x⁵ / x²", unlocked: true },
+            { code: "2A-2", title: "2 Variables", desc: "Combine variables e.g. x²y⁵ / (x⁵y²)", unlocked: false },
             { code: "2A-3", title: "Coefficients & 2 Vars", desc: "Simplify (6x²y⁵) / (8x⁵y²)", unlocked: false }
         ]
     },
@@ -633,57 +528,74 @@ let defaultTopics = [
         id: 5,
         title: "Topic 2B: Mixed Mult, Power & Division Rules",
         levels: [
-            { code: "2B-1", title: "1 Variable", desc: "Randomized 2-op combinations", unlocked: true },
-            { code: "2B-2", title: "2 Variables", desc: "Randomized 2-op combinations with 2 vars", unlocked: false },
-            { code: "2B-3", title: "Coefficients & 2 Vars", desc: "Randomized 2-op combinations with coefficients", unlocked: false }
+            { code: "2B-1", title: "1 Variable", desc: "Mixed multi-operation expressions", unlocked: true },
+            { code: "2B-2", title: "2 Variables", desc: "Mixed operations with 2 variables", unlocked: false },
+            { code: "2B-3", title: "Coefficients & 2 Vars", desc: "Mixed operations with coefficients", unlocked: false }
         ]
     },
     {
         id: 6,
         title: "Topic 3A: Single Operations with Negative Exponents",
         levels: [
-            { code: "3A-1", title: "1 Variable", desc: "Mult, Power, or Div strictly with negative exponents", unlocked: true },
-            { code: "3A-2", title: "2 Variables", desc: "Single operation on 2 vars with negative exponents", unlocked: false },
-            { code: "3A-3", title: "Coefficients & 2 Vars", desc: "Single operation with coefficients & negative exponents", unlocked: false }
+            { code: "3A-1", title: "1 Variable", desc: "Operations with negative exponents", unlocked: true },
+            { code: "3A-2", title: "2 Variables", desc: "2 variables with negative exponents", unlocked: false },
+            { code: "3A-3", title: "Coefficients & 2 Vars", desc: "Coefficients & negative exponents", unlocked: false }
         ]
     },
     {
         id: 7,
-        title: "Topic 3B: Evaluate Exponential Expressions with Negative Bases",
+        title: "Topic 3B: Negative Base Exponents",
         levels: [
-            { code: "3B-1", title: "Unparenthesized Expansion", desc: "Expand e.g. -2⁴ into [-1][2][2][2][2] & evaluate", unlocked: true },
-            { code: "3B-2", title: "Parenthesized Expansion", desc: "Expand e.g. (-2)⁴ into [1][-2][-2][-2][-2] & evaluate", unlocked: false },
-            { code: "3B-3", title: "Direct Evaluation", desc: "Evaluate e.g. -3⁴ or (-3)⁴ directly", unlocked: false }
+            { code: "3B-1", title: "Unparenthesized", desc: "Evaluate e.g. -2⁴", unlocked: true },
+            { code: "3B-2", title: "Parenthesized", desc: "Evaluate e.g. (-2)⁴", unlocked: false },
+            { code: "3B-3", title: "Mixed Evaluation", desc: "Evaluate negative base powers", unlocked: false }
         ]
     },
     {
         id: 8,
-        title: "Topic 3C: Evaluate Exponential Expressions with Fractions",
+        title: "Topic 3C: Evaluate Fraction Exponents",
         levels: [
-            { code: "3C-1", title: "Non-Negative Exponents", desc: "Evaluate fraction bases raised to powers e.g. (⅔)³ or (¾)⁰", unlocked: true },
-            { code: "3C-2", title: "Negative Exponents", desc: "Evaluate fraction bases raised to negative powers e.g. (⅔)⁻²", unlocked: false },
-            { code: "3C-3", title: "Expressions with 2 Bases", desc: "Evaluate 2-base expressions e.g. 2 / 2⁻² or 1 / (2 • 3⁻²)", unlocked: false }
+            { code: "3C-1", title: "Positive Powers", desc: "Evaluate (⅔)³ or (¾)⁰", unlocked: true },
+            { code: "3C-2", title: "Negative Powers", desc: "Evaluate (⅔)⁻²", unlocked: false },
+            { code: "3C-3", title: "Expressions", desc: "Evaluate 2 / 2⁻² or 1 / (2 • 3⁻²)", unlocked: false }
         ]
     },
     {
         id: 9,
         title: "Topic 4: Order of Operations with Integers",
         levels: [
-            { code: "4-1", title: "2 Operations", desc: "Parentheses & exponents e.g. (-4 + 1)² or 3(-2)²", unlocked: true },
-            { code: "4-2", title: "3 Operations", desc: "Implicit mult, fractions & exponents e.g. 3(-3-2)²", unlocked: false },
-            { code: "4-3", title: "4 Operations", desc: "Order of operations with 4 integer-based operations", unlocked: false }
+            { code: "4-1", title: "2 Operations", desc: "e.g. (-4 + 1)² or 3(-2)²", unlocked: true },
+            { code: "4-2", title: "3 Operations", desc: "e.g. 3(-3 - 2)²", unlocked: false },
+            { code: "4-3", title: "4 Operations", desc: "Full order of operations", unlocked: false }
         ]
     }
 ];
 
-let questTopics = JSON.parse(JSON.stringify(defaultTopics));
+let questTopics = JSON.parse(localStorage.getItem('exponentsLadderProgress')) || JSON.parse(JSON.stringify(defaultTopics));
 let activeTopicIdx = 0;
 let activeLevelIdx = 0;
 let currentProblem = null;
 let currentStreak = 0;
 let totalAttempts = 0;
 let correctAttempts = 0;
-let selectedFormatChoice = null;
+let problemMistakes = 0; // Tracks mistakes on the current problem
+
+function gcd(a, b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    while (b) { let t = b; b = a % b; a = t; }
+    return a || 1;
+}
+
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randNonZero(min, max) {
+    let v = 0;
+    while (v === 0) v = randInt(min, max);
+    return v;
+}
 
 function fmtVar(variable, exp) {
     if (exp === 0) return "";
@@ -691,86 +603,23 @@ function fmtVar(variable, exp) {
     return `${variable}<sup>${exp}</sup>`;
 }
 
-function fmtFrac(numHtml, denHtml) {
-    return `<span style="display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; font-size:0.95em; margin:0 4px;"><span style="border-bottom:2px solid var(--cyan-accent); padding:0 6px 2px 6px;">${numHtml}</span><span style="padding-top:2px;">${denHtml}</span></span>`;
-}
-
-function gcd(a, b) {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    while (b) {
-        let t = b;
-        b = a % b;
-        a = t;
-    }
-    return a || 1;
-}
-
-function randNonZeroInt(min, max) {
-    let res = 0;
-    while (res === 0) {
-        res = Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    return res;
-}
-
-function randPosInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomReducedFraction() {
-    let n, d;
-    do {
-        n = randPosInt(1, 5);
-        d = randPosInt(2, 6);
-    } while (n === d || gcd(n, d) !== 1);
-    return { n, d };
-}
-
-function parseExpInput(elementId) {
-    const el = document.getElementById(elementId);
-    if (!el) return null;
-    const raw = el.value.trim();
-    if (raw === "") return 1;
-    return parseInt(raw, 10);
-}
-
 function renderMap() {
     const container = document.getElementById("topicsContainer");
     container.innerHTML = "";
 
     const concepts = [
-        {
-            title: "Concept 1: Simplifying Multiplication and Power to Power Exponential Expressions",
-            topicIndices: [0, 1, 2]
-        },
-        {
-            title: "Concept 2: Dividing Exponent Expressions",
-            topicIndices: [3, 4]
-        },
-        {
-            title: "Concept 3: Evaluate Exponents in Expressions",
-            topicIndices: [5, 6, 7]
-        },
-        {
-            title: "Concept 4: Order of Operations with Exponents",
-            topicIndices: [8]
-        }
+        { title: "Concept 1: Simplifying Multiplication and Power to Power Exponential Expressions", topicIndices: [0, 1, 2] },
+        { title: "Concept 2: Dividing Exponent Expressions", topicIndices: [3, 4] },
+        { title: "Concept 3: Evaluate Exponents in Expressions", topicIndices: [5, 6, 7] },
+        { title: "Concept 4: Order of Operations with Exponents", topicIndices: [8] }
     ];
 
     concepts.forEach((concept) => {
-        let conceptHTML = `
-            <div class="concept-container">
-                <div class="concept-title">${concept.title}</div>
-        `;
+        let conceptHTML = `<div class="concept-container"><div class="concept-title">${concept.title}</div>`;
 
         concept.topicIndices.forEach((tIdx) => {
             const topic = questTopics[tIdx];
-            conceptHTML += `
-                <div class="topic-group">
-                    <div class="topic-header">${topic.title}</div>
-                    <div class="cards-grid">
-            `;
+            conceptHTML += `<div class="topic-group"><div class="topic-header">${topic.title}</div><div class="cards-grid">`;
 
             topic.levels.forEach((lvl, lIdx) => {
                 const isUnlocked = lvl.unlocked;
@@ -783,10 +632,8 @@ function renderMap() {
                     </div>
                 `;
             });
-
             conceptHTML += `</div></div>`;
         });
-
         conceptHTML += `</div>`;
         container.innerHTML += conceptHTML;
     });
@@ -800,12 +647,13 @@ function showDashboard() {
 
 function openLevel(tIdx, lIdx, isUnlocked) {
     if (!isUnlocked) {
-        alert("This topic is locked! Earn a 5-in-a-row streak on previous topics to unlock.");
+        alert("This topic level is locked! Complete previous levels with a 5-in-a-row streak to unlock.");
         return;
     }
     activeTopicIdx = tIdx;
     activeLevelIdx = lIdx;
     currentStreak = 0;
+    updateStreakDisplay();
 
     document.getElementById("mapView").style.display = "none";
     document.getElementById("quizView").style.display = "block";
@@ -819,46 +667,306 @@ function openLevel(tIdx, lIdx, isUnlocked) {
 function updateStreakDisplay() {
     for (let i = 1; i <= 5; i++) {
         const dot = document.getElementById(`dot-${i}`);
-        if (i <= currentStreak) {
-            dot.classList.add("active");
+        if (i <= currentStreak) dot.classList.add("active");
+        else dot.classList.remove("active");
+    }
+}
+
+function generateProblem() {
+    problemMistakes = 0; // Reset mistakes counter for new problem
+    const code = questTopics[activeTopicIdx].levels[activeLevelIdx].code;
+    let prob = { type: "single", display: "", ansVal: 0, ansFrac: null, ansExpr: null };
+
+    if (code.startsWith("1A")) {
+        let x1 = randInt(1, 5), x2 = randInt(1, 5);
+        let c1 = code === "1A-3" ? randInt(2, 5) : 1;
+        let c2 = code === "1A-3" ? randInt(2, 5) : 1;
+
+        if (code === "1A-1") {
+            prob.display = `x<sup>${x1}</sup> • x<sup>${x2}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x1 + x2, yExp: 0 };
+        } else if (code === "1A-2") {
+            let y1 = randInt(1, 5), y2 = randInt(1, 5);
+            prob.display = `x<sup>${x1}</sup>y<sup>${y1}</sup> • x<sup>${x2}</sup>y<sup>${y2}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x1 + x2, yExp: y1 + y2 };
         } else {
-            dot.classList.remove("active");
+            let y1 = randInt(1, 4), y2 = randInt(1, 4);
+            prob.display = `(${c1}x<sup>${x1}</sup>y<sup>${y1}</sup>)(${c2}x<sup>${x2}</sup>y<sup>${y2}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: c1 * c2, xExp: x1 + x2, yExp: y1 + y2 };
+        }
+    } else if (code.startsWith("1B")) {
+        let x = randInt(1, 4), p = randInt(2, 4);
+        let c = code === "1B-3" ? randInt(2, 4) : 1;
+
+        if (code === "1B-1") {
+            prob.display = `(x<sup>${x}</sup>)<sup>${p}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x * p, yExp: 0 };
+        } else if (code === "1B-2") {
+            let y = randInt(1, 4);
+            prob.display = `(x<sup>${x}</sup>y<sup>${y}</sup>)<sup>${p}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x * p, yExp: y * p };
+        } else {
+            let y = randInt(1, 3);
+            prob.display = `(${c}x<sup>${x}</sup>y<sup>${y}</sup>)<sup>${p}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: Math.pow(c, p), xExp: x * p, yExp: y * p };
+        }
+    } else if (code.startsWith("2A")) {
+        let x1 = randInt(2, 7), x2 = randInt(1, 5);
+        if (code === "2A-1") {
+            prob.display = `x<sup>${x1}</sup> / x<sup>${x2}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x1 - x2, yExp: 0 };
+        } else if (code === "2A-2") {
+            let y1 = randInt(2, 7), y2 = randInt(1, 5);
+            prob.display = `(x<sup>${x1}</sup>y<sup>${y1}</sup>) / (x<sup>${x2}</sup>y<sup>${y2}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: x1 - x2, yExp: y1 - y2 };
+        } else {
+            let c1 = randInt(2, 6) * 2, c2 = 2;
+            let y1 = randInt(2, 6), y2 = randInt(1, 4);
+            prob.display = `(${c1}x<sup>${x1}</sup>y<sup>${y1}</sup>) / (${c2}x<sup>${x2}</sup>y<sup>${y2}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: c1 / c2, xExp: x1 - x2, yExp: y1 - y2 };
+        }
+    } else if (code.startsWith("3B")) {
+        let b = randInt(2, 5), p = randInt(2, 4);
+        if (code === "3B-1") {
+            prob.display = `-${b}<sup>${p}</sup>`;
+            prob.type = "single";
+            prob.ansVal = -Math.pow(b, p);
+        } else if (code === "3B-2") {
+            prob.display = `(-${b})<sup>${p}</sup>`;
+            prob.type = "single";
+            prob.ansVal = Math.pow(-b, p);
+        } else {
+            let isParen = Math.random() < 0.5;
+            prob.display = isParen ? `(-${b})<sup>${p}</sup>` : `-${b}<sup>${p}</sup>`;
+            prob.type = "single";
+            prob.ansVal = isParen ? Math.pow(-b, p) : -Math.pow(b, p);
+        }
+    } else if (code.startsWith("3C")) {
+        let n = randInt(1, 3), d = randInt(2, 4);
+        if (n >= d) n = 1;
+        let p = randInt(1, 3);
+
+        if (code === "3C-1") {
+            prob.display = `(${n}/${d})<sup>${p}</sup>`;
+            prob.type = "frac";
+            prob.ansFrac = { num: Math.pow(n, p), den: Math.pow(d, p) };
+        } else if (code === "3C-2") {
+            prob.display = `(${n}/${d})<sup>-${p}</sup>`;
+            prob.type = "frac";
+            prob.ansFrac = { num: Math.pow(d, p), den: Math.pow(n, p) };
+        } else {
+            let b = randInt(2, 4), e1 = randInt(1, 2);
+            prob.display = `1 / (${b} • ${b}<sup>-${e1}</sup>)`;
+            prob.type = "single";
+            prob.ansVal = Math.pow(b, e1 - 1);
+        }
+    } else if (code.startsWith("4")) {
+        let a = randNonZero(-5, 5), b = randNonZero(-4, 4);
+        if (code === "4-1") {
+            prob.display = `(${a} + ${b})<sup>2</sup>`;
+            prob.type = "single";
+            prob.ansVal = Math.pow(a + b, 2);
+        } else if (code === "4-2") {
+            let c = randInt(2, 3);
+            prob.display = `${c}(${a} - ${b})<sup>2</sup>`;
+            prob.type = "single";
+            prob.ansVal = c * Math.pow(a - b, 2);
+        } else {
+            let c = randInt(2, 4), d = randInt(1, 5);
+            prob.display = `${c}(${a} + ${b})<sup>2</sup> - ${d}`;
+            prob.type = "single";
+            prob.ansVal = c * Math.pow(a + b, 2) - d;
+        }
+    } else {
+        // Fallback simple expr
+        let x1 = randInt(1, 4), x2 = randInt(1, 4);
+        prob.display = `x<sup>${x1}</sup> • x<sup>${x2}</sup>`;
+        prob.type = "expr";
+        prob.ansExpr = { coeff: 1, xExp: x1 + x2, yExp: 0 };
+    }
+
+    currentProblem = prob;
+    document.getElementById("problemDisplay").innerHTML = prob.display;
+    renderInputBoxes(prob);
+}
+
+function renderInputBoxes(prob) {
+    const container = document.getElementById("inputBoxesContainer");
+    container.innerHTML = "";
+
+    if (prob.type === "single") {
+        container.innerHTML = `<input type="number" id="ansVal" class="box-input" placeholder="Answer" required style="width:120px;">`;
+    } else if (prob.type === "frac") {
+        container.innerHTML = `
+            <div class="frac-box">
+                <input type="number" id="ansNum" class="box-input" placeholder="Num" required style="width:80px;">
+                <div class="frac-divider"></div>
+                <input type="number" id="ansDen" class="box-input" placeholder="Den" required style="width:80px;">
+            </div>
+        `;
+    } else if (prob.type === "expr") {
+        let html = `<div class="input-group">`;
+        if (prob.ansExpr.coeff !== 1 || (prob.ansExpr.xExp === 0 && prob.ansExpr.yExp === 0)) {
+            html += `<input type="number" id="ansCoeff" class="box-input" placeholder="Coeff" style="width:80px;"> `;
+        }
+        if (prob.ansExpr.xExp !== 0) {
+            html += `<span style="font-size:1.3rem; font-weight:bold;">x</span><input type="number" id="ansXExp" class="box-input" placeholder="exp" style="width:55px; height:32px; font-size:0.9rem;"> `;
+        }
+        if (prob.ansExpr.yExp !== 0) {
+            html += `<span style="font-size:1.3rem; font-weight:bold;">y</span><input type="number" id="ansYExp" class="box-input" placeholder="exp" style="width:55px; height:32px; font-size:0.9rem;">`;
+        }
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+}
+
+function setBoxStatus(element, isCorrect) {
+    element.classList.remove("correct-box", "incorrect-box");
+    if (isCorrect) {
+        element.classList.add("correct-box");
+    } else {
+        element.classList.add("incorrect-box");
+    }
+}
+
+function checkAnswerAndHighlight() {
+    let allCorrect = true;
+
+    if (currentProblem.type === "single") {
+        const input = document.getElementById("ansVal");
+        const val = input.value !== "" ? parseInt(input.value, 10) : NaN;
+        const isValCorrect = (val === currentProblem.ansVal);
+        setBoxStatus(input, isValCorrect);
+        if (!isValCorrect) allCorrect = false;
+
+    } else if (currentProblem.type === "frac") {
+        const numInput = document.getElementById("ansNum");
+        const denInput = document.getElementById("ansDen");
+        const numVal = numInput.value !== "" ? parseInt(numInput.value, 10) : NaN;
+        const denVal = denInput.value !== "" ? parseInt(denInput.value, 10) : NaN;
+
+        const isNumCorrect = (numVal === currentProblem.ansFrac.num);
+        const isDenCorrect = (denVal === currentProblem.ansFrac.den);
+
+        setBoxStatus(numInput, isNumCorrect);
+        setBoxStatus(denInput, isDenCorrect);
+
+        if (!isNumCorrect || !isDenCorrect) allCorrect = false;
+
+    } else if (currentProblem.type === "expr") {
+        const cEl = document.getElementById("ansCoeff");
+        const xEl = document.getElementById("ansXExp");
+        const yEl = document.getElementById("ansYExp");
+
+        if (cEl) {
+            const cVal = cEl.value !== "" ? parseInt(cEl.value, 10) : 1;
+            const isCCorrect = (cVal === currentProblem.ansExpr.coeff);
+            setBoxStatus(cEl, isCCorrect);
+            if (!isCCorrect) allCorrect = false;
+        }
+
+        if (xEl) {
+            const xVal = xEl.value !== "" ? parseInt(xEl.value, 10) : 0;
+            const isXCorrect = (xVal === currentProblem.ansExpr.xExp);
+            setBoxStatus(xEl, isXCorrect);
+            if (!isXCorrect) allCorrect = false;
+        }
+
+        if (yEl) {
+            const yVal = yEl.value !== "" ? parseInt(yEl.value, 10) : 0;
+            const isYCorrect = (yVal === currentProblem.ansExpr.yExp);
+            setBoxStatus(yEl, isYCorrect);
+            if (!isYCorrect) allCorrect = false;
+        }
+    }
+
+    return allCorrect;
+}
+
+function handleNextSubmit(e) {
+    e.preventDefault();
+    const isCorrect = checkAnswerAndHighlight();
+    const feedback = document.getElementById("feedbackMsg");
+
+    if (isCorrect) {
+        totalAttempts++;
+        correctAttempts++;
+        currentStreak++;
+        feedback.textContent = "✨ Correct! Keep going!";
+        feedback.className = "feedback-msg correct";
+        updateStreakDisplay();
+
+        const pct = Math.round((correctAttempts / totalAttempts) * 100);
+        document.getElementById("accuracyPct").textContent = `${pct}%`;
+
+        if (currentStreak >= 5) {
+            unlockNextLevel();
+            triggerLevelComplete();
+            return;
+        }
+        generateProblem();
+
+    } else {
+        problemMistakes++;
+
+        if (problemMistakes === 1) {
+            // First mistake allowed
+            feedback.textContent = "⚠️ Try again! Fix the highlighted red box(es) (1 try remaining).";
+            feedback.className = "feedback-msg warning";
+        } else {
+            // Second mistake: Mark problem incorrect & reset streak
+            totalAttempts++;
+            currentStreak = 0;
+            feedback.textContent = "❌ Incorrect. Streak reset. Try again!";
+            feedback.className = "feedback-msg incorrect";
+            updateStreakDisplay();
+
+            const pct = Math.round((correctAttempts / totalAttempts) * 100);
+            document.getElementById("accuracyPct").textContent = `${pct}%`;
+
+            generateProblem();
         }
     }
 }
 
-/* CONFETTI & CELEBRATION TRIGGERS */
+function unlockNextLevel() {
+    questTopics[activeTopicIdx].levels[activeLevelIdx].completed = true;
+    
+    // Unlock next level in topic or next topic
+    if (activeLevelIdx + 1 < questTopics[activeTopicIdx].levels.length) {
+        questTopics[activeTopicIdx].levels[activeLevelIdx + 1].unlocked = true;
+    } else if (activeTopicIdx + 1 < questTopics.length) {
+        questTopics[activeTopicIdx + 1].levels[0].unlocked = true;
+    }
+
+    saveProgress();
+
+    if (checkWholeQuestCompleted()) {
+        triggerQuestComplete();
+    }
+}
+
+function checkWholeQuestCompleted() {
+    return questTopics.every(t => t.levels.every(l => l.unlocked));
+}
+
 function triggerLevelComplete() {
-    confetti({ particleCount: 85, angle: 60, spread: 55, origin: { x: 0 } });
-    confetti({ particleCount: 85, angle: 120, spread: 55, origin: { x: 1 } });
+    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
     document.getElementById("celebrationModal").style.display = "flex";
 }
 
 function triggerQuestComplete() {
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
     document.getElementById("questModal").style.display = "flex";
-    const duration = 3 * 1000;
-    const animationEnd = Date.now() + duration;
-
-    (function frame() {
-        confetti({
-            particleCount: 8,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0, y: 0.7 },
-            colors: ['#fbbf24', '#facc15', '#ec4899', '#38bdf8']
-        });
-        confetti({
-            particleCount: 8,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1, y: 0.7 },
-            colors: ['#fbbf24', '#facc15', '#ec4899', '#38bdf8']
-        });
-
-        if (Date.now() < animationEnd) {
-            requestAnimationFrame(frame);
-        }
-    })();
 }
 
 function closeModalAndContinue() {
@@ -871,1092 +979,21 @@ function closeQuestModalAndContinue() {
     showDashboard();
 }
 
-function checkWholeQuestCompleted() {
-    return questTopics.every(topic => topic.levels.every(lvl => lvl.unlocked));
-}
-
-/* HELPER FOR TOPIC 3B */
-function getRandomBaseExpUnder200() {
-    let b, e, val;
-    do {
-        b = randPosInt(2, 8);
-        e = randPosInt(2, 6);
-        val = Math.pow(b, e);
-    } while (val > 200);
-    return { b, e, val };
-}
-
-/* TOPIC 3B GENERATOR */
-function genLevel7Problem(subtype) {
-    const { b, e, val } = getRandomBaseExpUnder200();
-    let problemHtml = "";
-    let expectedFactors = [];
-    let expectedVal = 0;
-
-    if (subtype === 1) {
-        problemHtml = `-${b}<sup>${e}</sup>`;
-        expectedFactors = [-1];
-        for (let i = 0; i < e; i++) expectedFactors.push(b);
-        expectedVal = -val;
-    } else if (subtype === 2) {
-        problemHtml = `(-${b})<sup>${e}</sup>`;
-        expectedFactors = [1];
-        for (let i = 0; i < e; i++) expectedFactors.push(-b);
-        expectedVal = Math.pow(-b, e);
-    } else {
-        const isParen = Math.random() < 0.5;
-        if (isParen) {
-            problemHtml = `(-${b})<sup>${e}</sup>`;
-            expectedVal = Math.pow(-b, e);
-        } else {
-            problemHtml = `-${b}<sup>${e}</sup>`;
-            expectedVal = -val;
-        }
-    }
-
-    return {
-        isLevel7: true,
-        subtype: subtype,
-        isStepWorkflow: false,
-        html: problemHtml,
-        solution: { b, e, expectedFactors, expectedVal }
-    };
-}
-
-/* TOPIC 3C GENERATOR (NO EXPONENTS OF 1 / -1) */
-function genLevel8Problem(subtype) {
-    selectedFormatChoice = null;
-    let problemHtml = "";
-    let isFrac = false;
-    let expectedVal = 0, num = 1, den = 1;
-
-    if (subtype === 1) {
-        // Non-Negative Exponents (avoid 1 -> powers 0, 2, 3, 4)
-        const posExponents = [0, 2, 3, 4];
-        const e = posExponents[Math.floor(Math.random() * posExponents.length)];
-        const isFractionBase = Math.random() < 0.85;
-
-        if (!isFractionBase) {
-            let b = randPosInt(2, 8);
-            while (Math.pow(b, e) > 200) { b = randPosInt(2, 5); }
-            problemHtml = `${b}<sup>${e}</sup>`;
-            isFrac = false;
-            expectedVal = Math.pow(b, e);
-        } else {
-            let frac = getRandomReducedFraction();
-            while (Math.pow(frac.d, e) > 200 || Math.pow(frac.n, e) > 200) {
-                frac = getRandomReducedFraction();
-            }
-            problemHtml = `(${fmtFrac(frac.n, frac.d)})<sup>${e}</sup>`;
-            if (e === 0) {
-                isFrac = false;
-                expectedVal = 1;
-            } else if (frac.n === 1) {
-                isFrac = true;
-                num = 1;
-                den = Math.pow(frac.d, e);
-            } else {
-                isFrac = true;
-                num = Math.pow(frac.n, e);
-                den = Math.pow(frac.d, e);
-            }
-        }
-    } else if (subtype === 2) {
-        // Pure Negative Exponents (avoid -1 and 0 -> powers -2, -3, -4)
-        const negExponents = [2, 3, 4];
-        const e = negExponents[Math.floor(Math.random() * negExponents.length)];
-        const isFractionBase = Math.random() < 0.85;
-
-        if (!isFractionBase) {
-            let b = randPosInt(2, 8);
-            while (Math.pow(b, e) > 200) { b = randPosInt(2, 5); }
-            problemHtml = `${b}<sup>-${e}</sup>`;
-            isFrac = true;
-            num = 1;
-            den = Math.pow(b, e);
-        } else {
-            let frac = getRandomReducedFraction();
-            while (Math.pow(frac.d, e) > 200 || Math.pow(frac.n, e) > 200) {
-                frac = getRandomReducedFraction();
-            }
-            problemHtml = `(${fmtFrac(frac.n, frac.d)})<sup>-${e}</sup>`;
-            
-            const resNum = Math.pow(frac.d, e);
-            const resDen = Math.pow(frac.n, e);
-
-            if (resDen === 1) {
-                isFrac = false;
-                expectedVal = resNum;
-            } else {
-                isFrac = true;
-                num = resNum;
-                den = resDen;
-            }
-        }
-    } else {
-        // subtype === 3: Two bases expressions (same or different, e.g. 2 / 2^-2 or 1 / (2 • 3^-2))
-        const pType = randPosInt(1, 4);
-
-        if (pType === 1) {
-            let b = randPosInt(2, 5);
-            let e = randPosInt(2, 3);
-            let a = randPosInt(2, 8);
-            while (a * Math.pow(b, e) > 200) {
-                a = randPosInt(2, 5);
-                b = randPosInt(2, 4);
-            }
-            problemHtml = fmtFrac(a, `${b}<sup>-${e}</sup>`);
-            isFrac = false;
-            expectedVal = a * Math.pow(b, e);
-        } else if (pType === 2) {
-            let b = randPosInt(2, 5);
-            let e = randPosInt(2, 3);
-            let a = randPosInt(2, 8);
-            while (Math.pow(b, e) > 200) { b = randPosInt(2, 4); }
-            
-            problemHtml = fmtFrac("1", `${a} • ${b}<sup>-${e}</sup>`);
-            let rawNum = Math.pow(b, e);
-            let rawDen = a;
-            let g = gcd(rawNum, rawDen);
-            let resNum = rawNum / g;
-            let resDen = rawDen / g;
-
-            if (resDen === 1) {
-                isFrac = false;
-                expectedVal = resNum;
-            } else {
-                isFrac = true;
-                num = resNum;
-                den = resDen;
-            }
-        } else if (pType === 3) {
-            let a = randPosInt(2, 5);
-            let e = randPosInt(2, 3);
-            let b = randPosInt(2, 8);
-            while (Math.pow(a, e) * b > 200) {
-                a = randPosInt(2, 4);
-                b = randPosInt(2, 5);
-            }
-            problemHtml = fmtFrac(`${a}<sup>-${e}</sup>`, b);
-            isFrac = true;
-            num = 1;
-            den = Math.pow(a, e) * b;
-        } else {
-            let b = randPosInt(2, 5);
-            let e = randPosInt(2, 3);
-            while (Math.pow(b, e + 1) > 200) { b = randPosInt(2, 4); }
-            problemHtml = fmtFrac(b, `${b}<sup>-${e}</sup>`);
-            isFrac = false;
-            expectedVal = Math.pow(b, e + 1);
-        }
-    }
-
-    return {
-        isLevel8: true,
-        subtype: subtype,
-        isStepWorkflow: true,
-        targetFormat: isFrac ? "FRACTION" : "INTEGER",
-        html: problemHtml,
-        solution: { isFrac, expectedVal, num, den }
-    };
-}
-
-/* TOPIC 4 GENERATOR */
-function genLevel9Problem(subtype) {
-    selectedFormatChoice = null;
-    let html = "";
-    let expectedVal = 0;
-    let isFracResult = false;
-    let num = 1, den = 1;
-
-    if (subtype === 1) {
-        const type = randPosInt(1, 3);
-        const e = randPosInt(2, 3);
-
-        if (type === 1) {
-            let a = randNonZeroInt(-5, 5);
-            let b = randNonZeroInt(-5, 5);
-            while (a + b === 0) { b = randNonZeroInt(-5, 5); }
-            let inner = a + b;
-            expectedVal = Math.pow(inner, e);
-            let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-            html = `(${a} ${bStr})<sup>${e}</sup>`;
-        } else if (type === 2) {
-            let a = randNonZeroInt(-4, 4);
-            let b = randNonZeroInt(-4, 4);
-            while (b === 0) b = randNonZeroInt(-4, 4);
-            expectedVal = a * Math.pow(b, e);
-            let aStr = a === 1 ? "" : (a === -1 ? "-" : `${a}`);
-            html = `${aStr}(${b})<sup>${e}</sup>`;
-        } else {
-            let b = randPosInt(2, 5);
-            let k = randNonZeroInt(-4, 4);
-            let a = b * k;
-            expectedVal = Math.pow(k, e);
-            html = `(${fmtFrac(a, b)})<sup>${e}</sup>`;
-        }
-    } else if (subtype === 2) {
-        const type = randPosInt(1, 3);
-        const e = randPosInt(2, 3);
-
-        if (type === 1) {
-            let a = randNonZeroInt(-4, 4);
-            let b = randNonZeroInt(-4, 4);
-            while (a + b === 0) { b = randNonZeroInt(-4, 4); }
-            let c = randNonZeroInt(-10, 10);
-            let op = Math.random() < 0.5 ? '+' : '-';
-            let inner = a + b;
-            let powVal = Math.pow(inner, e);
-            expectedVal = op === '+' ? powVal + c : powVal - c;
-            let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-            let cStr = c < 0 ? `(${c})` : `${c}`;
-            html = `(${a} ${bStr})<sup>${e}</sup> ${op} ${cStr}`;
-        } else if (type === 2) {
-            let c = randNonZeroInt(-5, 5);
-            if (c === 1) c = 2;
-            let a = randNonZeroInt(-3, 3);
-            let b = randNonZeroInt(-3, 3);
-            while (a + b === 0) { b = randNonZeroInt(-3, 3); }
-            let inner = a + b;
-            expectedVal = c * Math.pow(inner, e);
-            let bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
-            let cStr = c === -1 ? "-" : `${c}`;
-            html = `${cStr}(${a} ${bStr})<sup>${e}</sup>`;
-        } else {
-            let c = randPosInt(2, 4);
-            let inner = randNonZeroInt(-3, 3);
-            let powVal = Math.pow(inner, 2);
-            while (powVal % c !== 0) {
-                inner = randNonZeroInt(-3, 3);
-                powVal = Math.pow(inner, 2);
-            }
-            let a = randNonZeroInt(-5, 5);
-            let b = a - inner;
-            expectedVal = powVal / c;
-            let bStr = b >= 0 ? `- ${b}` : `+ ${Math.abs(b)}`;
-            html = fmtFrac(`(${a} ${bStr})<sup>2</sup>`, c);
-        }
-    } else {
-        // Topic 4-3: 4 Operations, simplified manageable numbers, whole integer answers strictly
-        const pattern = randPosInt(1, 3);
-        isFracResult = false; // Strictly whole numbers
-
-        if (pattern === 1) {
-            // Pattern 1: a + [b * (c + d)^2] / e
-            let c = randNonZeroInt(-3, 3);
-            let d = randNonZeroInt(-3, 3);
-            while (c + d === 0) d = randNonZeroInt(-3, 3);
-            let inner = c + d;
-            let powVal = Math.pow(inner, 2);
-
-            let e = randPosInt(2, 4);
-            let k = randNonZeroInt(-2, 2);
-            let b = k * e;
-            let a = randNonZeroInt(-5, 5);
-
-            expectedVal = a + k * powVal;
-
-            let bStr = b >= 0 ? `${b}` : `(${b})`;
-            let dStr = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
-
-            html = `${a} + ${fmtFrac(`${bStr}(${c} ${dStr})<sup>2</sup>`, e)}`;
-        } else if (pattern === 2) {
-            // Pattern 2: [a * (b - c)^2] / d + e
-            let b = randNonZeroInt(-3, 3);
-            let c = randNonZeroInt(-3, 3);
-            while (b - c === 0) c = randNonZeroInt(-3, 3);
-            let inner = b - c;
-            let powVal = Math.pow(inner, 2);
-
-            let d = randPosInt(2, 4);
-            let k = randNonZeroInt(-2, 2);
-            let a = k * d;
-            let e = randNonZeroInt(-5, 5);
-
-            expectedVal = k * powVal + e;
-
-            let aStr = a >= 0 ? `${a}` : `(${a})`;
-            let cStr = c >= 0 ? `- ${c}` : `+ ${Math.abs(c)}`;
-            let eStr = e >= 0 ? `+ ${e}` : `- ${Math.abs(e)}`;
-
-            html = `${fmtFrac(`${aStr}(${b} ${cStr})<sup>2</sup>`, d)} ${eStr}`;
-        } else {
-            // Pattern 3: a - [b + (c + d)^2] / e
-            let c = randNonZeroInt(-3, 3);
-            let d = randNonZeroInt(-3, 3);
-            while (c + d === 0) d = randNonZeroInt(-3, 3);
-            let inner = c + d;
-            let powVal = Math.pow(inner, 2);
-
-            let e = randPosInt(2, 4);
-            let validB = [];
-            for (let candB = -5; candB <= 5; candB++) {
-                if (candB !== 0 && (candB + powVal) % e === 0) {
-                    validB.push(candB);
-                }
-            }
-            let b = validB[Math.floor(Math.random() * validB.length)] || (e - powVal);
-            let a = randNonZeroInt(-5, 5);
-
-            let topVal = b + powVal;
-            expectedVal = a - (topVal / e);
-
-            let dStr = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
-
-            html = `${a} - ${fmtFrac(`${b} + (${c} ${dStr})<sup>2</sup>`, e)}`;
-        }
-    }
-
-    return {
-        isLevel9: true,
-        subtype: subtype,
-        isFracResult: isFracResult,
-        html: html,
-        solution: { expectedVal, num, den }
-    };
-}
-
-/* TOPIC 3A GENERATOR */
-function genLevel6Problem(levelSubtype) {
-    selectedFormatChoice = null;
-    const op = randPosInt(1, 3);
-    let dx = 0, dy = 0, problemHtml = "";
-
-    if (levelSubtype === 1) {
-        let a = randNonZeroInt(-6, 6), b = randNonZeroInt(-6, 6);
-        while (a > 0 && b > 0) { a = randNonZeroInt(-6, 6); b = randNonZeroInt(-6, 6); }
-
-        if (op === 1) {
-            dx = a + b;
-            while (dx === 0) { b = randNonZeroInt(-6, 6); dx = a + b; }
-            problemHtml = `${fmtVar("x", a)} • ${fmtVar("x", b)}`;
-        } else if (op === 2) {
-            dx = a * b;
-            problemHtml = `(${fmtVar("x", a)})<sup>${b}</sup>`;
-        } else {
-            dx = a - b;
-            while (dx === 0) { b = randNonZeroInt(-6, 6); dx = a - b; }
-            problemHtml = fmtFrac(fmtVar("x", a), fmtVar("x", b));
-        }
-
-        const isNumOnly = dx > 0;
-        return {
-            isStepWorkflow: true, levelType: "A", html: problemHtml,
-            targetFormat: isNumOnly ? "NUM_ONLY" : "DEN_ONLY",
-            solution: { base: "x", exp: Math.abs(dx) }
-        };
-    } else if (levelSubtype === 2) {
-        let a1 = randNonZeroInt(-6, 6), b1 = randNonZeroInt(-6, 6);
-        let a2 = randNonZeroInt(-6, 6), b2 = randNonZeroInt(-6, 6);
-        while ((a1 > 0 ? 0 : 1) + (b1 > 0 ? 0 : 1) + (a2 > 0 ? 0 : 1) + (b2 > 0 ? 0 : 1) < 2) {
-            a1 = randNonZeroInt(-6, 6); b1 = randNonZeroInt(-6, 6);
-            a2 = randNonZeroInt(-6, 6); b2 = randNonZeroInt(-6, 6);
-        }
-
-        if (op === 1) {
-            dx = a1 + a2; dy = b1 + b2;
-            while (dx === 0) { a2 = randNonZeroInt(-6, 6); dx = a1 + a2; }
-            while (dy === 0) { b2 = randNonZeroInt(-6, 6); dy = b1 + b2; }
-            problemHtml = `${fmtVar("x", a1)}${fmtVar("y", b1)} • ${fmtVar("x", a2)}${fmtVar("y", b2)}`;
-        } else if (op === 2) {
-            let p = randNonZeroInt(-3, 3);
-            while (p > 0 && a1 > 0 && b1 > 0) { a1 = randNonZeroInt(-6, -1); }
-            dx = a1 * p; dy = b1 * p;
-            problemHtml = `(${fmtVar("x", a1)}${fmtVar("y", b1)})<sup>${p}</sup>`;
-        } else {
-            dx = a1 - a2; dy = b1 - b2;
-            while (dx === 0) { a2 = randNonZeroInt(-6, 6); dx = a1 - a2; }
-            while (dy === 0) { b2 = randNonZeroInt(-6, 6); dy = b1 - b2; }
-            problemHtml = fmtFrac(`${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${fmtVar("x", a2)}${fmtVar("y", b2)}`);
-        }
-
-        let targetFormat = (dx > 0 && dy > 0) ? "NUM_ONLY" : ((dx < 0 && dy < 0) ? "DEN_ONLY" : "FRACTION");
-        return {
-            isStepWorkflow: true, levelType: "B", html: problemHtml, targetFormat: targetFormat,
-            solution: { dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) }
-        };
-    } else {
-        let c1 = randPosInt(2, 6), c2 = randPosInt(2, 6);
-        let a1 = randNonZeroInt(-6, 6), b1 = randNonZeroInt(-6, 6);
-        let a2 = randNonZeroInt(-6, 6), b2 = randNonZeroInt(-6, 6);
-        while ((a1 > 0 ? 0 : 1) + (b1 > 0 ? 0 : 1) + (a2 > 0 ? 0 : 1) + (b2 > 0 ? 0 : 1) < 2) {
-            a1 = randNonZeroInt(-6, 6); b1 = randNonZeroInt(-6, 6);
-            a2 = randNonZeroInt(-6, 6); b2 = randNonZeroInt(-6, 6);
-        }
-
-        let rawNumC = 1, rawDenC = 1;
-
-        if (op === 1) {
-            dx = a1 + a2; dy = b1 + b2;
-            while (dx === 0) { a2 = randNonZeroInt(-6, 6); dx = a1 + a2; }
-            while (dy === 0) { b2 = randNonZeroInt(-6, 6); dy = b1 + b2; }
-            rawNumC = c1 * c2; rawDenC = 1;
-            problemHtml = `${c1}${fmtVar("x", a1)}${fmtVar("y", b1)} • ${c2}${fmtVar("x", a2)}${fmtVar("y", b2)}`;
-        } else if (op === 2) {
-            let p = randNonZeroInt(-3, 3);
-            while (p > 0 && a1 > 0 && b1 > 0) { a1 = randNonZeroInt(-6, -1); }
-            dx = a1 * p; dy = b1 * p;
-            rawNumC = p > 0 ? Math.pow(c1, p) : 1;
-            rawDenC = p < 0 ? Math.pow(c1, Math.abs(p)) : 1;
-            problemHtml = `(${c1}${fmtVar("x", a1)}${fmtVar("y", b1)})<sup>${p}</sup>`;
-        } else {
-            dx = a1 - a2; dy = b1 - b2;
-            while (dx === 0) { a2 = randNonZeroInt(-6, 6); dx = a1 - a2; }
-            while (dy === 0) { b2 = randNonZeroInt(-6, 6); dy = b1 - b2; }
-            rawNumC = c1; rawDenC = c2;
-            problemHtml = fmtFrac(`${c1}${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${c2}${fmtVar("x", a2)}${fmtVar("y", b2)}`);
-        }
-
-        const g = gcd(rawNumC, rawDenC);
-        const numC = rawNumC / g;
-        const denC = rawDenC / g;
-        let targetFormat = (dx > 0 && dy > 0 && denC === 1) ? "NUM_ONLY" : ((dx < 0 && dy < 0 && numC === 1) ? "DEN_ONLY" : "FRACTION");
-
-        return {
-            isStepWorkflow: true, levelType: "C", html: problemHtml, targetFormat: targetFormat,
-            solution: { numC: numC, denC: denC, dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) }
-        };
-    }
-}
-
-/* TOPIC 2A GENERATOR */
-function genDivisionProblem(levelSubtype) {
-    selectedFormatChoice = null;
-    if (levelSubtype === 1) {
-        let a = randPosInt(1, 6), b = randPosInt(1, 6);
-        while (a === b) { b = randPosInt(1, 6); }
-        const problemHtml = fmtFrac(fmtVar("x", a), fmtVar("x", b));
-        const isNumOnly = a > b;
-        return {
-            isStepWorkflow: true, levelType: "A", html: problemHtml, targetFormat: isNumOnly ? "NUM_ONLY" : "DEN_ONLY",
-            solution: { base: "x", exp: Math.abs(a - b) }
-        };
-    } else if (levelSubtype === 2) {
-        let a1 = randPosInt(1, 6), a2 = randPosInt(1, 6);
-        let b1 = randPosInt(1, 6), b2 = randPosInt(1, 6);
-        while (a1 === a2) { a2 = randPosInt(1, 6); }
-        while (b1 === b2) { b2 = randPosInt(1, 6); }
-        const problemHtml = fmtFrac(`${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${fmtVar("x", a2)}${fmtVar("y", b2)}`);
-        const dx = a1 - a2, dy = b1 - b2;
-        let targetFormat = (dx > 0 && dy > 0) ? "NUM_ONLY" : ((dx < 0 && dy < 0) ? "DEN_ONLY" : "FRACTION");
-        return {
-            isStepWorkflow: true, levelType: "B", html: problemHtml, targetFormat: targetFormat,
-            solution: { dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) }
-        };
-    } else {
-        let c1 = randPosInt(2, 12), c2 = randPosInt(2, 12);
-        const g = gcd(c1, c2);
-        const numC = c1 / g, denC = c2 / g;
-        let a1 = randPosInt(1, 6), a2 = randPosInt(1, 6);
-        let b1 = randPosInt(1, 6), b2 = randPosInt(1, 6);
-        while (a1 === a2) { a2 = randPosInt(1, 6); }
-        while (b1 === b2) { b2 = randPosInt(1, 6); }
-        const problemHtml = fmtFrac(`${c1}${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${c2}${fmtVar("x", a2)}${fmtVar("y", b2)}`);
-        const dx = a1 - a2, dy = b1 - b2;
-        let targetFormat = (dx > 0 && dy > 0) ? "NUM_ONLY" : ((dx < 0 && dy < 0) ? "DEN_ONLY" : "FRACTION");
-        return {
-            isStepWorkflow: true, levelType: "C", html: problemHtml, targetFormat: targetFormat,
-            solution: { numC: numC, denC: denC, dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) }
-        };
-    }
-}
-
-/* TOPIC 2B GENERATOR */
-function genLevel5Problem(levelSubtype) {
-    selectedFormatChoice = null;
-    const pattern = randPosInt(1, 6);
-    let dx = 0, dy = 0, problemHtml = "";
-
-    if (levelSubtype === 1) {
-        let a = randPosInt(1, 6), b = randPosInt(1, 6), c = randPosInt(1, 6), p = randPosInt(2, 3);
-        if (pattern === 1) { while (a === b) b = randPosInt(1, 6); dx = (a - b) * p; problemHtml = `(${fmtFrac(fmtVar("x", a), fmtVar("x", b))})<sup>${p}</sup>`; }
-        else if (pattern === 2) { dx = a * p - b; while (dx === 0) { b = randPosInt(1, 6); dx = a * p - b; } problemHtml = fmtFrac(`(${fmtVar("x", a)})<sup>${p}</sup>`, fmtVar("x", b)); }
-        else if (pattern === 3) { dx = (a + b) * p; problemHtml = `(${fmtVar("x", a)} • ${fmtVar("x", b)})<sup>${p}</sup>`; }
-        else if (pattern === 4) { dx = a * p + b; problemHtml = `(${fmtVar("x", a)})<sup>${p}</sup> • ${fmtVar("x", b)}`; }
-        else if (pattern === 5) { dx = a + b - c; while (dx === 0) { c = randPosInt(1, 6); dx = a + b - c; } problemHtml = fmtFrac(`${fmtVar("x", a)} • ${fmtVar("x", b)}`, fmtVar("x", c)); }
-        else if (pattern === 6) { while (a === b) b = randPosInt(1, 6); dx = a - b + c; while (dx === 0) { c = randPosInt(1, 6); dx = a - b + c; } problemHtml = `(${fmtFrac(fmtVar("x", a), fmtVar("x", b))}) • ${fmtVar("x", c)}`; }
-
-        return { isStepWorkflow: true, levelType: "A", html: problemHtml, targetFormat: dx > 0 ? "NUM_ONLY" : "DEN_ONLY", solution: { base: "x", exp: Math.abs(dx) } };
-    } 
-    else if (levelSubtype === 2) {
-        let a1 = randPosInt(1, 6), b1 = randPosInt(1, 6), a2 = randPosInt(1, 6), b2 = randPosInt(1, 6), a3 = randPosInt(1, 6), b3 = randPosInt(1, 6), p = randPosInt(2, 3);
-        if (pattern === 1) { 
-            while (a1 === a2) a2 = randPosInt(1, 6); 
-            while (b1 === b2) b2 = randPosInt(1, 6); 
-            dx = (a1 - a2) * p; dy = (b1 - b2) * p; 
-            problemHtml = `(${fmtFrac(`${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${fmtVar("x", a2)}${fmtVar("y", b2)}`)})<sup>${p}</sup>`; 
-        }
-        else if (pattern === 2) { 
-            dx = a1 * p - a2; while (dx === 0) { a2 = randPosInt(1, 6); dx = a1 * p - a2; } 
-            dy = b1 * p - b2; while (dy === 0) { b2 = randPosInt(1, 6); dy = b1 * p - b2; } 
-            problemHtml = fmtFrac(`(${fmtVar("x", a1)}${fmtVar("y", b1)})<sup>${p}</sup>`, `${fmtVar("x", a2)}${fmtVar("y", b2)}`); 
-        }
-        else if (pattern === 3) { 
-            dx = (a1 + a2) * p; dy = (b1 + b2) * p; 
-            problemHtml = `(${fmtVar("x", a1)}${fmtVar("y", b1)} • ${fmtVar("x", a2)}${fmtVar("y", b2)})<sup>${p}</sup>`; 
-        }
-        else if (pattern === 4) { 
-            dx = a1 * p + a2; dy = b1 * p + b2; 
-            problemHtml = `(${fmtVar("x", a1)}${fmtVar("y", b1)})<sup>${p}</sup> • ${fmtVar("x", a2)}${fmtVar("y", b2)}`; 
-        }
-        else if (pattern === 5) { 
-            dx = a1 + a2 - a3; dy = b1 + b2 - b3; 
-            while (dx === 0) { a3 = randPosInt(1, 6); dx = a1 + a2 - a3; } 
-            while (dy === 0) { b3 = randPosInt(1, 6); dy = b1 + b2 - b3; } 
-            problemHtml = fmtFrac(`${fmtVar("x", a1)}${fmtVar("y", b1)} • ${fmtVar("x", a2)}${fmtVar("y", b2)}`, `${fmtVar("x", a3)}${fmtVar("y", b3)}`); 
-        }
-        else { 
-            while (a1 === a2) a2 = randPosInt(1, 6); 
-            while (b1 === b2) b2 = randPosInt(1, 6); 
-            dx = a1 - a2 + a3; dy = b1 - b2 + b3; 
-            while (dx === 0) { a3 = randPosInt(1, 6); dx = a1 - a2 + a3; } 
-            while (dy === 0) { b3 = randPosInt(1, 6); dy = b1 - b2 + b3; } 
-            problemHtml = `(${fmtFrac(`${fmtVar("x", a1)}${fmtVar("y", b1)}`, `${fmtVar("x", a2)}${fmtVar("y", b2)}`)}) • ${fmtVar("x", a3)}${fmtVar("y", b3)}`; 
-        }
-
-        let targetFormat = (dx > 0 && dy > 0) ? "NUM_ONLY" : ((dx < 0 && dy < 0) ? "DEN_ONLY" : "FRACTION");
-        return { isStepWorkflow: true, levelType: "B", html: problemHtml, targetFormat: targetFormat, solution: { dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) } };
-    } else {
-        let c1 = randPosInt(2, 4), c2 = randPosInt(2, 4);
-        let a1 = randPosInt(1, 4), b1 = randPosInt(1, 4), a2 = randPosInt(1, 4), b2 = randPosInt(1, 4), p = 2;
-        dx = (a1 + a2) * p; dy = (b1 + b2) * p;
-        let coeff = Math.pow(c1 * c2, p);
-        problemHtml = `(${c1}${fmtVar("x", a1)}${fmtVar("y", b1)} • ${c2}${fmtVar("x", a2)}${fmtVar("y", b2)})<sup>${p}</sup>`;
-
-        return { isStepWorkflow: true, levelType: "C", html: problemHtml, targetFormat: "NUM_ONLY", solution: { numC: coeff, denC: 1, dx: dx, dy: dy, absDx: Math.abs(dx), absDy: Math.abs(dy) } };
-    }
-}
-
-/* OTHER TOPIC GENERATORS */
-function genLevel1Problem(subtype) {
-    if (subtype === 1) {
-        let a = randPosInt(1, 6), b = randPosInt(1, 6);
-        return { isStepWorkflow: false, html: `${fmtVar("x", a)} • ${fmtVar("x", b)}`, solution: { expX: a + b } };
-    } else if (subtype === 2) {
-        let a = randPosInt(1, 6), b = randPosInt(1, 6), c = randPosInt(1, 6), d = randPosInt(1, 6);
-        return { isStepWorkflow: false, html: `${fmtVar("x", a)}${fmtVar("y", b)} • ${fmtVar("x", c)}${fmtVar("y", d)}`, solution: { expX: a + c, expY: b + d } };
-    } else {
-        let c1 = randPosInt(2, 6), c2 = randPosInt(2, 6);
-        let a = randPosInt(1, 5), b = randPosInt(1, 5), c = randPosInt(1, 5), d = randPosInt(1, 5);
-        return { isStepWorkflow: false, html: `${c1}${fmtVar("x", a)}${fmtVar("y", b)} • ${c2}${fmtVar("x", c)}${fmtVar("y", d)}`, solution: { coeff: c1 * c2, expX: a + c, expY: b + d } };
-    }
-}
-
-function genLevel2Problem(subtype) {
-    if (subtype === 1) {
-        let a = randPosInt(2, 6), p = randPosInt(2, 4);
-        return { isStepWorkflow: false, html: `(${fmtVar("x", a)})<sup>${p}</sup>`, solution: { expX: a * p } };
-    } else if (subtype === 2) {
-        let a = randPosInt(2, 5), b = randPosInt(2, 5), p = randPosInt(2, 4);
-        return { isStepWorkflow: false, html: `(${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p}</sup>`, solution: { expX: a * p, expY: b * p } };
-    } else {
-        let c = randPosInt(2, 4), a = randPosInt(2, 4), b = randPosInt(2, 4), p = randPosInt(2, 3);
-        return { isStepWorkflow: false, html: `(${c}${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p}</sup>`, solution: { coeff: Math.pow(c, p), expX: a * p, expY: b * p } };
-    }
-}
-
-function genLevel3Problem(subtype) {
-    const pattern = randPosInt(1, 3); // 1: 1st term, 2: 2nd term, 3: both terms
-
-    if (subtype === 1) {
-        let a = randPosInt(2, 4), b = randPosInt(2, 4);
-        let p1 = randPosInt(2, 3), p2 = randPosInt(2, 3);
-        let problemHtml = "";
-        let expX = 0;
-
-        if (pattern === 1) {
-            problemHtml = `(${fmtVar("x", a)})<sup>${p1}</sup> • ${fmtVar("x", b)}`;
-            expX = a * p1 + b;
-        } else if (pattern === 2) {
-            problemHtml = `${fmtVar("x", a)} • (${fmtVar("x", b)})<sup>${p2}</sup>`;
-            expX = a + b * p2;
-        } else {
-            problemHtml = `(${fmtVar("x", a)})<sup>${p1}</sup> • (${fmtVar("x", b)})<sup>${p2}</sup>`;
-            expX = a * p1 + b * p2;
-        }
-
-        return { isStepWorkflow: false, html: problemHtml, solution: { expX: expX } };
-    } else if (subtype === 2) {
-        let a = randPosInt(1, 3), b = randPosInt(1, 3);
-        let c = randPosInt(1, 3), d = randPosInt(1, 3);
-        let p1 = randPosInt(2, 3), p2 = randPosInt(2, 3);
-        let problemHtml = "";
-        let expX = 0, expY = 0;
-
-        if (pattern === 1) {
-            problemHtml = `(${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p1}</sup> • ${fmtVar("x", c)}${fmtVar("y", d)}`;
-            expX = a * p1 + c;
-            expY = b * p1 + d;
-        } else if (pattern === 2) {
-            problemHtml = `${fmtVar("x", a)}${fmtVar("y", b)} • (${fmtVar("x", c)}${fmtVar("y", d)})<sup>${p2}</sup>`;
-            expX = a + c * p2;
-            expY = b + d * p2;
-        } else {
-            problemHtml = `(${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p1}</sup> • (${fmtVar("x", c)}${fmtVar("y", d)})<sup>${p2}</sup>`;
-            expX = a * p1 + c * p2;
-            expY = b * p1 + d * p2;
-        }
-
-        return { isStepWorkflow: false, html: problemHtml, solution: { expX: expX, expY: expY } };
-    } else {
-        let c1 = randPosInt(2, 3), c2 = randPosInt(2, 3);
-        let a = randPosInt(1, 3), b = randPosInt(1, 3);
-        let c = randPosInt(1, 3), d = randPosInt(1, 3);
-        let p1 = 2, p2 = 2;
-        let problemHtml = "";
-        let coeff = 1, expX = 0, expY = 0;
-
-        if (pattern === 1) {
-            problemHtml = `(${c1}${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p1}</sup> • ${c2}${fmtVar("x", c)}${fmtVar("y", d)}`;
-            coeff = Math.pow(c1, p1) * c2;
-            expX = a * p1 + c;
-            expY = b * p1 + d;
-        } else if (pattern === 2) {
-            problemHtml = `${c1}${fmtVar("x", a)}${fmtVar("y", b)} • (${c2}${fmtVar("x", c)}${fmtVar("y", d)})<sup>${p2}</sup>`;
-            coeff = c1 * Math.pow(c2, p2);
-            expX = a + c * p2;
-            expY = b + d * p2;
-        } else {
-            problemHtml = `(${c1}${fmtVar("x", a)}${fmtVar("y", b)})<sup>${p1}</sup> • (${c2}${fmtVar("x", c)}${fmtVar("y", d)})<sup>${p2}</sup>`;
-            coeff = Math.pow(c1, p1) * Math.pow(c2, p2);
-            expX = a * p1 + c * p2;
-            expY = b * p1 + d * p2;
-        }
-
-        return { isStepWorkflow: false, html: problemHtml, solution: { coeff: coeff, expX: expX, expY: expY } };
-    }
-}
-
-/* MASTER DISPATCHER */
-function generateProblem() {
-    const topicId = questTopics[activeTopicIdx].id;
-    const levelSubtype = activeLevelIdx + 1;
-
-    if (topicId === 1) currentProblem = genLevel1Problem(levelSubtype);
-    else if (topicId === 2) currentProblem = genLevel2Problem(levelSubtype);
-    else if (topicId === 3) currentProblem = genLevel3Problem(levelSubtype);
-    else if (topicId === 4) currentProblem = genDivisionProblem(levelSubtype);
-    else if (topicId === 5) currentProblem = genLevel5Problem(levelSubtype);
-    else if (topicId === 6) currentProblem = genLevel6Problem(levelSubtype);
-    else if (topicId === 7) currentProblem = genLevel7Problem(levelSubtype);
-    else if (topicId === 8) currentProblem = genLevel8Problem(levelSubtype);
-    else if (topicId === 9) currentProblem = genLevel9Problem(levelSubtype);
-
-    let directive = "Simplify:";
-    if (topicId === 4 || topicId === 5 || topicId === 6) {
-        directive = "Simplify (positive exponents only):";
-    }
-
-    document.getElementById("problemDisplay").innerHTML = `<span class="simplify-directive">${directive}</span>` + currentProblem.html;
-    renderInputBoxes();
-    updateStreakDisplay();
-}
-
-/* RENDERS INPUT BOXES ACCORDING TO TOPIC / LEVEL */
-function renderInputBoxes() {
-    const container = document.getElementById("inputBoxesContainer");
-    container.innerHTML = "";
-
-    if (currentProblem.isLevel9) {
-        if (currentProblem.isFracResult) {
-            container.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; margin: 15px 0;">
-                    <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-                        <input type="number" id="inpNum" class="box-coeff-step" style="width:85px; font-size:1.1rem;" placeholder="num">
-                        <div style="width:95px; height:3px; background-color:var(--cyan-accent); border-radius:2px;"></div>
-                        <input type="number" id="inpDen" class="box-coeff-step" style="width:85px; font-size:1.1rem;" placeholder="den">
-                    </div>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 20px 0;">
-                    <label style="color:var(--yellow-accent); font-weight:bold; font-size:1.15rem;">Evaluated Value = </label>
-                    <input type="number" id="inpVal" class="box-coeff-step" style="width:110px; font-size:1.15rem;">
-                </div>
-            `;
-        }
-    } else if (currentProblem.isLevel8) {
-        let card1Html = `<div style="font-size:1.3rem; font-weight:bold; color:var(--cyan-accent);">[ # ]</div><div class="card-label-sub">Whole Number</div>`;
-        let card2Html = `<div class="card-frac-box"><div class="card-frac-num" style="font-size:0.85rem; font-weight:bold; color:var(--cyan-accent);">num</div><div class="card-frac-den" style="font-size:0.85rem; font-weight:bold; color:var(--cyan-accent);">den</div></div><div class="card-label-sub">Fraction</div>`;
-
-        let html = `
-            <div class="step-container">
-                <div class="step-header">📌 Step 1: Select the evaluated answer format:</div>
-                <div class="format-selector-grid">
-                    <div class="math-structure-card ${selectedFormatChoice === 'INTEGER' ? 'selected' : ''}" onclick="selectFormatChoice('INTEGER')">
-                        ${card1Html}
-                    </div>
-                    <div class="math-structure-card ${selectedFormatChoice === 'FRACTION' ? 'selected' : ''}" onclick="selectFormatChoice('FRACTION')">
-                        ${card2Html}
-                    </div>
-                </div>
-            </div>
-        `;
-
-        if (selectedFormatChoice) {
-            html += `<div class="values-input-area">`;
-            if (selectedFormatChoice === "INTEGER") {
-                html += `
-                    <div style="display:flex; justify-content:center; align-items:center; gap:10px;">
-                        <label style="color:var(--yellow-accent); font-weight:bold; font-size:1.1rem;">Evaluated Value = </label>
-                        <input type="number" id="inpVal" class="box-coeff-step" style="width:110px; font-size:1.1rem;">
-                    </div>
-                `;
-            } else if (selectedFormatChoice === "FRACTION") {
-                html += `
-                    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-                        <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-                            <input type="number" id="inpNum" class="box-coeff-step" style="width:85px; font-size:1.1rem;" placeholder="num">
-                            <div style="width:95px; height:3px; background-color:var(--cyan-accent); border-radius:2px;"></div>
-                            <input type="number" id="inpDen" class="box-coeff-step" style="width:85px; font-size:1.1rem;" placeholder="den">
-                        </div>
-                    </div>
-                `;
-            }
-            html += `</div>`;
-        }
-        container.innerHTML = html;
-    } else if (currentProblem.isLevel7) {
-        if (currentProblem.subtype === 1 || currentProblem.subtype === 2) {
-            let factorsHtml = "";
-            const numFactors = currentProblem.solution.expectedFactors.length;
-            
-            for (let i = 0; i < numFactors; i++) {
-                factorsHtml += `<input type="number" id="inpFactor_${i}" class="box-coeff-step" style="width:58px; font-size:1.05rem;" placeholder="factor">`;
-                if (i < numFactors - 1) {
-                    factorsHtml += `<span style="color:var(--cyan-accent); font-weight:bold; font-size:1.2rem; margin:0 3px;">×</span>`;
-                }
-            }
-
-            const exampleText = currentProblem.subtype === 1 
-                ? "💡 Example: -2⁴ = [-1] × [2] × [2] × [2] × [2] = -16 (1st box is -1)" 
-                : "💡 Example: (-2)⁴ = [1] × [-2] × [-2] × [-2] × [-2] = 16 (1st box is 1)";
-
-            container.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; gap:12px; margin: 12px 0;">
-                    <div style="color:var(--yellow-accent); font-size:0.88rem; font-weight:bold; background:rgba(250,204,21,0.1); padding:6px 12px; border-radius:6px; border:1px solid rgba(250,204,21,0.3);">
-                        ${exampleText}
-                    </div>
-                    <div style="text-align:center;">
-                        <div style="color:var(--cyan-accent); font-weight:bold; margin-bottom:8px; font-size:0.95rem;">
-                            1. Fill in the expanded factors (${numFactors} boxes):
-                        </div>
-                        <div style="display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:4px;">
-                            ${factorsHtml}
-                        </div>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <label style="color:var(--yellow-accent); font-weight:bold; font-size:1.05rem;">2. Evaluated Value = </label>
-                        <input type="number" id="inpVal" class="box-coeff-step" style="width:110px; font-size:1.05rem;">
-                    </div>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 18px 0;">
-                    <label style="color:var(--yellow-accent); font-weight:bold; font-size:1.15rem;">Evaluated Value = </label>
-                    <input type="number" id="inpVal" class="box-coeff-step" style="width:110px; font-size:1.15rem;">
-                </div>
-            `;
-        }
-    } else if (currentProblem.isStepWorkflow) {
-        let cardsHtml = "";
-        if (currentProblem.levelType === "A") {
-            let card1Html = `<div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">x</span><span class="card-math-exp">exp</span></div>`;
-            let card2Html = `<div class="card-frac-box"><div class="card-frac-num">1</div><div class="card-frac-den"><div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">x</span><span class="card-math-exp">exp</span></div></div></div>`;
-            cardsHtml = `
-                <div class="math-structure-card ${selectedFormatChoice === 'NUM_ONLY' ? 'selected' : ''}" onclick="selectFormatChoice('NUM_ONLY')">
-                    ${card1Html}
-                    <div class="card-label-sub">Numerator Only</div>
-                </div>
-                <div class="math-structure-card ${selectedFormatChoice === 'DEN_ONLY' ? 'selected' : ''}" onclick="selectFormatChoice('DEN_ONLY')">
-                    ${card2Html}
-                    <div class="card-label-sub">Denominator Only</div>
-                </div>
-            `;
-        } else {
-            let card1Html = `<div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">x</span><span class="card-math-exp">exp</span><span class="card-math-base">y</span><span class="card-math-exp">exp</span></div>`;
-            let card2Html = `<div class="card-frac-box"><div class="card-frac-num">1</div><div class="card-frac-den"><div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">x</span><span class="card-math-exp">exp</span><span class="card-math-base">y</span><span class="card-math-exp">exp</span></div></div></div>`;
-            let card3Html = `<div class="card-frac-box"><div class="card-frac-num"><div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">var</span><span class="card-math-exp">exp</span></div></div><div class="card-frac-den"><div style="display:inline-flex; align-items:baseline; white-space:nowrap;"><span class="card-math-base">var</span><span class="card-math-exp">exp</span></div></div></div>`;
-            cardsHtml = `
-                <div class="math-structure-card ${selectedFormatChoice === 'NUM_ONLY' ? 'selected' : ''}" onclick="selectFormatChoice('NUM_ONLY')">
-                    ${card1Html}
-                    <div class="card-label-sub">Both in Numerator</div>
-                </div>
-                <div class="math-structure-card ${selectedFormatChoice === 'DEN_ONLY' ? 'selected' : ''}" onclick="selectFormatChoice('DEN_ONLY')">
-                    ${card2Html}
-                    <div class="card-label-sub">Both in Denominator</div>
-                </div>
-                <div class="math-structure-card ${selectedFormatChoice === 'FRACTION' ? 'selected' : ''}" onclick="selectFormatChoice('FRACTION')">
-                    ${card3Html}
-                    <div class="card-label-sub">One in Num, One in Denom</div>
-                </div>
-            `;
-        }
-
-        let html = `
-            <div class="step-container">
-                <div class="step-header">📌 Step 1: Select the simplified answer structure:</div>
-                <div class="format-selector-grid">
-                    ${cardsHtml}
-                </div>
-            </div>
-        `;
-
-        if (selectedFormatChoice) {
-            html += `<div class="values-input-area">`;
-            if (selectedFormatChoice === "NUM_ONLY") {
-                if (currentProblem.levelType === "A") {
-                    html += `<span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp">`;
-                } else {
-                    if (currentProblem.solution.numC && currentProblem.solution.numC > 1) html += `<input type="number" id="inpCoeff" class="box-coeff-step" placeholder="c">`;
-                    html += `<span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp"><span class="var-label">y</span><input type="number" id="inpExpY" class="box-exp-step" placeholder="exp">`;
-                }
-            } else if (selectedFormatChoice === "DEN_ONLY") {
-                if (currentProblem.levelType === "A") {
-                    html += `<div class="frac-container"><div class="frac-row">1</div><div class="frac-divider"></div><div class="frac-row"><span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp"></div></div>`;
-                } else {
-                    if (currentProblem.solution.denC && currentProblem.solution.denC > 1) {
-                        html += `<div class="frac-container"><div class="frac-row">1</div><div class="frac-divider"></div><div class="frac-row"><input type="number" id="inpCoeff" class="box-coeff-step" style="width:50px;" placeholder="c"><span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp"><span class="var-label">y</span><input type="number" id="inpExpY" class="box-exp-step" placeholder="exp"></div></div>`;
-                    } else {
-                        html += `<div class="frac-container"><div class="frac-row">1</div><div class="frac-divider"></div><div class="frac-row"><span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp"><span class="var-label">y</span><input type="number" id="inpExpY" class="box-exp-step" placeholder="exp"></div></div>`;
-                    }
-                }
-            } else if (selectedFormatChoice === "FRACTION") {
-                if (currentProblem.levelType === "B") {
-                    html += `
-                        <div class="frac-container">
-                            <div class="frac-row">
-                                <input type="text" id="inpBaseNum" class="box-var-step" maxlength="1" placeholder="var">
-                                <input type="number" id="inpExpNum" class="box-exp-step" placeholder="exp">
-                            </div>
-                            <div class="frac-divider"></div>
-                            <div class="frac-row">
-                                <input type="text" id="inpBaseDen" class="box-var-step" maxlength="1" placeholder="var">
-                                <input type="number" id="inpExpDen" class="box-exp-step" placeholder="exp">
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="frac-container">
-                            <div class="frac-row">
-                                <input type="number" id="inpCoeffNum" class="box-coeff-step" style="width:50px;" placeholder="c">
-                                <input type="text" id="inpBaseNum" class="box-var-step" maxlength="1" placeholder="var">
-                                <input type="number" id="inpExpNum" class="box-exp-step" placeholder="exp">
-                            </div>
-                            <div class="frac-divider"></div>
-                            <div class="frac-row">
-                                <input type="number" id="inpCoeffDen" class="box-coeff-step" style="width:50px;" placeholder="c">
-                                <input type="text" id="inpBaseDen" class="box-var-step" maxlength="1" placeholder="var">
-                                <input type="number" id="inpExpDen" class="box-exp-step" placeholder="exp">
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            html += `</div>`;
-        }
-        container.innerHTML = html;
-    } else {
-        let html = `<div class="values-input-area">`;
-        if (currentProblem.solution.coeff) html += `<input type="number" id="inpCoeff" class="box-coeff-step" placeholder="c">`;
-        if (currentProblem.solution.expX !== undefined) html += `<span class="var-label">x</span><input type="number" id="inpExpX" class="box-exp-step" placeholder="exp">`;
-        if (currentProblem.solution.expY !== undefined) html += `<span class="var-label">y</span><input type="number" id="inpExpY" class="box-exp-step" placeholder="exp">`;
-        html += `</div>`;
-        container.innerHTML = html;
-    }
-}
-
-function selectFormatChoice(choice) {
-    selectedFormatChoice = choice;
-    renderInputBoxes();
-}
-
-function handleNextSubmit(event) {
-    event.preventDefault();
-    const feedback = document.getElementById("feedbackMsg");
-
-    // Check structure selection
-    if ((currentProblem.isStepWorkflow || currentProblem.isLevel8) && !selectedFormatChoice) {
-        feedback.textContent = "⚠️ Select a structure first!";
-        feedback.className = "feedback-msg warning";
-        return;
-    }
-
-    // Check empty input boxes
-    const container = document.getElementById("inputBoxesContainer");
-    const visibleInputs = container.querySelectorAll("input");
-    for (let input of visibleInputs) {
-        if (input.value.trim() === "") {
-            feedback.textContent = "⚠️ Fill in all boxes!";
-            feedback.className = "feedback-msg warning";
-            return;
-        }
-    }
-
-    totalAttempts++;
-    let isCorrect = false;
-
-    if (currentProblem.isLevel9) {
-        if (currentProblem.isFracResult) {
-            const rawNum = (document.getElementById("inpNum")?.value || "").trim();
-            const rawDen = (document.getElementById("inpDen")?.value || "").trim();
-            isCorrect = (parseInt(rawNum, 10) === currentProblem.solution.num && parseInt(rawDen, 10) === currentProblem.solution.den);
-        } else {
-            const rawVal = (document.getElementById("inpVal")?.value || "").trim();
-            isCorrect = (parseInt(rawVal, 10) === currentProblem.solution.expectedVal);
-        }
-    } else if (currentProblem.isLevel8) {
-        if (selectedFormatChoice === currentProblem.targetFormat) {
-            if (selectedFormatChoice === "INTEGER") {
-                const rawVal = (document.getElementById("inpVal")?.value || "").trim();
-                isCorrect = (parseInt(rawVal, 10) === currentProblem.solution.expectedVal);
-            } else if (selectedFormatChoice === "FRACTION") {
-                const rawNum = (document.getElementById("inpNum")?.value || "").trim();
-                const rawDen = (document.getElementById("inpDen")?.value || "").trim();
-                isCorrect = (parseInt(rawNum, 10) === currentProblem.solution.num && parseInt(rawDen, 10) === currentProblem.solution.den);
-            }
-        } else {
-            isCorrect = false;
-        }
-    } else if (currentProblem.isLevel7) {
-        const rawVal = (document.getElementById("inpVal")?.value || "").trim();
-        const val = parseInt(rawVal, 10);
-        const valCorrect = (val === currentProblem.solution.expectedVal);
-
-        if (currentProblem.subtype === 1 || currentProblem.subtype === 2) {
-            let factorsCorrect = true;
-            const numFactors = currentProblem.solution.expectedFactors.length;
-            for (let i = 0; i < numFactors; i++) {
-                const rawFactor = (document.getElementById(`inpFactor_${i}`)?.value || "").trim();
-                const factorVal = parseInt(rawFactor, 10);
-                if (factorVal !== currentProblem.solution.expectedFactors[i]) {
-                    factorsCorrect = false;
-                    break;
-                }
-            }
-            isCorrect = factorsCorrect && valCorrect;
-        } else {
-            isCorrect = valCorrect;
-        }
-    } else if (currentProblem.isStepWorkflow) {
-        if (selectedFormatChoice === currentProblem.targetFormat) {
-            if (currentProblem.levelType === "A") {
-                const expX = parseExpInput("inpExpX") ?? 0;
-                isCorrect = (expX === currentProblem.solution.exp);
-            } else if (selectedFormatChoice === "NUM_ONLY") {
-                const c = document.getElementById("inpCoeff") ? (parseExpInput("inpCoeff") ?? 1) : 1;
-                const expX = parseExpInput("inpExpX") ?? 0;
-                const expY = parseExpInput("inpExpY") ?? 0;
-                const targetC = currentProblem.solution.numC || 1;
-                isCorrect = (c === targetC && expX === Math.abs(currentProblem.solution.dx) && expY === Math.abs(currentProblem.solution.dy));
-            } else if (selectedFormatChoice === "DEN_ONLY") {
-                const c = document.getElementById("inpCoeff") ? (parseExpInput("inpCoeff") ?? 1) : 1;
-                const expX = parseExpInput("inpExpX") ?? 0;
-                const expY = parseExpInput("inpExpY") ?? 0;
-                const targetC = currentProblem.solution.denC || 1;
-                isCorrect = (c === targetC && expX === Math.abs(currentProblem.solution.dx) && expY === Math.abs(currentProblem.solution.dy));
-            } else if (selectedFormatChoice === "FRACTION") {
-                const baseNum = (document.getElementById("inpBaseNum")?.value || "").trim().toLowerCase();
-                const expNum = parseExpInput("inpExpNum") ?? 0;
-                const baseDen = (document.getElementById("inpBaseDen")?.value || "").trim().toLowerCase();
-                const expDen = parseExpInput("inpExpDen") ?? 0;
-
-                const cNum = document.getElementById("inpCoeffNum") ? (parseExpInput("inpCoeffNum") ?? 1) : 1;
-                const cDen = document.getElementById("inpCoeffDen") ? (parseExpInput("inpCoeffDen") ?? 1) : 1;
-
-                let expectedBaseNum = "", expectedExpNum = 0;
-                let expectedBaseDen = "", expectedExpDen = 0;
-
-                if (currentProblem.solution.dx > 0) {
-                    expectedBaseNum = "x";
-                    expectedExpNum = currentProblem.solution.dx;
-                    expectedBaseDen = "y";
-                    expectedExpDen = Math.abs(currentProblem.solution.dy);
-                } else {
-                    expectedBaseNum = "y";
-                    expectedExpNum = currentProblem.solution.dy;
-                    expectedBaseDen = "x";
-                    expectedExpDen = Math.abs(currentProblem.solution.dx);
-                }
-
-                const targetNumC = currentProblem.solution.numC || 1;
-                const targetDenC = currentProblem.solution.denC || 1;
-
-                isCorrect = (baseNum === expectedBaseNum && expNum === expectedExpNum &&
-                             baseDen === expectedBaseDen && expDen === expectedExpDen &&
-                             cNum === targetNumC && cDen === targetDenC);
-            }
-        } else {
-            isCorrect = false;
-        }
-    } else {
-        const c = document.getElementById("inpCoeff") ? parseExpInput("inpCoeff") : 1;
-        const ex = document.getElementById("inpExpX") ? parseExpInput("inpExpX") : 0;
-        const ey = document.getElementById("inpExpY") ? parseExpInput("inpExpY") : 0;
-
-        const targetC = currentProblem.solution.coeff || 1;
-        const targetEx = currentProblem.solution.expX || 0;
-        const targetEy = currentProblem.solution.expY || 0;
-
-        isCorrect = (c === targetC && ex === targetEx && ey === targetEy);
-    }
-
-    if (isCorrect) {
-        correctAttempts++;
-        currentStreak++;
-        feedback.textContent = "✨ Correct! Fantastic job!";
-        feedback.className = "feedback-msg correct";
-
-        // Check if 5 in a row reached
-        if (currentStreak >= 5) {
-            questTopics[activeTopicIdx].levels[activeLevelIdx].unlocked = true;
-            if (activeLevelIdx + 1 < questTopics[activeTopicIdx].levels.length) {
-                questTopics[activeTopicIdx].levels[activeLevelIdx + 1].unlocked = true;
-            }
-
-            // Confetti fires ONLY on 5 in a row / stage cleared
-            if (checkWholeQuestCompleted()) {
-                triggerQuestComplete();
-            } else {
-                triggerLevelComplete();
-            }
-            return;
-        }
-    } else {
-        currentStreak = 0;
-        feedback.textContent = "❌ Incorrect. Keep trying!";
-        feedback.className = "feedback-msg incorrect";
-    }
-
-    document.getElementById("accuracyPct").textContent = `${Math.round((correctAttempts / totalAttempts) * 100)}%`;
-    updateStreakDisplay();
-    setTimeout(() => { generateProblem(); }, 1200);
-}
-
 function saveProgress() {
-    localStorage.setItem("integerQuestData", JSON.stringify(questTopics));
+    localStorage.setItem('exponentsLadderProgress', JSON.stringify(questTopics));
     alert("Progress saved successfully!");
 }
 
 function resetProgress() {
     if (confirm("Are you sure you want to reset all progress?")) {
+        localStorage.removeItem('exponentsLadderProgress');
         questTopics = JSON.parse(JSON.stringify(defaultTopics));
-        localStorage.removeItem("integerQuestData");
         showDashboard();
     }
 }
 
-// Initial Load
-window.onload = function() {
-    const saved = localStorage.getItem("integerQuestData");
-    if (saved) {
-        try { questTopics = JSON.parse(saved); } catch(e) {}
-    }
-    renderMap();
-};
+// Initial display setup
+showDashboard();
 </script>
 </body>
 </html>
