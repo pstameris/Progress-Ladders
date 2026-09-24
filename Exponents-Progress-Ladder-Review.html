@@ -418,7 +418,7 @@
         <div class="header-actions">
             <button class="btn-header btn-save" onclick="saveProgress()">💾 Save Progress</button>
             <button class="btn-header btn-reset" onclick="resetProgress()">🔄 Reset Progress</button>
-            <button class="btn-header btn-map" onclick="showDashboard()">🗺️ Topic Map</button>
+            <button class="btn-header btn-map" onclick="showDashboard()">MAP Topic Map</button>
         </div>
     </header>
 
@@ -578,14 +578,7 @@ let currentProblem = null;
 let currentStreak = 0;
 let totalAttempts = 0;
 let correctAttempts = 0;
-let problemMistakes = 0; // Tracks mistakes on the current problem
-
-function gcd(a, b) {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    while (b) { let t = b; b = a % b; a = t; }
-    return a || 1;
-}
+let problemMistakes = 0;
 
 function randInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -595,12 +588,6 @@ function randNonZero(min, max) {
     let v = 0;
     while (v === 0) v = randInt(min, max);
     return v;
-}
-
-function fmtVar(variable, exp) {
-    if (exp === 0) return "";
-    if (exp === 1) return variable;
-    return `${variable}<sup>${exp}</sup>`;
 }
 
 function renderMap() {
@@ -673,10 +660,11 @@ function updateStreakDisplay() {
 }
 
 function generateProblem() {
-    problemMistakes = 0; // Reset mistakes counter for new problem
+    problemMistakes = 0;
     const code = questTopics[activeTopicIdx].levels[activeLevelIdx].code;
     let prob = { type: "single", display: "", ansVal: 0, ansFrac: null, ansExpr: null };
 
+    // TOPIC 1A
     if (code.startsWith("1A")) {
         let x1 = randInt(1, 5), x2 = randInt(1, 5);
         let c1 = code === "1A-3" ? randInt(2, 5) : 1;
@@ -697,7 +685,9 @@ function generateProblem() {
             prob.type = "expr";
             prob.ansExpr = { coeff: c1 * c2, xExp: x1 + x2, yExp: y1 + y2 };
         }
-    } else if (code.startsWith("1B")) {
+    } 
+    // TOPIC 1B
+    else if (code.startsWith("1B")) {
         let x = randInt(1, 4), p = randInt(2, 4);
         let c = code === "1B-3" ? randInt(2, 4) : 1;
 
@@ -716,7 +706,29 @@ function generateProblem() {
             prob.type = "expr";
             prob.ansExpr = { coeff: Math.pow(c, p), xExp: x * p, yExp: y * p };
         }
-    } else if (code.startsWith("2A")) {
+    } 
+    // TOPIC 1C
+    else if (code.startsWith("1C")) {
+        let a = randInt(1, 3), b = randInt(2, 3), c = randInt(1, 4);
+        if (code === "1C-1") {
+            prob.display = `(x<sup>${a}</sup>)<sup>${b}</sup> • x<sup>${c}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a * b + c, yExp: 0 };
+        } else if (code === "1C-2") {
+            let d = randInt(1, 3), e = randInt(1, 4), f = randInt(1, 4);
+            prob.display = `(x<sup>${a}</sup>y<sup>${d}</sup>)<sup>${b}</sup> • x<sup>${c}</sup>y<sup>${e}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a * b + c, yExp: d * b + e };
+        } else {
+            let coeff1 = randInt(2, 3), coeff2 = randInt(2, 4);
+            let d = randInt(1, 3), e = randInt(1, 3);
+            prob.display = `(${coeff1}x<sup>${a}</sup>y<sup>${d}</sup>)<sup>${b}</sup> • (${coeff2}x<sup>${c}</sup>y<sup>${e}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: Math.pow(coeff1, b) * coeff2, xExp: a * b + c, yExp: d * b + e };
+        }
+    } 
+    // TOPIC 2A
+    else if (code.startsWith("2A")) {
         let x1 = randInt(2, 7), x2 = randInt(1, 5);
         if (code === "2A-1") {
             prob.display = `x<sup>${x1}</sup> / x<sup>${x2}</sup>`;
@@ -734,7 +746,50 @@ function generateProblem() {
             prob.type = "expr";
             prob.ansExpr = { coeff: c1 / c2, xExp: x1 - x2, yExp: y1 - y2 };
         }
-    } else if (code.startsWith("3B")) {
+    } 
+    // TOPIC 2B
+    else if (code.startsWith("2B")) {
+        let a = randInt(2, 5), b = randInt(1, 4), c = randInt(1, 3);
+        if (code === "2B-1") {
+            prob.display = `(x<sup>${a}</sup> • x<sup>${b}</sup>) / x<sup>${c}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a + b - c, yExp: 0 };
+        } else if (code === "2B-2") {
+            let d = randInt(2, 5), e = randInt(1, 4), f = randInt(1, 3);
+            prob.display = `(x<sup>${a}</sup>y<sup>${d}</sup> • x<sup>${b}</sup>y<sup>${e}</sup>) / (x<sup>${c}</sup>y<sup>${f}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a + b - c, yExp: d + e - f };
+        } else {
+            let c1 = randInt(2, 4), c2 = randInt(2, 3), c3 = 2;
+            let d = randInt(2, 5), e = randInt(1, 4), f = randInt(1, 3);
+            let topCoeff = c1 * c2;
+            prob.display = `(${c1}x<sup>${a}</sup>y<sup>${d}</sup> • ${c2}x<sup>${b}</sup>y<sup>${e}</sup>) / (${c3}x<sup>${c}</sup>y<sup>${f}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: topCoeff / c3, xExp: a + b - c, yExp: d + e - f };
+        }
+    } 
+    // TOPIC 3A
+    else if (code.startsWith("3A")) {
+        let a = randInt(1, 4), b = randInt(-4, -1);
+        if (code === "3A-1") {
+            prob.display = `x<sup>${a}</sup> • x<sup>${b}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a + b, yExp: 0 };
+        } else if (code === "3A-2") {
+            let c = randInt(1, 4), d = randInt(-4, -1);
+            prob.display = `x<sup>${a}</sup>y<sup>${b}</sup> • x<sup>${c}</sup>y<sup>${d}</sup>`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: 1, xExp: a + c, yExp: b + d };
+        } else {
+            let c1 = randInt(2, 5), c2 = randInt(2, 4);
+            let c = randInt(1, 4), d = randInt(-4, -1);
+            prob.display = `(${c1}x<sup>${a}</sup>y<sup>${b}</sup>)(${c2}x<sup>${c}</sup>y<sup>${d}</sup>)`;
+            prob.type = "expr";
+            prob.ansExpr = { coeff: c1 * c2, xExp: a + c, yExp: b + d };
+        }
+    } 
+    // TOPIC 3B
+    else if (code.startsWith("3B")) {
         let b = randInt(2, 5), p = randInt(2, 4);
         if (code === "3B-1") {
             prob.display = `-${b}<sup>${p}</sup>`;
@@ -750,7 +805,9 @@ function generateProblem() {
             prob.type = "single";
             prob.ansVal = isParen ? Math.pow(-b, p) : -Math.pow(b, p);
         }
-    } else if (code.startsWith("3C")) {
+    } 
+    // TOPIC 3C
+    else if (code.startsWith("3C")) {
         let n = randInt(1, 3), d = randInt(2, 4);
         if (n >= d) n = 1;
         let p = randInt(1, 3);
@@ -769,7 +826,9 @@ function generateProblem() {
             prob.type = "single";
             prob.ansVal = Math.pow(b, e1 - 1);
         }
-    } else if (code.startsWith("4")) {
+    } 
+    // TOPIC 4
+    else if (code.startsWith("4")) {
         let a = randNonZero(-5, 5), b = randNonZero(-4, 4);
         if (code === "4-1") {
             prob.display = `(${a} + ${b})<sup>2</sup>`;
@@ -786,8 +845,9 @@ function generateProblem() {
             prob.type = "single";
             prob.ansVal = c * Math.pow(a + b, 2) - d;
         }
-    } else {
-        // Fallback simple expr
+    } 
+    // FALLBACK
+    else {
         let x1 = randInt(1, 4), x2 = randInt(1, 4);
         prob.display = `x<sup>${x1}</sup> • x<sup>${x2}</sup>`;
         prob.type = "expr";
@@ -919,11 +979,9 @@ function handleNextSubmit(e) {
         problemMistakes++;
 
         if (problemMistakes === 1) {
-            // First mistake allowed
             feedback.textContent = "⚠️ Try again! Fix the highlighted red box(es) (1 try remaining).";
             feedback.className = "feedback-msg warning";
         } else {
-            // Second mistake: Mark problem incorrect & reset streak
             totalAttempts++;
             currentStreak = 0;
             feedback.textContent = "❌ Incorrect. Streak reset. Try again!";
@@ -941,7 +999,6 @@ function handleNextSubmit(e) {
 function unlockNextLevel() {
     questTopics[activeTopicIdx].levels[activeLevelIdx].completed = true;
     
-    // Unlock next level in topic or next topic
     if (activeLevelIdx + 1 < questTopics[activeTopicIdx].levels.length) {
         questTopics[activeTopicIdx].levels[activeLevelIdx + 1].unlocked = true;
     } else if (activeTopicIdx + 1 < questTopics.length) {
@@ -992,7 +1049,6 @@ function resetProgress() {
     }
 }
 
-// Initial display setup
 showDashboard();
 </script>
 </body>
