@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integer Quest</title>
+    <!-- Confetti Celebration Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0b1329;
+            --bg-card: #131d35;
+            --bg-card-locked: #0d1527;
+            --border-card: #1e2d4a;
+            --cyan-accent: #38bdf8;
+            --yellow-accent: #facc15;
+            --green-accent: #22c55e;
+            --red-accent: #ef4444;
+            --purple-accent: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --text-locked: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* HIDE ALL UP/DOWN ARROWS (SPINNERS) ON NUMBER INPUTS GLOBALLY */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            background-color: #080f20;
+            border-bottom: 1px solid var(--border-card);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--cyan-accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-header {
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save { background-color: #064e3b; color: #6ee7b7; border-color: #047857; }
+        .btn-save:hover { background-color: #047857; }
+
+        .btn-reset { background-color: #7f1d1d; color: #fca5a5; border-color: #b91c1c; }
+        .btn-reset:hover { background-color: #b91c1c; }
+
+        .btn-map { background-color: #1e293b; color: #cbd5e1; border-color: #334155; }
+        .btn-map:hover { background-color: #334155; }
+
+        .container {
+            max-width: 950px;
+            width: 100%;
+            padding: 10px 12px;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .title-section h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .title-section p {
+            color: #94a3b8;
+            font-size: 0.78rem;
+        }
+
+        /* CONCEPT CONTAINERS (THIN YELLOW BORDER) */
+        .concept-container {
+            border: 1px solid var(--yellow-accent);
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            background-color: rgba(250, 204, 21, 0.02);
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.04);
+        }
+
+        .concept-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--yellow-accent);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+            letter-spacing: 0.3px;
+        }
+
+        .topic-group {
+            margin-bottom: 8px;
+        }
+
+        .topic-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .topic-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--cyan-accent);
+            margin-bottom: 6px;
+            border-left: 3px solid var(--cyan-accent);
+            padding-left: 6px;
+        }
+
+        /* ULTRA-COMPACT MENU BOXES */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 6px;
+        }
+
+        .card {
+            background-color: var(--bg-card-locked);
+            border: 1px solid var(--border-card);
+            border-radius: 6px;
+            padding: 6px 4px;
+            min-height: 62px;
+            text-align: center;
+            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card.unlocked {
+            background-color: var(--bg-card);
+            cursor: pointer;
+        }
+
+        .card.unlocked:hover {
+            transform: translateY(-1px);
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+        }
+
+        .card-icon { font-size: 0.95rem; margin-bottom: 1px; }
+        .card.locked .card-icon { opacity: 0.4; }
+        .card-code { font-size: 0.8rem; font-weight: 800; color: var(--cyan-accent); margin-bottom: 1px; }
+        .card.locked .card-code { color: var(--text-locked); }
+        .card-title { font-size: 0.72rem; font-weight: 700; margin-bottom: 1px; }
+        .card.locked .card-title { color: var(--text-locked); }
+        .card-desc { font-size: 0.64rem; color: var(--text-muted); line-height: 1.1; }
+
+        /* QUIZ VIEW */
+        #quizView { display: none; }
+
+        .quiz-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .streak-container {
+            background-color: #080f20;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .streak-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .streak-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--yellow-accent);
+            border-color: #fef08a;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+            transform: scale(1.15);
+        }
+
+        .math-display {
+            font-size: 2rem;
+            margin: 12px 0 20px 0;
+            padding: 20px;
+            background-color: #0a1122;
+            border-radius: 10px;
+            border: 1px solid var(--border-card);
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        sup {
+            font-size: 0.65em;
+            vertical-align: super;
+            line-height: 0;
+            color: var(--yellow-accent);
+            font-weight: bold;
+            position: relative;
+            top: -0.45em;
+            margin-left: 2px;
+        }
+
+        .step-container {
+            background-color: #080f20;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .step-header {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--cyan-accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .format-selector-grid {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .math-structure-card {
+            background-color: #0d1527;
+            border: 2px solid var(--border-card);
+            border-radius: 8px;
+            padding: 14px 22px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            min-width: 120px;
+            font-size: 1.1rem;
+            user-select: none;
+        }
+
+        .math-structure-card:hover {
+            border-color: var(--cyan-accent);
+            background-color: #131d35;
+        }
+
+        .math-structure-card.selected {
+            border-color: var(--cyan-accent);
+            background-color: #1e293b;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+        }
+
+        .card-frac-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            font-size: 0.85em;
+        }
+
+        .card-frac-num { border-bottom: 2px solid #ffffff; padding: 0 6px 2px 6px; text-align: center; }
+        .card-frac-den { padding-top: 2px; text-align: center; }
+
+        .card-label-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+        .values-input-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 0;
+            min-height: 70px;
+        }
+
+        .frac-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #0d1527;
+            padding: 14px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-card);
+            margin: 4px auto;
+        }
+
+        .frac-row { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 3px 0; }
+        .frac-divider { width: 100%; height: 3px; background-color: var(--cyan-accent); margin: 6px 0; border-radius: 2px; }
+
+        .var-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0 3px;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+
+        .box-coeff-step {
+            width: 65px;
+            height: 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid var(--cyan-accent);
+            border-radius: 6px;
+            background-color: #080f20;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .box-exp-step {
+            width: 38px;
+            height: 30px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid var(--yellow-accent);
+            border-radius: 5px;
+            background-color: #080f20;
+            color: var(--yellow-accent);
+            outline: none;
+            transform: translateY(-8px);
+        }
+
+        .btn-submit {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--cyan-accent);
+            color: #0b1329;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-submit:hover { background-color: #7dd3fc; }
+        .btn-submit:active { transform: scale(0.98); }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-card);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .feedback-msg {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            min-height: 22px;
+        }
+        .feedback-msg.correct { color: var(--green-accent); }
+        .feedback-msg.incorrect { color: var(--red-accent); }
+        .feedback-msg.warning { color: var(--yellow-accent); }
+
+        /* MODALS */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(8, 15, 32, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: #131d35;
+            border: 2px solid var(--yellow-accent);
+            border-radius: 16px;
+            padding: 30px 22px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        .modal-card.grand-card {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            border: 3px solid #facc15;
+            box-shadow: 0 0 40px rgba(250, 204, 21, 0.5);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon { font-size: 3.5rem; margin-bottom: 8px; }
+        .modal-title { font-size: 1.5rem; font-weight: 800; color: var(--yellow-accent); margin-bottom: 8px; }
+        .modal-subtitle { font-size: 0.95rem; color: #cbd5e1; margin-bottom: 22px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <span>★</span> Integer Quest
+        </div>
+        <div class="header-actions">
+            <button class="btn-header btn-save" onclick="saveProgress()">💾 Save Progress</button>
+            <button class="btn-header btn-reset" onclick="resetProgress()">🔄 Reset Progress</button>
+            <button class="btn-header btn-map" onclick="showDashboard()">🗺️ Topic Map</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- MAP PAGE -->
+        <div id="mapView">
+            <div class="title-section">
+                <h1>Integer Quest Map</h1>
+                <p>Achieve 5 correct answers in a row to clear each topic level!</p>
+            </div>
+            <div id="topicsContainer"></div>
+        </div>
+
+        <!-- QUIZ PAGE -->
+        <div id="quizView">
+            <div class="quiz-card">
+                <div id="quizHeading" style="font-size: 1.05rem; color: var(--cyan-accent); font-weight:700; margin-bottom:12px;"></div>
+
+                <div class="streak-container">
+                    <div class="streak-title">
+                        <span>🔥 Topic Streak (5 in a row needed):</span>
+                    </div>
+                    <div class="streak-dots">
+                        <div class="dot" id="dot-1"></div>
+                        <div class="dot" id="dot-2"></div>
+                        <div class="dot" id="dot-3"></div>
+                        <div class="dot" id="dot-4"></div>
+                        <div class="dot" id="dot-5"></div>
+                    </div>
+                </div>
+
+                <div id="problemDisplay" class="math-display"></div>
+
+                <form id="quizForm" onsubmit="handleNextSubmit(event)">
+                    <div id="inputBoxesContainer"></div>
+                    <button type="submit" id="submitBtn" class="btn-submit">Submit & Next Problem ➔</button>
+                </form>
+
+                <div id="feedbackMsg" class="feedback-msg"></div>
+
+                <div class="stats-bar">
+                    <div>Session Accuracy: <span id="accuracyPct" style="color:#fff; font-weight:bold;">0%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CELEBRATION MODAL (LEVEL CLEAR) -->
+    <div id="celebrationModal" class="modal-overlay">
+        <div class="modal-card">
+            <div id="modalIcon" class="modal-icon">🏅</div>
+            <h2 id="modalTitle" class="modal-title">Topic Cleared!</h2>
+            <p id="modalSubtitle" class="modal-subtitle">Awesome work! You earned 5 in a row!</p>
+            <button class="btn-submit" onclick="closeModalAndContinue()">Continue ➔</button>
+        </div>
+    </div>
+
+    <!-- GRAND FINALE MODAL (QUEST COMPLETE) -->
+    <div id="questModal" class="modal-overlay">
+        <div class="modal-card grand-card">
+            <div class="modal-icon" style="filter: drop-shadow(0 0 15px #facc15);">👑</div>
+            <h2 class="modal-title" style="font-size: 1.8rem; color: #facc15;">QUEST CHAMPION!</h2>
+            <p class="modal-subtitle" style="color: #ffffff; font-weight: 600;">You completed every topic and conquered the entire Integer Quest!</p>
+            <button class="btn-submit" style="background-color: #facc15; color: #0b1329;" onclick="closeQuestModalAndContinue()">Play Again ➔</button>
+        </div>
+    </div>
+
+<script>
+let defaultTopics = [
+    {
+        id: 1,
+        title: "Topic 1A: Multiplication Rule of Exponents",
+        levels: [
+            { code: "1A-1", title: "1 Variable", desc: "Product rule e.g. x² • x⁴", unlocked: true },
+            { code: "1A-2", title: "2 Variables", desc: "Combine multiple variables e.g. x²y³ • x⁴y", unlocked: false },
+            { code: "1A-3", title: "Coefficients & 2 Vars", desc: "Integer coefficients & exponents", unlocked: false }
+        ]
+    },
+    {
+        id: 2,
+        title: "Topic 1B: Power to a Power Rule",
+        levels: [
+            { code: "1B-1", title: "1 Variable", desc: "Power to a power e.g. (x²)⁴", unlocked: true },
+            { code: "1B-2", title: "2 Variables", desc: "Distribute power e.g. (x²y³)⁴", unlocked: false },
+            { code: "1B-3", title: "Coefficients & 2 Vars", desc: "Evaluate (2x²y³)⁴", unlocked: false }
+        ]
+    },
+    {
+        id: 3,
+        title: "Topic 1C: Combined Mult & Power Rules",
+        levels: [
+            { code: "1C-1", title: "1 Variable", desc: "P2P on 1st, 2nd, or both terms", unlocked: true },
+            { code: "1C-2", title: "2 Variables", desc: "P2P on 1st, 2nd, or both terms (2 vars)", unlocked: false },
+            { code: "1C-3", title: "Coefficients & 2 Vars", desc: "P2P with coefficients on 1st, 2nd, or both terms", unlocked: false }
+        ]
+    },
+    {
+        id: 4,
+        title: "Topic 2A: Division Rule of Exponents",
+        levels: [
+            { code: "2A-1", title: "1 Variable", desc: "Quotient rule e.g. x² / x⁴ or x⁵ / x²", unlocked: true },
+            { code: "2A-2", title: "2 Variables", desc: "Combine multiple variables e.g. x²y⁵ / (x⁵y²)", unlocked: false },
+            { code: "2A-3", title: "Coefficients & 2 Vars", desc: "Simplify (6x²y⁵) / (8x⁵y²)", unlocked: false }
+        ]
+    },
+    {
+        id: 5,
+        title: "Topic 2B: Mixed Mult, Power & Division Rules",
+        levels: [
+            { code: "2B-1", title: "1 Variable", desc: "Randomized 2-op combinations", unlocked: true },
+            { code: "2B-2", title: "2 Variables", desc: "Randomized 2-op combinations with 2 vars", unlocked: false },
+            { code: "2B-3", title: "Coefficients & 2 Vars", desc: "Randomized 2-op combinations with coefficients", unlocked: false }
+        ]
+    },
+    {
+        id: 6,
+        title: "Topic 3A: Single Operations with Negative Exponents",
+        levels: [
+            { code: "3A-1", title: "1 Variable", desc: "Mult, Power, or Div strictly with negative exponents", unlocked: true },
+            { code: "3A-2", title: "2 Variables", desc: "Single operation on 2 vars with negative exponents", unlocked: false },
+            { code: "3A-3", title: "Coefficients & 2 Vars", desc: "Single operation with coefficients & negative exponents", unlocked: false }
+        ]
+    },
+    {
+        id: 7,
+        title: "Topic 3B: Evaluate Exponential Expressions with Negative Bases",
+        levels: [
+            { code: "3B-1", title: "Unparenthesized Expansion", desc: "Expand e.g. -2⁴ into [-1][2][2][2][2] & evaluate", unlocked: true },
+            { code: "3B-2", title: "Parenthesized Expansion", desc: "Expand e.g. (-2)⁴ into [1][-2][-2][-2][-2] & evaluate", unlocked: false },
+            { code: "3B-3", title: "Direct Evaluation", desc: "Evaluate e.g. -3⁴ or (-3)⁴ directly", unlocked: false }
+        ]
+    },
+    {
+        id: 8,
+        title: "Topic 3C: Evaluate Exponential Expressions with Fractions",
+        levels: [
+            { code: "3C-1", title: "Non-Negative Exponents", desc: "Evaluate fraction bases raised to powers e.g. (⅔)³ or (¾)⁰", unlocked: true },
+            { code: "3C-2", title: "Negative Exponents", desc: "Evaluate fraction bases raised to negative powers e.g. (⅔)⁻²", unlocked: false },
+            { code: "3C-3", title: "Expressions with 2 Bases", desc: "Evaluate 2-base expressions e.g. 2 / 2⁻² or 1 / (2 • 3⁻²)", unlocked: false }
+        ]
+    },
+    {
+        id: 9,
+        title: "Topic 4: Order of Operations with Integers",
+        levels: [
+            { code: "4-1", title: "2 Operations", desc: "Parentheses & exponents e.g. (-4 + 1)² or 3(-2)²", unlocked: true },
+            { code: "4-2", title: "3 Operations", desc: "Implicit mult, fractions & exponents e.g. 3(-3-2)²", unlocked: false },
+            { code: "4-3", title: "4 Operations", desc: "Order of operations with 4 integer-based operations", unlocked: false }
+        ]
+    }
+];
+
+let questTopics = JSON.parse(JSON.stringify(defaultTopics));
+let activeTopicIdx = 0;
+let activeLevelIdx = 0;
+let currentProblem = null;
+let currentStreak = 0;
+let totalAttempts = 0;
+let correctAttempts = 0;
+let selectedFormatChoice = null;
+
+function fmtVar(variable, exp) {
+    if (exp === 0) return "";
+    if (exp === 1) return variable;
+    return `${variable}<sup>${exp}</sup>`;
+}
+
+function fmtFrac(numHtml, denHtml) {
+    return `<span style="display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; font-size:0.95em; margin:0 4px;"><span style="border-bottom:2px solid var(--cyan-accent); padding:0 6px 2px 6px;">${numHtml}</span><span style="padding-top:2px;">${denHtml}</span></span>`;
+}
+
+function gcd(a, b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    while (b) {
+        let t = b;
+        b = a % b;
+        a = t;
+    }
+    return a || 1;
+}
+
+function randNonZeroInt(min, max) {
+    let res = 0;
+    while (res === 0) {
+        res = Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    return res;
+}
+
+function randPosInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomReducedFraction() {
+    let n, d;
+    do {
+        n = randPosInt(1, 5);
+        d = randPosInt(2, 6);
+    } while (n === d || gcd(n, d) !== 1);
+    return { n, d };
+}
+
+function parseExpInput(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return null;
+    const raw = el.value.trim();
+    if (raw === "") return 0;
+    return parseInt(raw, 10);
+}
+
+function renderMap() {
+    const container = document.getElementById("topicsContainer");
+    container.innerHTML = "";
+
+    const concepts = [
+        {
+            title: "Concept 1: Simplifying Multiplication and Power to Power Exponential Expressions",
+            topicIndices: [0, 1, 2]
+        },
+        {
+            title: "Concept 2: Dividing Exponent Expressions",
+            topicIndices: [3, 4]
+        },
+        {
+            title: "Concept 3: Evaluate Exponents in Expressions",
+            topicIndices: [5, 6, 7]
+        },
+        {
+            title: "Concept 4: Order of Operations with Exponents",
+            topicIndices: [8]
+        }
+    ];
+
+    concepts.forEach((concept) => {
+        let conceptHTML = `
+            <div class="concept-container">
+                <div class="concept-title">${concept.title}</div>
+        `;
+
+        concept.topicIndices.forEach((tIdx) => {
+            const topic = questTopics[tIdx];
+            conceptHTML += `
+                <div class="topic-group">
+                    <div class="topic-header">${topic.title}</div>
+                    <div class="cards-grid">
+            `;
+
+            topic.levels.forEach((lvl, lIdx) => {
+                const isUnlocked = lvl.unlocked;
+                conceptHTML += `
+                    <div class="card ${isUnlocked ? 'unlocked' : 'locked'}" onclick="openLevel(${tIdx}, ${lIdx}, ${isUnlocked})">
+                        <div class="card-icon">${isUnlocked ? '🎯' : '🔒'}</div>
+                        <div class="card-code">${lvl.code}</div>
+                        <div class="card-title">${lvl.title}</div>
+                        <div class="card-desc">${lvl.desc}</div>
+                    </div>
+                `;
+            });
+
+            conceptHTML += `</div></div>`;
+        });
+
+        conceptHTML += `</div>`;
+        container.innerHTML += conceptHTML;
+    });
+}
+
+function showDashboard() {
+    document.getElementById("quizView").style.display = "none";
+    document.getElementById("mapView").style.display = "block";
+    renderMap();
+}
+
+function openLevel(tIdx, lIdx, isUnlocked) {
+    if (!isUnlocked) {
+        alert("This topic is locked! Earn a 5-in-a-row streak on previous topics to unlock.");
+        return;
+    }
+    activeTopicIdx = tIdx;
+    activeLevelIdx = lIdx;
+    currentStreak = 0;
+
+    document.getElementById("mapView").style.display = "none";
+    document.getElementById("quizView").style.display = "block";
+    document.getElementById("feedbackMsg").textContent = "";
+
+    const lvl = questTopics[tIdx].levels[lIdx];
+    document.getElementById("quizHeading").textContent = `${lvl.code}: ${lvl.title}`;
+    generateProblem();
+}
+
+function updateStreakDisplay() {
+    for (let i = 1; i <= 5; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i <= currentStreak) {
+            dot.classList.add("active");
+        } else {
+            dot.classList.remove("active");
+        }
+    }
+}
+
+function triggerLevelComplete() {
+    confetti({ particleCount: 85, angle: 60, spread: 55, origin: { x: 0 } });
+    confetti({ particleCount: 85, angle: 120, spread: 55, origin: { x: 1 } });
+    document.getElementById("celebrationModal").style.display = "flex";
+}
+
+function triggerQuestComplete() {
+    document.getElementById("questModal").style.display = "flex";
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 8,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0, y: 0.7 },
+            colors: ['#fbbf24', '#facc15', '#ec4899', '#38bdf8']
+        });
+        confetti({
+            particleCount: 8,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1, y: 0.7 },
+            colors: ['#fbbf24', '#facc15', '#ec4899', '#38bdf8']
+        });
+
+        if (Date.now() < animationEnd) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+function closeModalAndContinue() {
+    document.getElementById("celebrationModal").style.display = "none";
+    showDashboard();
+}
+
+function closeQuestModalAndContinue() {
+    document.getElementById("questModal").style.display = "none";
+    showDashboard();
+}
+
+function checkWholeQuestCompleted() {
+    return questTopics.every(topic => topic.levels.every(lvl => lvl.unlocked));
+}
+
+function getRandomBaseExpUnder200() {
+    let b, e, val;
+    do {
+        b = randPosInt(2, 8);
+        e = randPosInt(2, 6);
+        val = Math.pow(b, e);
+    } while (val > 200);
+    return { b, e, val };
+}
+
+function genLevel7Problem(subtype) {
+    const { b, e, val } = getRandomBaseExpUnder200();
+    let problemHtml = "";
+    let expectedFactors = [];
+    let expectedVal = 0;
+
+    if (subtype === 1) {
+        problemHtml = `-${b}<sup>${e}</sup>`;
+        expectedFactors = [-1];
+        for (let i = 0; i < e; i++) expectedFactors.push(b);
+        expectedVal = -val;
+    } else if (subtype === 2) {
+        problemHtml = `(-${b})<sup>${e}</sup>`;
+        expectedFactors = [1];
+        for (let i = 0; i < e; i++) expectedFactors.push(-b);
+        expectedVal = Math.pow(-b, e);
+    } else {
+        const isParen = Math.random() < 0.5;
+        if (isParen) {
+            problemHtml = `(-${b})<sup>${e}</sup>`;
+            expectedVal = Math.pow(-b, e);
+        } else {
+            problemHtml = `-${b}<sup>${e}</sup>`;
+            expectedVal = -val;
+        }
+    }
+
+    return {
+        isLevel7: true,
+        subtype: subtype,
+        html: problemHtml,
+        solution: { b, e, expectedFactors, expectedVal }
+    };
+}
+
+function genLevel8Problem(subtype) {
+    selectedFormatChoice = null;
+    let problemHtml = "";
+    let isFrac = false;
+    let expectedVal = 0, num = 1, den = 1;
+
+    if (subtype === 1) {
+        const posExponents = [0, 2, 3, 4];
+        const e = posExponents[Math.floor(Math.random() * posExponents.length)];
+        const isFractionBase = Math.random() < 0.85;
+
+        if (!isFractionBase) {
+            let b = randPosInt(2, 8);
+            while (Math.pow(b, e) > 200) { b = randPosInt(2, 5); }
+            problemHtml = `${b}<sup>${e}</sup>`;
+            isFrac = false;
+            expectedVal = Math.pow(b, e);
+        } else {
+            let frac = getRandomReducedFraction();
+            while (Math.pow(frac.d, e) > 200 || Math.pow(frac.n, e) > 200) {
+                frac = getRandomReducedFraction();
+            }
+            problemHtml = `(${fmtFrac(frac.n, frac.d)})<sup>${e}</sup>`;
+            if (e === 0) {
+                isFrac = false;
+                expectedVal = 1;
+            } else if (frac.n === 1) {
+                isFrac = true;
+                num = 1;
+                den = Math.pow(frac.d, e);
+            } else {
+                isFrac = true;
+                num = Math.pow(frac.n, e);
+                den = Math.pow(frac.d, e);
+            }
+        }
+    } else if (subtype === 2) {
+        const negExponents = [-2, -3];
+        const e = negExponents[Math.floor(Math.random() * negExponents.length)];
+        let frac = getRandomReducedFraction();
+        while (Math.pow(frac.n, Math.abs(e)) > 200 || Math.pow(frac.d, Math.abs(e)) > 200) {
+            frac = getRandomReducedFraction();
+        }
+        problemHtml = `(${fmtFrac(frac.n, frac.d)})<sup>${e}</sup>`;
+        isFrac = true;
+        const posE = Math.abs(e);
+        num = Math.pow(frac.d, posE);
+        den = Math.pow(frac.n, posE);
+    } else {
+        const type = randPosInt(1, 3);
+        if (type === 1) {
+            let b = randPosInt(2, 5);
+            let e = randPosInt(2, 3);
+            problemHtml = `${b} / ${b}<sup>-${e}</sup>`;
+            isFrac = false;
+            expectedVal = Math.pow(b, e + 1);
+        } else if (type === 2) {
+            let b1 = randPosInt(2, 4);
+            let b2 = randPosInt(2, 4);
+            let e2 = randPosInt(2, 3);
+            problemHtml = `1 / (${b1} &bull; ${b2}<sup>-${e2}</sup>)`;
+            num = Math.pow(b2, e2);
+            den = b1;
+            const g = gcd(num, den);
+            num /= g; den /= g;
+            if (den === 1) {
+                isFrac = false;
+                expectedVal = num;
+            } else {
+                isFrac = true;
+            }
+        } else {
+            let b1 = randPosInt(2, 5);
+            let e1 = randPosInt(1, 3);
+            let e2 = randPosInt(1, 3);
+            problemHtml = `${b1}<sup>${e1}</sup> &bull; ${b1}<sup>-${e2}</sup>`;
+            let netE = e1 - e2;
+            if (netE >= 0) {
+                isFrac = false;
+                expectedVal = Math.pow(b1, netE);
+            } else {
+                isFrac = true;
+                num = 1;
+                den = Math.pow(b1, Math.abs(netE));
+            }
+        }
+    }
+
+    return {
+        isLevel8: true,
+        subtype: subtype,
+        isFrac: isFrac,
+        html: problemHtml,
+        solution: { expectedVal, num, den }
+    };
+}
+
+function genAlgebraicProblem(tIdx, lIdx) {
+    selectedFormatChoice = null;
+    const numVars = (lIdx === 0) ? 1 : 2;
+    const hasCoeffs = (lIdx === 2);
+
+    let sol = { numC: 1, numX: 0, numY: 0, denC: 1, denX: 0, denY: 0 };
+    let problemHtml = "";
+
+    if (tIdx === 0) { // Topic 1A: Mult
+        let c1 = hasCoeffs ? randNonZeroInt(-5, 5) : 1;
+        let c2 = hasCoeffs ? randNonZeroInt(-5, 5) : 1;
+        let x1 = randPosInt(1, 5), x2 = randPosInt(1, 5);
+        let y1 = (numVars === 2) ? randPosInt(1, 5) : 0;
+        let y2 = (numVars === 2) ? randPosInt(1, 5) : 0;
+
+        let term1 = `${c1 === 1 ? '' : (c1 === -1 ? '-' : c1)}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+        if (c1 === 1 && x1 === 0 && y1 === 0) term1 = "1";
+        let term2 = `${c2 === 1 ? '' : (c2 === -1 ? '-' : c2)}${fmtVar('x', x2)}${fmtVar('y', y2)}`;
+        if (c2 === 1 && x2 === 0 && y2 === 0) term2 = "1";
+
+        problemHtml = `${term1} &bull; ${term2}`;
+
+        sol.numC = c1 * c2;
+        sol.numX = x1 + x2;
+        sol.numY = y1 + y2;
+    } else if (tIdx === 1) { // Topic 1B: Power to Power
+        let c = hasCoeffs ? randNonZeroInt(-4, 4) : 1;
+        let x = randPosInt(1, 4);
+        let y = (numVars === 2) ? randPosInt(1, 4) : 0;
+        let p = randPosInt(2, 4);
+
+        let inner = `${c === 1 ? '' : (c === -1 ? '-' : c)}${fmtVar('x', x)}${fmtVar('y', y)}`;
+        problemHtml = `(${inner})<sup>${p}</sup>`;
+
+        sol.numC = Math.pow(c, p);
+        sol.numX = x * p;
+        sol.numY = y * p;
+    } else if (tIdx === 2) { // Topic 1C: Combined Mult & Power
+        let c1 = hasCoeffs ? randNonZeroInt(-3, 3) : 1;
+        let c2 = hasCoeffs ? randNonZeroInt(-3, 3) : 1;
+        let x1 = randPosInt(1, 3), x2 = randPosInt(1, 3);
+        let y1 = (numVars === 2) ? randPosInt(1, 3) : 0;
+        let y2 = (numVars === 2) ? randPosInt(1, 3) : 0;
+        let p1 = randPosInt(1, 3), p2 = randPosInt(1, 3);
+        if (p1 === 1 && p2 === 1) p2 = 2;
+
+        let inner1 = `${c1 === 1 ? '' : (c1 === -1 ? '-' : c1)}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+        let inner2 = `${c2 === 1 ? '' : (c2 === -1 ? '-' : c2)}${fmtVar('x', x2)}${fmtVar('y', y2)}`;
+
+        let t1Html = p1 > 1 ? `(${inner1})<sup>${p1}</sup>` : inner1;
+        let t2Html = p2 > 1 ? `(${inner2})<sup>${p2}</sup>` : inner2;
+
+        problemHtml = `${t1Html} &bull; ${t2Html}`;
+
+        sol.numC = Math.pow(c1, p1) * Math.pow(c2, p2);
+        sol.numX = x1 * p1 + x2 * p2;
+        sol.numY = y1 * p1 + y2 * p2;
+    } else if (tIdx === 3) { // Topic 2A: Division
+        let c1 = hasCoeffs ? randPosInt(2, 12) : 1;
+        let c2 = hasCoeffs ? randPosInt(2, 12) : 1;
+        let x1 = randPosInt(1, 6), x2 = randPosInt(1, 6);
+        let y1 = (numVars === 2) ? randPosInt(1, 6) : 0;
+        let y2 = (numVars === 2) ? randPosInt(1, 6) : 0;
+
+        let numStr = `${c1 === 1 ? '' : c1}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+        let denStr = `${c2 === 1 ? '' : c2}${fmtVar('x', x2)}${fmtVar('y', y2)}`;
+
+        problemHtml = fmtFrac(numStr, denStr);
+
+        let g = gcd(c1, c2);
+        sol.numC = c1 / g;
+        sol.denC = c2 / g;
+
+        if (x1 >= x2) { sol.numX = x1 - x2; sol.denX = 0; }
+        else { sol.numX = 0; sol.denX = x2 - x1; }
+
+        if (y1 >= y2) { sol.numY = y1 - y2; sol.denY = 0; }
+        else { sol.numY = 0; sol.denY = y2 - y1; }
+    } else if (tIdx === 4) { // Topic 2B: Mixed Mult, Power & Div
+        let c1 = hasCoeffs ? randPosInt(2, 8) : 1;
+        let c2 = hasCoeffs ? randPosInt(2, 8) : 1;
+        let x1 = randPosInt(1, 4), x3 = randPosInt(1, 4);
+        let y1 = (numVars === 2) ? randPosInt(1, 4) : 0;
+        let y3 = (numVars === 2) ? randPosInt(1, 4) : 0;
+        let p1 = randPosInt(2, 3);
+
+        let inner1 = `${c1 === 1 ? '' : c1}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+        let numStr = `(${inner1})<sup>${p1}</sup>`;
+        let denStr = `${c2 === 1 ? '' : c2}${fmtVar('x', x3)}${fmtVar('y', y3)}`;
+
+        problemHtml = fmtFrac(numStr, denStr);
+
+        let totalNumC = Math.pow(c1, p1);
+        let totalNumX = x1 * p1;
+        let totalNumY = y1 * p1;
+
+        let g = gcd(totalNumC, c2);
+        sol.numC = totalNumC / g;
+        sol.denC = c2 / g;
+
+        if (totalNumX >= x3) { sol.numX = totalNumX - x3; sol.denX = 0; }
+        else { sol.numX = 0; sol.denX = x3 - totalNumX; }
+
+        if (totalNumY >= y3) { sol.numY = totalNumY - y3; sol.denY = 0; }
+        else { sol.numY = 0; sol.denY = y3 - totalNumY; }
+    } else if (tIdx === 5) { // Topic 3A: Single Ops with Negative Exponents
+        let opType = randPosInt(1, 3);
+        let c1 = hasCoeffs ? randNonZeroInt(-4, 4) : 1;
+        let c2 = hasCoeffs ? randNonZeroInt(-4, 4) : 1;
+
+        if (opType === 1) {
+            let x1 = randNonZeroInt(-4, 4), x2 = randNonZeroInt(-4, 4);
+            let y1 = (numVars === 2) ? randNonZeroInt(-4, 4) : 0;
+            let y2 = (numVars === 2) ? randNonZeroInt(-4, 4) : 0;
+
+            let term1 = `${c1 === 1 ? '' : (c1 === -1 ? '-' : c1)}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+            let term2 = `${c2 === 1 ? '' : (c2 === -1 ? '-' : c2)}${fmtVar('x', x2)}${fmtVar('y', y2)}`;
+
+            problemHtml = `${term1} &bull; ${term2}`;
+
+            let netC = c1 * c2;
+            let netX = x1 + x2;
+            let netY = y1 + y2;
+
+            sol.numC = netC;
+            sol.denC = 1;
+
+            if (netX >= 0) { sol.numX = netX; sol.denX = 0; }
+            else { sol.numX = 0; sol.denX = Math.abs(netX); }
+
+            if (netY >= 0) { sol.numY = netY; sol.denY = 0; }
+            else { sol.numY = 0; sol.denY = Math.abs(netY); }
+        } else if (opType === 2) {
+            let x = randNonZeroInt(-3, 3);
+            let y = (numVars === 2) ? randNonZeroInt(-3, 3) : 0;
+            let p = randNonZeroInt(-3, 3);
+
+            let inner = `${c1 === 1 ? '' : (c1 === -1 ? '-' : c1)}${fmtVar('x', x)}${fmtVar('y', y)}`;
+            problemHtml = `(${inner})<sup>${p}</sup>`;
+
+            let netX = x * p;
+            let netY = y * p;
+
+            if (p > 0) {
+                sol.numC = Math.pow(c1, p);
+                sol.denC = 1;
+            } else {
+                let absP = Math.abs(p);
+                sol.numC = 1;
+                sol.denC = Math.pow(c1, absP);
+            }
+
+            if (netX >= 0) { sol.numX = netX; sol.denX = 0; }
+            else { sol.numX = 0; sol.denX = Math.abs(netX); }
+
+            if (netY >= 0) { sol.numY = netY; sol.denY = 0; }
+            else { sol.numY = 0; sol.denY = Math.abs(netY); }
+        } else {
+            let x1 = randNonZeroInt(-4, 4), x2 = randNonZeroInt(-4, 4);
+            let y1 = (numVars === 2) ? randNonZeroInt(-4, 4) : 0;
+            let y2 = (numVars === 2) ? randNonZeroInt(-4, 4) : 0;
+
+            let cPos1 = Math.abs(c1), cPos2 = Math.abs(c2);
+            let numStr = `${cPos1 === 1 ? '' : cPos1}${fmtVar('x', x1)}${fmtVar('y', y1)}`;
+            let denStr = `${cPos2 === 1 ? '' : cPos2}${fmtVar('x', x2)}${fmtVar('y', y2)}`;
+
+            problemHtml = fmtFrac(numStr, denStr);
+
+            let g = gcd(cPos1, cPos2);
+            let netNumC = cPos1 / g;
+            let netDenC = cPos2 / g;
+
+            let netX = x1 - x2;
+            let netY = y1 - y2;
+
+            sol.numC = netNumC;
+            sol.denC = netDenC;
+
+            if (netX >= 0) { sol.numX = netX; sol.denX = 0; }
+            else { sol.numX = 0; sol.denX = Math.abs(netX); }
+
+            if (netY >= 0) { sol.numY = netY; sol.denY = 0; }
+            else { sol.numY = 0; sol.denY = Math.abs(netY); }
+        }
+    }
+
+    if (sol.denC < 0) {
+        sol.numC = -sol.numC;
+        sol.denC = Math.abs(sol.denC);
+    }
+
+    return {
+        isAlgebraic: true,
+        numVars: numVars,
+        html: problemHtml,
+        solution: sol
+    };
+}
+
+function genLevel9Problem(lIdx) {
+    let problemHtml = "";
+    let expectedVal = 0;
+
+    if (lIdx === 0) {
+        const type = randPosInt(1, 3);
+        if (type === 1) {
+            let a = randNonZeroInt(-6, 6), b = randNonZeroInt(-6, 6);
+            let p = randPosInt(2, 3);
+            problemHtml = `(${a} + ${b})<sup>${p}</sup>`;
+            expectedVal = Math.pow(a + b, p);
+        } else if (type === 2) {
+            let a = randNonZeroInt(-5, 5);
+            let b = randNonZeroInt(-4, 4);
+            let p = 2;
+            problemHtml = `${a}(${b})<sup>${p}</sup>`;
+            expectedVal = a * Math.pow(b, p);
+        } else {
+            let a = randNonZeroInt(-8, 8);
+            let b = randPosInt(2, 4);
+            let p = randPosInt(2, 3);
+            problemHtml = `${a} + ${b}<sup>${p}</sup>`;
+            expectedVal = a + Math.pow(b, p);
+        }
+    } else if (lIdx === 1) {
+        const type = randPosInt(1, 2);
+        if (type === 1) {
+            let a = randNonZeroInt(-4, 4);
+            let b = randNonZeroInt(-5, 5);
+            let c = randNonZeroInt(-5, 5);
+            problemHtml = `${a}(${b} - ${c})<sup>2</sup>`;
+            expectedVal = a * Math.pow(b - c, 2);
+        } else {
+            let a = randPosInt(2, 5);
+            let b = randNonZeroInt(-5, 5);
+            let c = randNonZeroInt(-10, 10);
+            problemHtml = `-${a}<sup>2</sup> + ${b}(${c})`;
+            expectedVal = -Math.pow(a, 2) + (b * c);
+        }
+    } else {
+        let a = randNonZeroInt(-3, 3);
+        let b = randNonZeroInt(-4, 4);
+        let c = randNonZeroInt(-4, 4);
+        let d = randNonZeroInt(2, 5);
+        let e = d * randNonZeroInt(-4, 4);
+
+        problemHtml = `${a}(${b} + ${c})<sup>2</sup> - ${e} / ${d}`;
+        expectedVal = a * Math.pow(b + c, 2) - (e / d);
+    }
+
+    return {
+        isLevel9: true,
+        html: problemHtml,
+        solution: { expectedVal }
+    };
+}
+
+function generateProblem() {
+    if (activeTopicIdx <= 5) {
+        currentProblem = genAlgebraicProblem(activeTopicIdx, activeLevelIdx);
+    } else if (activeTopicIdx === 6) {
+        currentProblem = genLevel7Problem(activeLevelIdx + 1);
+    } else if (activeTopicIdx === 7) {
+        currentProblem = genLevel8Problem(activeLevelIdx + 1);
+    } else if (activeTopicIdx === 8) {
+        currentProblem = genLevel9Problem(activeLevelIdx);
+    }
+
+    document.getElementById("problemDisplay").innerHTML = currentProblem.html;
+    document.getElementById("feedbackMsg").textContent = "";
+    updateStreakDisplay();
+    renderInputs();
+}
+
+function selectFormat(choice) {
+    selectedFormatChoice = choice;
+    renderInputs();
+}
+
+function renderInputs() {
+    const container = document.getElementById("inputBoxesContainer");
+    container.innerHTML = "";
+
+    if (currentProblem.isLevel7) {
+        const sol = currentProblem.solution;
+        if (currentProblem.subtype === 1 || currentProblem.subtype === 2) {
+            let factorsHtml = `<div class="step-container"><div class="step-header">Step 1: Expand Expression into Factors</div><div class="frac-row">`;
+            sol.expectedFactors.forEach((_, idx) => {
+                factorsHtml += `<input type="number" id="factor_${idx}" class="box-coeff-step" placeholder="factor">`;
+                if (idx < sol.expectedFactors.length - 1) factorsHtml += ` &bull; `;
+            });
+            factorsHtml += `</div></div>`;
+
+            let evalHtml = `<div class="step-container"><div class="step-header">Step 2: Final Evaluated Value</div><div class="frac-row"><input type="number" id="finalVal" class="box-coeff-step" style="width:100px;" placeholder="value"></div></div>`;
+
+            container.innerHTML = factorsHtml + evalHtml;
+        } else {
+            container.innerHTML = `<div class="step-container"><div class="step-header">Evaluate Final Value</div><div class="frac-row"><input type="number" id="finalVal" class="box-coeff-step" style="width:120px;" placeholder="value"></div></div>`;
+        }
+    } else if (currentProblem.isLevel8) {
+        let selectorHtml = `
+            <div class="format-selector-grid" style="margin-bottom:12px;">
+                <div class="math-structure-card ${selectedFormatChoice === 'single' ? 'selected' : ''}" onclick="selectFormat('single')">
+                    <span>Integer / Whole</span>
+                    <span class="card-label-sub">Single Value</span>
+                </div>
+                <div class="math-structure-card ${selectedFormatChoice === 'frac' ? 'selected' : ''}" onclick="selectFormat('frac')">
+                    <div class="card-frac-box"><span class="card-frac-num">Num</span><span class="card-frac-den">Den</span></div>
+                    <span class="card-label-sub">Fraction</span>
+                </div>
+            </div>
+        `;
+
+        let inputsHtml = "";
+        if (selectedFormatChoice === 'single') {
+            inputsHtml = `<div class="values-input-area"><input type="number" id="singleVal" class="box-coeff-step" style="width:110px;" placeholder="Value"></div>`;
+        } else if (selectedFormatChoice === 'frac') {
+            inputsHtml = `
+                <div class="values-input-area">
+                    <div class="frac-container">
+                        <div class="frac-row"><input type="number" id="numVal" class="box-coeff-step" placeholder="Num"></div>
+                        <div class="frac-divider"></div>
+                        <div class="frac-row"><input type="number" id="denVal" class="box-coeff-step" placeholder="Den"></div>
+                    </div>
+                </div>
+            `;
+        } else {
+            inputsHtml = `<div style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin:10px 0;">Please select an answer format above.</div>`;
+        }
+        container.innerHTML = selectorHtml + inputsHtml;
+    } else if (currentProblem.isLevel9) {
+        container.innerHTML = `<div class="values-input-area"><input type="number" id="finalVal" class="box-coeff-step" style="width:120px;" placeholder="Answer"></div>`;
+    } else if (currentProblem.isAlgebraic) {
+        let selectorHtml = `
+            <div class="format-selector-grid" style="margin-bottom:12px;">
+                <div class="math-structure-card ${selectedFormatChoice === 'single' ? 'selected' : ''}" onclick="selectFormat('single')">
+                    <span>C x<sup>a</sup>${currentProblem.numVars === 2 ? ' y<sup>b</sup>' : ''}</span>
+                    <span class="card-label-sub">Single Line</span>
+                </div>
+                <div class="math-structure-card ${selectedFormatChoice === 'frac' ? 'selected' : ''}" onclick="selectFormat('frac')">
+                    <div class="card-frac-box">
+                        <span class="card-frac-num">Num</span>
+                        <span class="card-frac-den">Den</span>
+                    </div>
+                    <span class="card-label-sub">Fraction</span>
+                </div>
+            </div>
+        `;
+
+        let inputsHtml = "";
+        if (selectedFormatChoice === 'single') {
+            inputsHtml = `
+                <div class="values-input-area">
+                    <div class="frac-row">
+                        <input type="number" id="s_coeff" class="box-coeff-step" placeholder="Coeff">
+                        <span class="var-label">x</span>
+                        <input type="number" id="s_expX" class="box-exp-step" placeholder="exp">
+                        ${currentProblem.numVars === 2 ? `<span class="var-label">y</span><input type="number" id="s_expY" class="box-exp-step" placeholder="exp">` : ''}
+                    </div>
+                </div>
+            `;
+        } else if (selectedFormatChoice === 'frac') {
+            inputsHtml = `
+                <div class="values-input-area">
+                    <div class="frac-container">
+                        <div class="frac-row">
+                            <input type="number" id="n_coeff" class="box-coeff-step" placeholder="Coeff">
+                            <span class="var-label">x</span>
+                            <input type="number" id="n_expX" class="box-exp-step" placeholder="exp">
+                            ${currentProblem.numVars === 2 ? `<span class="var-label">y</span><input type="number" id="n_expY" class="box-exp-step" placeholder="exp">` : ''}
+                        </div>
+                        <div class="frac-divider"></div>
+                        <div class="frac-row">
+                            <input type="number" id="d_coeff" class="box-coeff-step" placeholder="Coeff">
+                            <span class="var-label">x</span>
+                            <input type="number" id="d_expX" class="box-exp-step" placeholder="exp">
+                            ${currentProblem.numVars === 2 ? `<span class="var-label">y</span><input type="number" id="d_expY" class="box-exp-step" placeholder="exp">` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            inputsHtml = `<div style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin:10px 0;">Please select an answer format above.</div>`;
+        }
+
+        container.innerHTML = selectorHtml + inputsHtml;
+    }
+}
+
+function handleNextSubmit(e) {
+    e.preventDefault();
+    totalAttempts++;
+
+    let isCorrect = false;
+    let feedback = "";
+
+    if (currentProblem.isLevel7) {
+        const sol = currentProblem.solution;
+        if (currentProblem.subtype === 1 || currentProblem.subtype === 2) {
+            let userFactors = [];
+            let factorsCorrect = true;
+            sol.expectedFactors.forEach((_, idx) => {
+                let val = parseInt(document.getElementById(`factor_${idx}`)?.value || "0", 10);
+                userFactors.push(val);
+            });
+
+            if (userFactors.length === sol.expectedFactors.length) {
+                let s1 = [...userFactors].sort((a,b)=>a-b);
+                let s2 = [...sol.expectedFactors].sort((a,b)=>a-b);
+                for(let i=0; i<s1.length; i++) {
+                    if (s1[i] !== s2[i]) factorsCorrect = false;
+                }
+            } else factorsCorrect = false;
+
+            let userVal = parseInt(document.getElementById("finalVal")?.value || "0", 10);
+            let valCorrect = (userVal === sol.expectedVal);
+
+            if (factorsCorrect && valCorrect) {
+                isCorrect = true;
+            } else if (!factorsCorrect) {
+                feedback = `Check your expansion factors! Expected: ${sol.expectedFactors.join(" &bull; ")}`;
+            } else {
+                feedback = `Expansion correct, but final value should be ${sol.expectedVal}.`;
+            }
+        } else {
+            let userVal = parseInt(document.getElementById("finalVal")?.value || "0", 10);
+            if (userVal === sol.expectedVal) isCorrect = true;
+            else feedback = `Incorrect. Expected ${sol.expectedVal}.`;
+        }
+    } else if (currentProblem.isLevel8) {
+        const sol = currentProblem.solution;
+        if (!selectedFormatChoice) {
+            document.getElementById("feedbackMsg").className = "feedback-msg warning";
+            document.getElementById("feedbackMsg").textContent = "Please select an answer format first!";
+            return;
+        }
+
+        if (sol.isFrac) {
+            if (selectedFormatChoice === 'frac') {
+                let uNum = parseInt(document.getElementById("numVal")?.value || "0", 10);
+                let uDen = parseInt(document.getElementById("denVal")?.value || "0", 10);
+                if (uNum === sol.num && uDen === sol.den) isCorrect = true;
+                else feedback = `Incorrect fraction. Correct simplified answer: ${sol.num} / ${sol.den}`;
+            } else {
+                feedback = `This expression evaluates to a fraction: ${sol.num} / ${sol.den}`;
+            }
+        } else {
+            if (selectedFormatChoice === 'single') {
+                let uVal = parseInt(document.getElementById("singleVal")?.value || "0", 10);
+                if (uVal === sol.expectedVal) isCorrect = true;
+                else feedback = `Incorrect. Correct answer is ${sol.expectedVal}`;
+            } else {
+                feedback = `This evaluates to a whole number (${sol.expectedVal}), not a fraction!`;
+            }
+        }
+    } else if (currentProblem.isLevel9) {
+        let userVal = parseInt(document.getElementById("finalVal")?.value || "0", 10);
+        if (userVal === currentProblem.solution.expectedVal) isCorrect = true;
+        else feedback = `Incorrect. Correct answer is ${currentProblem.solution.expectedVal}`;
+    } else if (currentProblem.isAlgebraic) {
+        const sol = currentProblem.solution;
+        if (!selectedFormatChoice) {
+            document.getElementById("feedbackMsg").className = "feedback-msg warning";
+            document.getElementById("feedbackMsg").textContent = "Please select an answer format first!";
+            return;
+        }
+
+        const targetIsFrac = (sol.denC !== 1 || sol.denX > 0 || sol.denY > 0);
+
+        if (selectedFormatChoice === 'single') {
+            let elC = document.getElementById("s_coeff")?.value.trim();
+            let uC = elC === "" ? 1 : (elC === "-" ? -1 : parseInt(elC, 10));
+
+            let elX = document.getElementById("s_expX")?.value.trim();
+            let uX = elX === "" ? (sol.numX === 1 ? 1 : 0) : parseInt(elX, 10);
+
+            let elY = document.getElementById("s_expY")?.value.trim();
+            let uY = elY === "" ? (sol.numY === 1 ? 1 : 0) : parseInt(elY, 10);
+
+            if (!targetIsFrac && uC === sol.numC && uX === sol.numX && uY === sol.numY) {
+                isCorrect = true;
+            } else if (targetIsFrac) {
+                feedback = "This expression simplifies to a fraction with variables/coefficients in the denominator!";
+            } else {
+                feedback = "Check your coefficients and exponents!";
+            }
+        } else if (selectedFormatChoice === 'frac') {
+            let elNC = document.getElementById("n_coeff")?.value.trim();
+            let uNC = elNC === "" ? 1 : (elNC === "-" ? -1 : parseInt(elNC, 10));
+
+            let elNX = document.getElementById("n_expX")?.value.trim();
+            let uNX = elNX === "" ? (sol.numX === 1 ? 1 : 0) : parseInt(elNX, 10);
+
+            let elNY = document.getElementById("n_expY")?.value.trim();
+            let uNY = elNY === "" ? (sol.numY === 1 ? 1 : 0) : parseInt(elNY, 10);
+
+            let elDC = document.getElementById("d_coeff")?.value.trim();
+            let uDC = elDC === "" ? 1 : (elDC === "-" ? -1 : parseInt(elDC, 10));
+
+            let elDX = document.getElementById("d_expX")?.value.trim();
+            let uDX = elDX === "" ? (sol.denX === 1 ? 1 : 0) : parseInt(elDX, 10);
+
+            let elDY = document.getElementById("d_expY")?.value.trim();
+            let uDY = elDY === "" ? (sol.denY === 1 ? 1 : 0) : parseInt(elDY, 10);
+
+            if (uNC === sol.numC && uNX === sol.numX && uNY === sol.numY &&
+                uDC === sol.denC && uDX === sol.denX && uDY === sol.denY) {
+                isCorrect = true;
+            } else {
+                feedback = "Check numerator and denominator coefficients/exponents!";
+            }
+        }
+    }
+
+    const msgEl = document.getElementById("feedbackMsg");
+    if (isCorrect) {
+        correctAttempts++;
+        currentStreak++;
+        msgEl.className = "feedback-msg correct";
+        msgEl.textContent = "✨ Correct! Keep it up!";
+
+        if (currentStreak >= 5) {
+            questTopics[activeTopicIdx].levels[activeLevelIdx].unlocked = true;
+
+            if (activeLevelIdx + 1 < questTopics[activeTopicIdx].levels.length) {
+                questTopics[activeTopicIdx].levels[activeLevelIdx + 1].unlocked = true;
+            } else if (activeTopicIdx + 1 < questTopics.length) {
+                questTopics[activeTopicIdx + 1].levels[0].unlocked = true;
+            }
+
+            saveProgress();
+
+            if (checkWholeQuestCompleted()) {
+                triggerQuestComplete();
+            } else {
+                triggerLevelComplete();
+            }
+            return;
+        }
+        setTimeout(generateProblem, 1000);
+    } else {
+        currentStreak = 0;
+        msgEl.className = "feedback-msg incorrect";
+        msgEl.textContent = feedback || "❌ Incorrect! Streak reset to 0.";
+        updateStreakDisplay();
+    }
+
+    let pct = Math.round((correctAttempts / totalAttempts) * 100);
+    document.getElementById("accuracyPct").textContent = `${pct}%`;
+}
+
+function saveProgress() {
+    localStorage.setItem("integerQuestProgress", JSON.stringify(questTopics));
+    alert("Progress saved successfully!");
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem("integerQuestProgress");
+    if (saved) {
+        try {
+            questTopics = JSON.parse(saved);
+        } catch(e) {
+            questTopics = JSON.parse(JSON.stringify(defaultTopics));
+        }
+    }
+}
+
+function resetProgress() {
+    if (confirm("Are you sure you want to reset all quest progress?")) {
+        localStorage.removeItem("integerQuestProgress");
+        questTopics = JSON.parse(JSON.stringify(defaultTopics));
+        currentStreak = 0;
+        showDashboard();
+    }
+}
+
+window.onload = function() {
+    loadProgress();
+    showDashboard();
+};
+</script>
+</body>
+</html>
