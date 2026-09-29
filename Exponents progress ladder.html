@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Ladder: Intro to Exponents - Beach Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <script defer src="https://unpkg.com/mathlive"></script>
+  <style>
+    :root {
+      --sand-bg: #fffdf5;
+      --ocean-blue: #0077b6;
+      --deep-ocean: #03045e;
+      --aqua: #00b4d8;
+      --sun-yellow: #ffb703;
+      --coral: #fb8500;
+      --soft-teal: #90e0ef;
+      --light-sand: #fefae0;
+      --card-border: #caf0f8;
+      --text-dark: #1d3557;
+      --success-green: #2a9d8f;
+      --error-red: #e76f51;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #e0f7fa 0%, #caf0f8 35%, #fefae0 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Banner Header */
+    .app-header {
+      text-align: center;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 1100px;
+      background: linear-gradient(135deg, var(--ocean-blue), var(--aqua));
+      color: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 119, 182, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-header h1 {
+      font-family: 'Fredoka', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .app-header p {
+      font-size: 1rem;
+      opacity: 0.95;
+      font-weight: 500;
+    }
+
+    .header-controls {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn {
+      background: var(--sun-yellow);
+      color: var(--deep-ocean);
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #ffc300;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ocean-blue);
+    }
+
+    /* Main Rubric Container */
+    .rubric-container {
+      width: 100%;
+      max-width: 1100px;
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 3px solid var(--soft-teal);
+    }
+
+    .rubric-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      border-bottom: 2px dashed var(--soft-teal);
+    }
+
+    .rubric-title-bar h2 {
+      font-family: 'Fredoka', cursive;
+      color: var(--ocean-blue);
+      font-size: 1.5rem;
+    }
+
+    .rubric-instructions {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 15px;
+      background: #f0f9ff;
+      padding: 10px 15px;
+      border-radius: 12px;
+      border-left: 4px solid var(--aqua);
+    }
+
+    /* Rubric Table Grid */
+    .rubric-grid {
+      display: grid;
+      grid-template-columns: 220px repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .rubric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .grid-header {
+      background: var(--ocean-blue);
+      color: white;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.1rem;
+      padding: 14px 10px;
+      border-radius: 12px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .concept-label {
+      background: #e0f2fe;
+      color: var(--deep-ocean);
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 14px;
+      border: 2px solid #bae6fd;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .concept-label span {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ocean-blue);
+      margin-bottom: 4px;
+    }
+
+    /* Rubric Interactive Cells */
+    .rubric-cell {
+      background: var(--sand-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+    }
+
+    .rubric-cell:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--coral);
+      box-shadow: 0 8px 20px rgba(251, 133, 0, 0.2);
+      background: #ffffff;
+    }
+
+    .rubric-cell .cell-text {
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .rubric-cell .cell-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .streak-badge {
+      background: #e0f2fe;
+      color: var(--ocean-blue);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Mastered State Card */
+    .rubric-cell.mastered {
+      background: linear-gradient(135deg, #fff3b0 0%, #ffe3a8 100%);
+      border: 3px solid var(--sun-yellow);
+      box-shadow: 0 8px 20px rgba(255, 183, 3, 0.3);
+      padding: 10px;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .character-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .character-svg {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 4px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+      animation: gentle-bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .character-name {
+      font-family: 'Fredoka', cursive;
+      font-size: 0.9rem;
+      color: #9a3412;
+      margin-top: 2px;
+    }
+
+    .mastered-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #15803d;
+      background: #dcfce7;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 3px;
+    }
+
+    /* Practice Screen Layout */
+    .practice-container {
+      display: none;
+      width: 100%;
+      max-width: 950px;
+      background: white;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+      border: 3px solid var(--aqua);
+    }
+
+    .practice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .practice-topic {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.2rem;
+      color: var(--ocean-blue);
+      margin-bottom: 15px;
+    }
+
+    .streak-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.1rem;
+      background: #fef3c7;
+      color: #d97706;
+      padding: 6px 16px;
+      border-radius: 30px;
+      border: 2px solid #fde68a;
+    }
+
+    .practice-body {
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .problem-main-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .problem-box {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border: 2px solid #bae6fd;
+      border-radius: 18px;
+      padding: 30px 15px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .math-display {
+      font-size: 2.3rem;
+      font-family: 'Cambria Math', 'KaTeX_Main', serif;
+      color: #0f172a;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* ENHANCED/LARGER EXPONENT SUPERSCRIPT DISPLAY */
+    .math-display sup, sup {
+      vertical-align: super;
+      font-size: 0.82em;
+      line-height: 0;
+      position: relative;
+      top: -0.3em;
+      font-weight: 700;
+    }
+
+    /* Scratchpad Panel Styling */
+    .scratchpad-panel {
+      width: 340px;
+      background: #fffdf5;
+      border: 2px dashed var(--aqua);
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .scratchpad-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 0.95rem;
+      color: var(--ocean-blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .scratchpad-tools {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .tool-btn {
+      background: #e0f2fe;
+      border: 1px solid var(--soft-teal);
+      color: var(--deep-ocean);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tool-btn.active {
+      background: var(--coral);
+      color: white;
+      border-color: var(--coral);
+    }
+
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 0 2px rgba(0,0,0,0.4);
+    }
+
+    .color-dot.selected {
+      transform: scale(1.2);
+      border-color: var(--deep-ocean);
+    }
+
+    canvas#scratchpadCanvas {
+      width: 100%;
+      height: 230px;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    @media (max-width: 800px) {
+      .practice-body {
+        flex-direction: column;
+      }
+      .scratchpad-panel {
+        width: 100%;
+      }
+    }
+
+    /* Template Selection Buttons */
+    .template-selector-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .template-btn {
+      background: #f0f9ff;
+      border: 2px solid var(--aqua);
+      color: var(--deep-ocean);
+      padding: 10px 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 75px;
+      min-height: 65px;
+    }
+
+    .template-btn:hover {
+      background: #e0f2fe;
+      transform: translateY(-2px);
+    }
+
+    .template-btn.active {
+      background: var(--ocean-blue);
+      color: white;
+      border-color: var(--deep-ocean);
+      box-shadow: 0 6px 14px rgba(0, 119, 182, 0.35);
+    }
+
+    /* Square box placeholder icon inside template buttons (exponents) */
+    .square-icon {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid currentColor;
+      border-radius: 3px;
+      vertical-align: super;
+      margin-left: 2px;
+      position: relative;
+      top: -0.35em;
+    }
+
+    /* Inline Coefficient Symbol (#) placed in line with variables */
+    .coeff-symbol {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: inline-block;
+      vertical-align: baseline;
+      margin-right: 2px;
+      color: currentColor;
+    }
+
+    /* Mini Fraction layout inside buttons */
+    .btn-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .btn-frac-num {
+      padding-bottom: 2px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-frac-line {
+      width: 100%;
+      height: 2px;
+      background-color: currentColor;
+      margin: 3px 0;
+    }
+
+    .btn-frac-den {
+      padding-top: 2px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .var-math {
+      font-family: 'Cambria Math', 'KaTeX_Main', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 1.35rem;
+    }
+
+    /* Clear Structured Answer Input Display */
+    .answer-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 90px;
+    }
+
+    .fraction-expr {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      padding: 0 6px;
+    }
+
+    .fraction-line {
+      width: 100%;
+      height: 3px;
+      background-color: var(--deep-ocean);
+      margin: 6px 0;
+      border-radius: 2px;
+    }
+
+    .numerator {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--deep-ocean);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .denominator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--deep-ocean);
+    }
+
+    .exp-wrapper {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .math-input {
+      border: 3px solid var(--aqua);
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-family: 'Fredoka', cursive;
+      color: var(--deep-ocean);
+      outline: none;
+      transition: all 0.2s ease;
+      background: #ffffff;
+      -moz-appearance: textfield;
+    }
+
+    .math-input::-webkit-outer-spin-button,
+    .math-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .math-input:focus {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 4px rgba(251, 133, 0, 0.25);
+    }
+
+    .input-coeff {
+      width: 75px;
+      height: 55px;
+    }
+
+    /* ENHANCED EXPONENT INPUT SIZE */
+    .input-exp {
+      width: 56px;
+      height: 48px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 3px;
+      margin-bottom: 24px; /* Elevates input into exponent slot cleanly */
+    }
+
+    .input-single {
+      width: 130px;
+      height: 58px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      max-width: 280px;
+      padding: 12px;
+      font-size: 1.05rem;
+      background: var(--coral);
+      color: white;
+      border-radius: 50px;
+      box-shadow: 0 6px 18px rgba(251, 133, 0, 0.3);
+    }
+
+    .submit-btn:hover {
+      background: #f77f00;
+    }
+
+    /* Feedback Toast */
+    .feedback-toast {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feedback-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .feedback-toast.correct {
+      background: var(--success-green);
+    }
+
+    .feedback-toast.incorrect {
+      background: var(--error-red);
+    }
+
+    /* Celebration Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 4, 94, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 28px;
+      padding: 35px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      border: 4px solid var(--sun-yellow);
+      animation: modal-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modal-pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-title {
+      font-family: 'Fredoka', cursive;
+      color: var(--ocean-blue);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-character-preview {
+      width: 120px;
+      height: 120px;
+      margin: 15px auto;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.2));
+    }
+
+    .modal-msg {
+      font-size: 1rem;
+      color: #475569;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    @keyframes shell-fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .falling-shell {
+      position: fixed;
+      top: -50px;
+      z-index: 3000;
+      pointer-events: none;
+      animation: shell-fall 2.5s linear forwards;
+    }
+
+    .rubric-cell.locked {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .rubric-cell.locked:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: #cbd5e1;
+      background: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Feedback Toast Notification -->
+  <div id="feedbackToast" class="feedback-toast">
+    <span id="toastIcon">🎉</span>
+    <span id="toastMsg">Correct!</span>
+  </div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <h1>🏖️ Exponents Progress Ladder 🌴</h1>
+    <p>Master exponent concepts step-by-step to build your beach paradise!</p>
+    <div class="header-controls">
+      <button class="btn" onclick="saveProgress()">💾 Save Progress</button>
+      <button class="btn btn-secondary" onclick="resetProgress()">🔄 Reset All</button>
+    </div>
+  </header>
+
+  <!-- Main Rubric View -->
+  <main id="rubricView" class="rubric-container">
+    <div class="rubric-title-bar">
+      <h2>Progress Ladder: Intro to Exponents</h2>
+      <div style="font-weight: 700; color: var(--ocean-blue);">Target: 5 Streak per Cell 🎯</div>
+    </div>
+    <div class="rubric-instructions">
+      👉 <strong>Click any level 1 cell to start the path.</strong> Get <strong>5 correct in a row</strong> to master that cell and unlock the next level!
+    </div>
+
+    <div class="rubric-grid">
+      <!-- Grid Column Headers -->
+      <div class="grid-header">Concept</div>
+      <div class="grid-header">Level 1</div>
+      <div class="grid-header">Level 2</div>
+      <div class="grid-header">Level 3</div>
+
+      <!-- Row 1 -->
+      <div class="concept-label">
+        <span>Concept 1</span>
+        Simplifying Multiplication & Power Rules
+      </div>
+      <div class="rubric-cell" id="cell-0-0" onclick="openPractice(0, 0)">
+        <div class="cell-text">I can simplify an expression using basic product or power exponent rules.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-0-0">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-0-1" onclick="openPractice(0, 1)">
+        <div class="cell-text">I can simplify expressions with exponent rules containing coefficients.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-0-1">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-0-2" onclick="openPractice(0, 2)">
+        <div class="cell-text">I can simplify multi-rule expressions with positive exponents.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-0-2">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="concept-label">
+        <span>Concept 2</span>
+        Simplifying Monomial Exponent Expressions
+      </div>
+      <div class="rubric-cell" id="cell-1-0" onclick="openPractice(1, 0)">
+        <div class="cell-text">Level 4: Division with single variable terms. Select form & enter exponent.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-1-0">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-1-1" onclick="openPractice(1, 1)">
+        <div class="cell-text">Level 5: Advanced division with reducing coefficients & x/y variables.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-1-1">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-1-2" onclick="openPractice(1, 2)">
+        <div class="cell-text">Level 6: Multi-variable quotient rules with coefficients.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-1-2">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="concept-label">
+        <span>Concept 3</span>
+        Evaluate Exponents in Expressions
+      </div>
+      <div class="rubric-cell" id="cell-2-0" onclick="openPractice(2, 0)">
+        <div class="cell-text">I can evaluate positive powers of whole numbers and fractions, and quotients of powers.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-2-0">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-2-1" onclick="openPractice(2, 1)">
+        <div class="cell-text">I can evaluate negative powers of whole numbers and fractions.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-2-1">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-2-2" onclick="openPractice(2, 2)">
+        <div class="cell-text">I can consistently evaluate expressions with negative exponents.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-2-2">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="concept-label">
+        <span>Concept 4</span>
+        Order of Operations with Exponents
+      </div>
+      <div class="rubric-cell" id="cell-3-0" onclick="openPractice(3, 0)">
+        <div class="cell-text">Level 1: Order of Operations with 3 steps.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-3-0">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-3-1" onclick="openPractice(3, 1)">
+        <div class="cell-text">Level 2: Order of Operations with 4 steps.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-3-1">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+      <div class="rubric-cell" id="cell-3-2" onclick="openPractice(3, 2)">
+        <div class="cell-text">Level 3: Order of Operations with Negative Numbers.</div>
+        <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-3-2">0</span>/5</span><span>Click to practice</span></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Practice Screen View -->
+  <main id="practiceView" class="practice-container">
+    <div class="practice-header">
+      <button class="btn btn-secondary" onclick="returnToMain()">← Back to Main Menu</button>
+      <div class="streak-container">
+        🔥 Streak: <span id="currentStreakVal">0</span> / 5
+      </div>
+    </div>
+
+    <div class="practice-topic" id="practiceTopicName">Concept 1: Level 1</div>
+
+    <div class="practice-body">
+      <div class="problem-main-panel">
+        <!-- Math Problem Display -->
+        <div class="problem-box">
+          <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 8px; font-weight: 700; text-transform: uppercase;">Simplify / Evaluate:</div>
+          <div class="math-display" id="problemExpr">x<sup>2</sup> · x<sup>3</sup></div>
+        </div>
+
+        <!-- Answer Inputs & Template Selectors Area -->
+        <form class="answer-section" id="answerForm" onsubmit="handleAnswerSubmit(event)">
+          <!-- Dynamic Template Selector Bar -->
+          <div id="templateSelectorBar" class="template-selector-bar"></div>
+
+          <!-- Dynamic Input Controls Container -->
+          <div id="inputControlsContainer" class="input-row"></div>
+
+          <button type="submit" class="btn submit-btn">Check Answer 🚀</button>
+        </form>
+      </div>
+
+      <!-- Scratchpad Panel -->
+      <div id="scratchpadPanel" class="scratchpad-panel" style="display: none;">
+        <div class="scratchpad-title">
+          <span>📝 Scratchpad</span>
+          <div class="scratchpad-tools">
+            <button type="button" class="tool-btn active" id="penToolBtn" onclick="setPadTool('pen')">✏️ Pen</button>
+            <button type="button" class="tool-btn" id="eraserToolBtn" onclick="setPadTool('eraser')">🧹 Eraser</button>
+            <div class="color-dot selected" style="background:#0f172a;" onclick="setPadColor('#0f172a', this)"></div>
+            <div class="color-dot" style="background:#0077b6;" onclick="setPadColor('#0077b6', this)"></div>
+            <div class="color-dot" style="background:#e76f51;" onclick="setPadColor('#e76f51', this)"></div>
+            <button type="button" class="tool-btn" onclick="clearScratchpad()">Clear</button>
+          </div>
+        </div>
+        <canvas id="scratchpadCanvas"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <!-- Beach Celebration Modal -->
+  <div id="victoryModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-title">🎉 Cell Mastered! 🏖️</div>
+      <div id="modalCharSvg" class="modal-character-preview"></div>
+      <div id="modalCharName" style="font-family: 'Fredoka', cursive; font-size: 1.4rem; color: #ea580c; margin-bottom: 6px;">Sunny Coconut</div>
+      <div class="modal-msg">Awesome job! You reached 5 in a row and added this happy beach character to your rubric grid!</div>
+      <button class="btn" onclick="closeModalAndReturn()">Back to Main Menu 🏝️</button>
+    </div>
+  </div>
+
+  <script>
+    /* 12 UNIQUE BEACH CHARACTER SVGs */
+    const beachCharacters = [
+      {
+        id: "sunny_coconut",
+        name: "Sunny Coconut 🥥",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <circle cx="50" cy="50" r="40" fill="#78350f" stroke="#451a03" stroke-width="3"/>
+          <circle cx="50" cy="50" r="33" fill="#fef3c7"/>
+          <rect x="25" y="38" width="22" height="16" rx="4" fill="#0f172a"/>
+          <rect x="53" y="38" width="22" height="16" rx="4" fill="#0f172a"/>
+          <line x1="47" y1="44" x2="53" y2="44" stroke="#0f172a" stroke-width="3"/>
+          <path d="M 28 41 L 40 41" stroke="white" stroke-width="2" opacity="0.6"/>
+          <path d="M 56 41 L 68 41" stroke="white" stroke-width="2" opacity="0.6"/>
+          <path d="M 38 62 Q 50 72 62 62" fill="none" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="30" cy="60" r="4" fill="#fda4af"/>
+          <circle cx="70" cy="60" r="4" fill="#fda4af"/>
+        </svg>`
+      },
+      {
+        id: "surfing_pineapple",
+        name: "Surfing Pineapple 🍍",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 40 30 C 35 10, 20 15, 30 5 C 40 15, 48 20, 50 28 C 52 20, 60 15, 70 5 C 80 15, 65 10, 60 30 Z" fill="#16a34a"/>
+          <ellipse cx="50" cy="60" rx="28" ry="32" fill="#fbbf24" stroke="#d97706" stroke-width="3"/>
+          <path d="M 35 45 L 65 75 M 65 45 L 35 75 M 30 60 L 70 60" stroke="#d97706" stroke-width="2" stroke-dasharray="3,3"/>
+          <circle cx="40" cy="52" r="4" fill="#0f172a"/>
+          <circle cx="60" cy="52" r="4" fill="#0f172a"/>
+          <path d="M 42 64 Q 50 72 58 64" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "happy_starfish",
+        name: "Happy Starfish ⭐",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 50 10 L 61 35 L 88 36 L 67 54 L 74 80 L 50 66 L 26 80 L 33 54 L 12 36 L 39 35 Z" fill="#fb923c" stroke="#ea580c" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="42" cy="42" r="4" fill="#0f172a"/>
+          <circle cx="58" cy="42" r="4" fill="#0f172a"/>
+          <path d="M 43 52 Q 50 58 57 52" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "cool_crab",
+        name: "Cool Crab 🦀",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 20 40 Q 10 20 25 25 Q 35 30 30 45 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
+          <path d="M 80 40 Q 90 20 75 25 Q 65 30 70 45 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
+          <ellipse cx="50" cy="55" rx="30" ry="22" fill="#ef4444" stroke="#b91c1c" stroke-width="3"/>
+          <rect x="32" y="46" width="16" height="12" rx="3" fill="#0f172a"/>
+          <rect x="52" y="46" width="16" height="12" rx="3" fill="#0f172a"/>
+          <path d="M 38 68 Q 50 75 62 68" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "chill_turtle",
+        name: "Chill Turtle 🐢",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 25 55 A 25 25 0 0 1 75 55 Z" fill="#15803d" stroke="#166534" stroke-width="3"/>
+          <circle cx="50" cy="35" r="14" fill="#22c55e" stroke="#16a34a" stroke-width="2"/>
+          <ellipse cx="50" cy="28" rx="20" ry="5" fill="#fde047"/>
+          <circle cx="45" cy="35" r="2" fill="#0f172a"/>
+          <circle cx="55" cy="35" r="2" fill="#0f172a"/>
+          <path d="M 46 40 Q 50 43 54 40" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "tropical_palm",
+        name: "Tropical Palm 🌴",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 45 90 Q 42 60 50 40 L 56 40 Q 50 60 55 90 Z" fill="#b45309"/>
+          <path d="M 50 40 Q 20 20 10 40 Q 30 45 50 40 Z" fill="#15803d"/>
+          <path d="M 50 40 Q 80 20 90 40 Q 70 45 50 40 Z" fill="#15803d"/>
+          <path d="M 50 40 Q 50 10 30 5 Q 40 25 50 40 Z" fill="#22c55e"/>
+          <path d="M 50 40 Q 50 10 70 5 Q 60 25 50 40 Z" fill="#22c55e"/>
+          <circle cx="46" cy="46" r="8" fill="#78350f"/>
+          <circle cx="56" cy="46" r="8" fill="#78350f"/>
+        </svg>`
+      },
+      {
+        id: "beach_ball",
+        name: "Beach Ball Pal 🏐",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <circle cx="50" cy="50" r="38" fill="#3b82f6" stroke="#1d4ed8" stroke-width="3"/>
+          <path d="M 50 12 A 38 38 0 0 0 50 88 A 20 38 0 0 1 50 12 Z" fill="#ef4444"/>
+          <path d="M 50 12 A 38 38 0 0 1 50 88 A 20 38 0 0 0 50 12 Z" fill="#eab308"/>
+          <circle cx="42" cy="45" r="4" fill="#0f172a"/>
+          <circle cx="58" cy="45" r="4" fill="#0f172a"/>
+          <path d="M 43 56 Q 50 64 57 56" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "seashell_friend",
+        name: "Seashell Friend 🐚",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 50 20 C 20 20 15 70 50 85 C 85 70 80 20 50 20 Z" fill="#f472b6" stroke="#db2777" stroke-width="3"/>
+          <circle cx="43" cy="50" r="4" fill="#0f172a"/>
+          <circle cx="57" cy="50" r="4" fill="#0f172a"/>
+          <path d="M 44 60 Q 50 66 56 60" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "sunhat_seagull",
+        name: "Sunhat Seagull 🐦",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <ellipse cx="50" cy="60" rx="25" ry="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+          <circle cx="50" cy="38" r="16" fill="#f8fafc"/>
+          <polygon points="50,40 68,42 50,46" fill="#f97316"/>
+          <path d="M 28 32 Q 50 20 72 32 Z" fill="#fde047"/>
+          <circle cx="44" cy="36" r="3" fill="#0f172a"/>
+        </svg>`
+      },
+      {
+        id: "sandcastle_hero",
+        name: "Sandcastle Hero 🏰",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 25 85 L 25 45 L 35 45 L 35 55 L 45 55 L 45 45 L 55 45 L 55 55 L 65 55 L 65 45 L 75 45 L 75 85 Z" fill="#fde047" stroke="#ca8a04" stroke-width="3"/>
+          <line x1="50" y1="45" x2="50" y2="20" stroke="#854d0e" stroke-width="2"/>
+          <polygon points="50,20 68,26 50,32" fill="#ef4444"/>
+          <circle cx="42" cy="62" r="3" fill="#0f172a"/>
+          <circle cx="58" cy="62" r="3" fill="#0f172a"/>
+        </svg>`
+      },
+      {
+        id: "wave_captain",
+        name: "Wave Captain 🌊",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <path d="M 15 65 Q 35 45 50 65 Q 65 85 85 65 L 85 85 L 15 85 Z" fill="#0284c7" stroke="#0369a1" stroke-width="3"/>
+          <circle cx="50" cy="45" r="18" fill="#38bdf8"/>
+          <circle cx="44" cy="42" r="3" fill="#0f172a"/>
+          <circle cx="56" cy="42" r="3" fill="#0f172a"/>
+          <path d="M 44 52 Q 50 58 56 52" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        id: "ice_cream_pal",
+        name: "Ice Cream Pal 🍦",
+        svg: `<svg viewBox="0 0 100 100" class="character-svg">
+          <polygon points="50,90 32,50 68,50" fill="#d97706" stroke="#b45309" stroke-width="2"/>
+          <circle cx="50" cy="42" r="20" fill="#f43f5e"/>
+          <circle cx="50" cy="28" r="14" fill="#fbbf24"/>
+          <circle cx="44" cy="40" r="3" fill="#0f172a"/>
+          <circle cx="56" cy="40" r="3" fill="#0f172a"/>
+          <path d="M 45 48 Q 50 53 55 48" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+        </svg>`
+      }
+    ];
+
+    /* APP STATE & STORAGE */
+    var streaks = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]
+    ];
+
+    var concept3Counters = [0, 0];
+    var concept4Counters = [0, 0, 0]; // Track sequential rotation indices for Concept 4 (L1, L2, L3)
+    var concept1LastType = [-1, -1];
+    var concept1TypeCount = [0, 0];
+
+    var currentConcept = 0;
+    var currentLevel = 0;
+    var activeProblem = null;
+    var selectedTemplateKey = "";
+
+    // Scratchpad variables
+    var padCanvas = null;
+    var padCtx = null;
+    var isDrawing = false;
+    var currentPadTool = 'pen';
+    var currentPadColor = '#0f172a';
+
+    window.onload = function() {
+      loadProgress();
+      renderGrid();
+      initScratchpad();
+    };
+
+    function loadProgress() {
+      var saved = localStorage.getItem('exponents_beach_streaks');
+      if (saved) {
+        try { streaks = JSON.parse(saved); } catch(e) {}
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem('exponents_beach_streaks', JSON.stringify(streaks));
+      showToast("Progress Saved! 💾", true);
+    }
+
+    function resetProgress() {
+      if (confirm("Are you sure you want to reset all progress?")) {
+        streaks = [
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+          [0, 0, 0]
+        ];
+        concept3Counters = [0, 0];
+        concept4Counters = [0, 0, 0];
+        concept1LastType = [-1, -1];
+        concept1TypeCount = [0, 0];
+        saveProgress();
+        renderGrid();
+      }
+    }
+
+    /* HELPER UTILITIES FOR MATH GENERATION */
+    function gcd(a, b) {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function formatMonomial(coeff, expX, expY) {
+      var parts = [];
+      if (coeff !== 1 || (expX === 0 && expY === 0)) {
+        parts.push(coeff);
+      }
+      if (expX > 0) {
+        parts.push(expX === 1 ? "x" : `x<sup>${expX}</sup>`);
+      }
+      if (expY > 0) {
+        parts.push(expY === 1 ? "y" : `y<sup>${expY}</sup>`);
+      }
+      return parts.join('');
+    }
+
+    function cleanMathStr(str) {
+      if (!str) return '';
+      return str
+        .replace(/\s+/g, '')
+        .replace(/\\left|\\right/g, '')
+        .replace(/\\cdot|\\times|\*/g, '')
+        .replace(/\{(\d+)\}/g, '$1')
+        .replace(/\^\{(\d+)\}/g, '^$1')
+        .toLowerCase();
+    }
+
+    function buildTargetMath(n1, n2, dx, dy) {
+      var topParts = [];
+      var botParts = [];
+
+      var absDx = Math.abs(dx);
+      var absDy = Math.abs(dy);
+
+      var hasTopVars = (dx > 0 || dy > 0);
+      var hasBotVars = (dx < 0 || dy < 0);
+
+      if (n1 !== 1 || !hasTopVars) {
+        topParts.push(n1);
+      }
+      if (dx > 0) {
+        topParts.push(dx === 1 ? "x" : "x^{" + dx + "}");
+      }
+      if (dy > 0) {
+        topParts.push(dy === 1 ? "y" : "y^{" + dy + "}");
+      }
+
+      if (n2 !== 1 || hasBotVars) {
+        botParts.push(n2);
+      }
+      if (dx < 0) {
+        botParts.push(absDx === 1 ? "x" : "x^{" + absDx + "}");
+      }
+      if (dy < 0) {
+        botParts.push(absDy === 1 ? "y" : "y^{" + absDy + "}");
+      }
+
+      var numLaTeX = topParts.join('');
+      var denLaTeX = botParts.join('');
+
+      var numAscii = topParts.join('').replace(/\{(\d+)\}/g, '^$1');
+      var denAscii = botParts.join('').replace(/\{(\d+)\}/g, '^$1');
+
+      var hasDenominator = (n2 !== 1 || hasBotVars);
+
+      if (hasDenominator) {
+        return {
+          targetLaTeX: "\\frac{" + numLaTeX + "}{" + denLaTeX + "}",
+          targetAscii: "(" + numAscii + ")/(" + denAscii + ")"
+        };
+      } else {
+        return {
+          targetLaTeX: numLaTeX,
+          targetAscii: numAscii
+        };
+      }
+    }
+
+    function isLevelUnlocked(r, c) {
+      if (c === 0) return true;
+      return streaks[r][c - 1] >= 5;
+    }
+
+    function triggerSeaShells() {
+      var shells = ['🐚', '🦪', '🐚', '🐚', '🦪'];
+      for (var i = 0; i < 25; i++) {
+        setTimeout(function() {
+          var shell = document.createElement('div');
+          shell.className = 'falling-shell';
+          shell.innerText = shells[Math.floor(Math.random() * shells.length)];
+          shell.style.left = (Math.random() * 95) + 'vw';
+          shell.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+          shell.style.fontSize = (1.5 + Math.random() * 1.5) + 'rem';
+          document.body.appendChild(shell);
+          setTimeout(function() { shell.remove(); }, 3000);
+        }, i * 80);
+      }
+    }
+
+    /* RUBRIC GRID RENDERER */
+    function renderGrid() {
+      for (var r = 0; r < 4; r++) {
+        for (var c = 0; c < 3; c++) {
+          var cellId = "cell-" + r + "-" + c;
+          var streakId = "streak-" + r + "-" + c;
+          var cell = document.getElementById(cellId);
+          var streakSpan = document.getElementById(streakId);
+
+          var unlocked = isLevelUnlocked(r, c);
+          if (!unlocked) {
+            cell.classList.add('locked');
+          } else {
+            cell.classList.remove('locked');
+          }
+
+          var val = streaks[r][c];
+          if (streakSpan) streakSpan.innerText = val;
+
+          var charIndex = (r * 3) + c;
+          var charData = beachCharacters[charIndex];
+
+          if (val >= 5) {
+            cell.classList.add('mastered');
+            cell.innerHTML = `
+              <div class="character-card">
+                ${charData.svg}
+                <div class="character-name">${charData.name}</div>
+                <div class="mastered-tag">⭐ MASTERED ⭐</div>
+              </div>
+            `;
+          } else {
+            cell.classList.remove('mastered');
+          }
+        }
+      }
+    }
+
+    /* PROBLEM GENERATION ENGINE */
+    function generateProblem(concept, level) {
+      if (concept === 0) {
+        if (level === 0) {
+          var pType;
+          if (concept1TypeCount[0] >= 2) {
+            pType = 1 - concept1LastType[0];
+          } else {
+            pType = Math.random() < 0.5 ? 0 : 1;
+          }
+          if (pType === concept1LastType[0]) {
+            concept1TypeCount[0]++;
+          } else {
+            concept1LastType[0] = pType;
+            concept1TypeCount[0] = 1;
+          }
+
+          if (pType === 0) {
+            var a = Math.floor(Math.random() * 6) + 2;
+            var b = Math.floor(Math.random() * 6) + 2;
+            return {
+              type: "single_exponent",
+              expr: `x<sup>${a}</sup> · x<sup>${b}</sup>`,
+              correctCoeff: 1,
+              correctExp: a + b,
+              varName: "x"
+            };
+          } else {
+            var eIn = Math.floor(Math.random() * 5) + 2;
+            var eOut = Math.floor(Math.random() * 4) + 2;
+            return {
+              type: "single_exponent",
+              expr: `(x<sup>${eIn}</sup>)<sup>${eOut}</sup>`,
+              correctCoeff: 1,
+              correctExp: eIn * eOut,
+              varName: "x"
+            };
+          }
+        } else if (level === 1) {
+          var pType;
+          if (concept1TypeCount[1] >= 2) {
+            pType = 1 - concept1LastType[1];
+          } else {
+            pType = Math.random() < 0.5 ? 0 : 1;
+          }
+          if (pType === concept1LastType[1]) {
+            concept1TypeCount[1]++;
+          } else {
+            concept1LastType[1] = pType;
+            concept1TypeCount[1] = 1;
+          }
+
+          if (pType === 0) {
+            var c1 = Math.floor(Math.random() * 4) + 2;
+            var c2 = Math.floor(Math.random() * 4) + 2;
+            var e1 = Math.floor(Math.random() * 5) + 2;
+            var e2 = Math.floor(Math.random() * 5) + 2;
+            return {
+              type: "single_exponent",
+              expr: `(${c1}x<sup>${e1}</sup>)(${c2}x<sup>${e2}</sup>)`,
+              correctCoeff: c1 * c2,
+              correctExp: e1 + e2,
+              varName: "x"
+            };
+          } else {
+            var coeff = Math.floor(Math.random() * 3) + 2;
+            var eIn = Math.floor(Math.random() * 4) + 2;
+            var eOut = Math.floor(Math.random() * 3) + 2;
+            return {
+              type: "single_exponent",
+              expr: `(${coeff}x<sup>${eIn}</sup>)<sup>${eOut}</sup>`,
+              correctCoeff: Math.pow(coeff, eOut),
+              correctExp: eIn * eOut,
+              varName: "x"
+            };
+          }
+        } else {
+          // Concept 1 - Level 3: Multi-rule combining product and power rules
+          // Alternates outer power between 2nd term e.g. (3x^4)(2x^3)^2 and 1st term e.g. (3x^4)^2(2x^3)
+          var isSecondTermPower = Math.random() < 0.5;
+          var c1 = Math.floor(Math.random() * 3) + 2;
+          var c2 = Math.floor(Math.random() * 3) + 2;
+          var e1 = Math.floor(Math.random() * 4) + 2;
+          var e2 = Math.floor(Math.random() * 4) + 2;
+          var p = Math.floor(Math.random() * 2) + 2;
+
+          if (isSecondTermPower) {
+            var finalCoeff = c1 * Math.pow(c2, p);
+            var finalExp = e1 + (e2 * p);
+            return {
+              type: "single_exponent",
+              expr: `(${c1}x<sup>${e1}</sup>)(${c2}x<sup>${e2}</sup>)<sup>${p}</sup>`,
+              correctCoeff: finalCoeff,
+              correctExp: finalExp,
+              varName: "x"
+            };
+          } else {
+            var finalCoeff = Math.pow(c1, p) * c2;
+            var finalExp = (e1 * p) + e2;
+            return {
+              type: "single_exponent",
+              expr: `(${c1}x<sup>${e1}</sup>)<sup>${p}</sup>(${c2}x<sup>${e2}</sup>)`,
+              correctCoeff: finalCoeff,
+              correctExp: finalExp,
+              varName: "x"
+            };
+          }
+        }
+      }
+
+      if (concept === 1) {
+        // Concept 2 Level 1: Single variable x where a > b
+        if (level === 0) {
+          var exp2 = Math.floor(Math.random() * 5) + 1;
+          var exp1 = exp2 + Math.floor(Math.random() * 5) + 1;
+
+          var numText = exp1 === 1 ? "x" : `x<sup>${exp1}</sup>`;
+          var denText = exp2 === 1 ? "x" : `x<sup>${exp2}</sup>`;
+
+          var fracExpr = `
+            <div class="fraction-expr">
+              <div class="numerator">${numText}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">${denText}</div>
+            </div>`;
+
+          return {
+            type: "template_level4",
+            expr: fracExpr,
+            templateKeys: ["x_pow", "one_over_x_pow", "one"],
+            correctTemplateKey: "x_pow",
+            correctCoeff: 1,
+            correctExp: exp1 - exp2
+          };
+
+        // Concept 2 Level 2: Single variable x with 70%/20%/10% distribution
+        } else if (level === 1) {
+          var rand = Math.random();
+          var exp1, exp2;
+
+          if (rand < 0.70) {
+            exp1 = Math.floor(Math.random() * 5) + 1;
+            exp2 = exp1 + Math.floor(Math.random() * 5) + 1;
+          } else if (rand < 0.90) {
+            exp1 = Math.floor(Math.random() * 6) + 1;
+            exp2 = exp1;
+          } else {
+            exp2 = Math.floor(Math.random() * 5) + 1;
+            exp1 = exp2 + Math.floor(Math.random() * 5) + 1;
+          }
+
+          var numText = exp1 === 1 ? "x" : `x<sup>${exp1}</sup>`;
+          var denText = exp2 === 1 ? "x" : `x<sup>${exp2}</sup>`;
+
+          var fracExpr = `
+            <div class="fraction-expr">
+              <div class="numerator">${numText}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">${denText}</div>
+            </div>`;
+
+          var correctKey = "";
+          var correctExpVal = 0;
+
+          if (exp1 > exp2) {
+            correctKey = "x_pow";
+            correctExpVal = exp1 - exp2;
+          } else if (exp1 < exp2) {
+            correctKey = "one_over_x_pow";
+            correctExpVal = exp2 - exp1;
+          } else {
+            correctKey = "one";
+            correctExpVal = null;
+          }
+
+          return {
+            type: "template_level4",
+            expr: fracExpr,
+            templateKeys: ["x_pow", "one_over_x_pow", "one"],
+            correctTemplateKey: correctKey,
+            correctCoeff: 1,
+            correctExp: correctExpVal
+          };
+
+        // Concept 2 Level 3: Reducing Coefficients & Multi-variable (x and y)
+        } else {
+          var factor = Math.floor(Math.random() * 4) + 2;
+          var n1 = Math.floor(Math.random() * 4) + 1;
+          var n2 = Math.floor(Math.random() * 4) + 1;
+          while (n1 === n2) {
+            n2 = Math.floor(Math.random() * 4) + 1;
+          }
+
+          var g_n = gcd(n1, n2);
+          n1 = n1 / g_n;
+          n2 = n2 / g_n;
+
+          var cTop = n1 * factor;
+          var cBot = n2 * factor;
+
+          var a1 = Math.random() < 0.35 ? 1 : Math.floor(Math.random() * 5) + 1;
+          var a2 = Math.random() < 0.35 ? 1 : Math.floor(Math.random() * 5) + 1;
+          var b1 = Math.random() < 0.35 ? 1 : Math.floor(Math.random() * 5) + 1;
+          var b2 = Math.random() < 0.35 ? 1 : Math.floor(Math.random() * 5) + 1;
+
+          if (a1 === a2 && b1 === b2) {
+            a2 = a1 + 2;
+          }
+
+          var numStr = formatMonomial(cTop, a1, b1);
+          var denStr = formatMonomial(cBot, a2, b2);
+
+          var fracExpr2 = `
+            <div class="fraction-expr">
+              <div class="numerator">${numStr}</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">${denStr}</div>
+            </div>`;
+
+          var dx = a1 - a2;
+          var dy = b1 - b2;
+
+          var targetMath = buildTargetMath(n1, n2, dx, dy);
+
+          return {
+            type: "math_field",
+            expr: fracExpr2,
+            targetLaTeX: targetMath.targetLaTeX,
+            targetAscii: targetMath.targetAscii
+          };
+        }
+      }
+
+      if (concept === 2) {
+        if (level === 0) {
+          var pType = concept3Counters[0] % 3;
+          concept3Counters[0]++;
+          if (pType === 0) {
+            var base = Math.floor(Math.random() * 5) + 2;
+            var exp = Math.floor(Math.random() * 3) + 2;
+            return {
+              type: "evaluate_select",
+              expr: `${base}<sup>${exp}</sup>`,
+              correctForm: "whole",
+              correctVal: Math.pow(base, exp)
+            };
+          } else if (pType === 1) {
+            var den = Math.floor(Math.random() * 4) + 3;
+            var num = Math.floor(Math.random() * (den - 1)) + 1;
+            var exp = Math.floor(Math.random() * 2) + 2;
+            var powerNum = Math.pow(num, exp);
+            var powerDen = Math.pow(den, exp);
+            var divisor = gcd(powerNum, powerDen);
+            return {
+              type: "evaluate_select",
+              expr: `(<div class="fraction-expr"><div class="numerator">${num}</div><div class="fraction-line"></div><div class="denominator">${den}</div></div>)<sup>${exp}</sup>`,
+              correctForm: "fraction",
+              num: powerNum / divisor,
+              den: powerDen / divisor
+            };
+          } else {
+            var base = Math.floor(Math.random() * 5) + 2;
+            var lowerExp = Math.floor(Math.random() * 3) + 2;
+            var upperExp = lowerExp + Math.floor(Math.random() * 3) + 1;
+            return {
+              type: "evaluate_select",
+              expr: `<div class="fraction-expr"><div class="numerator">${base}<sup>${upperExp}</sup></div><div class="fraction-line"></div><div class="denominator">${base}<sup>${lowerExp}</sup></div></div>`,
+              correctForm: "whole",
+              correctVal: Math.pow(base, upperExp - lowerExp)
+            };
+          }
+        } else if (level === 1) {
+          var pType = concept3Counters[1] % 2;
+          concept3Counters[1]++;
+          var base = Math.floor(Math.random() * 4) + 2;
+          var exp = Math.floor(Math.random() * 3) + 2;
+          if (pType === 0) {
+            return {
+              type: "evaluate_select",
+              expr: `${base}<sup>-${exp}</sup>`,
+              correctForm: "fraction",
+              num: 1,
+              den: Math.pow(base, exp)
+            };
+          } else {
+            return {
+              type: "evaluate_select",
+              expr: `(<div class="fraction-expr"><div class="numerator">1</div><div class="fraction-line"></div><div class="denominator">${base}</div></div>)<sup>-${exp}</sup>`,
+              correctForm: "whole",
+              correctVal: Math.pow(base, exp)
+            };
+          }
+        } else {
+          var negBase = Math.floor(Math.random() * 3) + 2;
+          return {
+            type: "evaluate",
+            expr: `2<sup>-${negBase}</sup>`,
+            correctVal: 1 / Math.pow(2, negBase),
+            isFraction: true,
+            num: 1,
+            den: Math.pow(2, negBase)
+          };
+        }
+      }
+
+      // CONCEPT 4 IMPLEMENTATION
+      if (concept === 3) {
+        var tIdx = concept4Counters[level] % 4;
+        concept4Counters[level]++;
+
+        if (level === 0) {
+          // Level 1: 3 operations. Answers and intermediate values are natural numbers.
+          if (tIdx === 0) {
+            // Type 1: 6(7-2)^2
+            var a = Math.floor(Math.random() * 5) + 2;
+            var c = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var b = c + diff;
+            return {
+              type: "evaluate",
+              expr: `${a}(${b} - ${c})<sup>2</sup>`,
+              correctVal: a * Math.pow(b - c, 2)
+            };
+          } else if (tIdx === 1) {
+            // Type 2: 5(17 - 4^2)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var c = Math.floor(Math.random() * 3) + 2;
+            var cSq = c * c;
+            var diff = Math.floor(Math.random() * 5) + 1;
+            var b = cSq + diff;
+            return {
+              type: "evaluate",
+              expr: `${a}(${b} - ${c}<sup>2</sup>)`,
+              correctVal: a * (b - cSq)
+            };
+          } else if (tIdx === 2) {
+            // Type 3: 4 + 6(7-2)
+            var a = Math.floor(Math.random() * 6) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `${a} + ${b}(${c} - ${d})`,
+              correctVal: a + b * (c - d)
+            };
+          } else {
+            // Type 4: 3(4^2 / 8)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var bSq = b * b;
+            var divisors = [];
+            for (var k = 2; k <= bSq; k++) {
+              if (bSq % k === 0) divisors.push(k);
+            }
+            var c = divisors[Math.floor(Math.random() * divisors.length)];
+            return {
+              type: "evaluate",
+              expr: `${a}(${b}<sup>2</sup> / ${c})`,
+              correctVal: a * (bSq / c)
+            };
+          }
+        } else if (level === 1) {
+          // Level 2: 4 operations. Answers and intermediate values are natural numbers.
+          if (tIdx === 0) {
+            // Type 1: 4 + 6(7-2)^2
+            var a = Math.floor(Math.random() * 6) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `${a} + ${b}(${c} - ${d})<sup>2</sup>`,
+              correctVal: a + b * Math.pow(c - d, 2)
+            };
+          } else if (tIdx === 1) {
+            // Type 2: (4 + 6)(7-2)^2
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `(${a} + ${b})(${c} - ${d})<sup>2</sup>`,
+              correctVal: (a + b) * Math.pow(c - d, 2)
+            };
+          } else if (tIdx === 2) {
+            // Type 3: 4^2 + 6(7-2)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `${a}<sup>2</sup> + ${b}(${c} - ${d})`,
+              correctVal: Math.pow(a, 2) + b * (c - d)
+            };
+          } else {
+            // Type 4: (4^2 / 8)(7-2)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var aSq = a * a;
+            var divisors = [];
+            for (var k = 2; k <= aSq; k++) {
+              if (aSq % k === 0) divisors.push(k);
+            }
+            var b = divisors[Math.floor(Math.random() * divisors.length)];
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `(${a}<sup>2</sup> / ${b})(${c} - ${d})`,
+              correctVal: (aSq / b) * (c - d)
+            };
+          }
+        } else {
+          // Level 3: 3 or 4 operations. Includes negative values.
+          if (tIdx === 0) {
+            // Type 1: -4^2 + 6(7-2)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `-${a}<sup>2</sup> + ${b}(${c} - ${d})`,
+              correctVal: -Math.pow(a, 2) + b * (c - d)
+            };
+          } else if (tIdx === 1) {
+            // Type 2: (-4)^2 + 6(7-2)
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var d = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var c = d + diff;
+            return {
+              type: "evaluate",
+              expr: `(-${a})<sup>2</sup> + ${b}(${c} - ${d})`,
+              correctVal: Math.pow(-a, 2) + b * (c - d)
+            };
+          } else if (tIdx === 2) {
+            // Type 3: -3 + 5(5-7)^2
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 5) + 2;
+            var c = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var d = c + diff; // c - d is negative
+            return {
+              type: "evaluate",
+              expr: `-${a} + ${b}(${c} - ${d})<sup>2</sup>`,
+              correctVal: -a + b * Math.pow(c - d, 2)
+            };
+          } else {
+            // Type 4: (-3 + 5)(5-7)^2
+            var a = Math.floor(Math.random() * 5) + 2;
+            var b = Math.floor(Math.random() * 6) + 1;
+            while (b === a) b = Math.floor(Math.random() * 6) + 1;
+            var c = Math.floor(Math.random() * 4) + 2;
+            var diff = Math.floor(Math.random() * 4) + 2;
+            var d = c + diff; // c - d is negative
+            return {
+              type: "evaluate",
+              expr: `(-${a} + ${b})(${c} - ${d})<sup>2</sup>`,
+              correctVal: (-a + b) * Math.pow(c - d, 2)
+            };
+          }
+        }
+      }
+    }
+
+    /* PRACTICE SCREEN CONTROLS */
+    function openPractice(concept, level) {
+      if (!isLevelUnlocked(concept, level)) {
+        showToast("🔒 Complete Level " + level + " first to unlock!", false);
+        return;
+      }
+      currentConcept = concept;
+      currentLevel = level;
+      
+      document.getElementById('rubricView').style.display = 'none';
+      document.getElementById('practiceView').style.display = 'block';
+
+      document.getElementById('practiceTopicName').innerText = `Concept ${concept + 1} - Level ${level + 1}`;
+      document.getElementById('currentStreakVal').innerText = streaks[concept][level];
+
+      // Enable scratchpad to the right for Concept 4 (concept index 3) as well as Level 3 / Concept 2
+      if (level === 2 || concept === 1 || concept === 3) {
+        document.getElementById('scratchpadPanel').style.display = 'flex';
+        resizeScratchpad();
+      } else {
+        document.getElementById('scratchpadPanel').style.display = 'none';
+      }
+
+      loadNextProblem();
+    }
+
+    function returnToMain() {
+      document.getElementById('practiceView').style.display = 'none';
+      document.getElementById('rubricView').style.display = 'block';
+      renderGrid();
+    }
+
+    function loadNextProblem() {
+      activeProblem = generateProblem(currentConcept, currentLevel);
+      document.getElementById('problemExpr').innerHTML = activeProblem.expr;
+
+      var selectorBar = document.getElementById('templateSelectorBar');
+      var container = document.getElementById('inputControlsContainer');
+      selectorBar.innerHTML = "";
+      container.innerHTML = "";
+      selectedTemplateKey = "";
+
+      if (activeProblem.type === "single_exponent") {
+        if (currentConcept === 0 && currentLevel === 0) {
+          container.innerHTML = `
+            <div class="exp-wrapper">
+              <span class="var-math" style="font-size: 2.2rem; margin-right: 2px;">${activeProblem.varName}</span>
+              <input type="number" id="expInput" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <div class="exp-wrapper">
+              <input type="number" id="coeffInput" class="math-input input-coeff" placeholder="#" autofocus>
+              <span class="var-math" style="font-size: 2rem; margin: 0 4px;">${activeProblem.varName}</span>
+              <input type="number" id="expInput" class="math-input input-exp" placeholder="">
+            </div>
+          `;
+        }
+      } else if (activeProblem.type === "evaluate_select") {
+        ["whole", "fraction"].forEach(function(key) {
+          var btn = document.createElement('button');
+          btn.type = "button";
+          btn.className = "template-btn";
+          btn.dataset.key = key;
+          btn.innerText = key === "whole" ? "Whole number" : "Fraction";
+          btn.onclick = function() {
+            selectedTemplateKey = key;
+            selectorBar.querySelectorAll('.template-btn').forEach(function(b) {
+              b.classList.toggle('active', b.dataset.key === key);
+            });
+            container.innerHTML = key === "whole"
+              ? `<input type="number" id="singleValInput" class="math-input input-single" placeholder="Answer" autofocus>`
+              : `<div class="fraction-expr"><div class="numerator"><input type="number" id="numInput" class="math-input input-coeff" placeholder="Numerator" autofocus></div><div class="fraction-line"></div><div class="denominator"><input type="number" id="denInput" class="math-input input-coeff" placeholder="Denominator"></div></div>`;
+            container.querySelector('input').focus();
+          };
+          selectorBar.appendChild(btn);
+        });
+      } else if (activeProblem.type === "evaluate") {
+        if (activeProblem.isFraction) {
+          container.innerHTML = `
+            <div class="fraction-expr">
+              <div class="numerator">
+                <input type="number" id="numInput" class="math-input input-coeff" placeholder="1" value="1">
+              </div>
+              <div class="fraction-line"></div>
+              <div class="denominator">
+                <input type="number" id="denInput" class="math-input input-coeff" placeholder="den" autofocus>
+              </div>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <input type="number" id="singleValInput" class="math-input input-single" placeholder="Answer" autofocus>
+          `;
+        }
+      } else if (activeProblem.type === "math_field") {
+        container.innerHTML = `
+          <math-field id="mathInput" style="font-size: 1.6rem; padding: 10px 16px; border: 3px solid var(--aqua); border-radius: 14px; min-width: 220px; background: #ffffff; color: var(--deep-ocean); outline: none;"></math-field>
+        `;
+        setTimeout(function() {
+          var mf = document.getElementById('mathInput');
+          if (mf) mf.focus();
+        }, 50);
+      } else if (activeProblem.type.startsWith("template_")) {
+        activeProblem.templateKeys.forEach(function(key) {
+          var btn = document.createElement('button');
+          btn.type = "button";
+          btn.className = "template-btn";
+          btn.dataset.key = key;
+
+          if (key === "x_pow") {
+            btn.innerHTML = `<span class="var-math">x</span><span class="square-icon"></span>`;
+          } else if (key === "one_over_x_pow") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num">1</span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="var-math">x</span><span class="square-icon"></span></span>
+              </div>`;
+          } else if (key === "one") {
+            btn.innerHTML = `<span style="font-size:1.4rem; font-weight:700;">1</span>`;
+          } else if (key === "coeff_x_over_coeff_y") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span><span class="var-math">y</span><span class="square-icon"></span></span>
+              </div>`;
+          } else if (key === "coeff_y_over_coeff_x") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span><span class="var-math">y</span><span class="square-icon"></span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span></span>
+              </div>`;
+          } else if (key === "coeff_xy_over_coeff") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span><span class="var-math">y</span><span class="square-icon"></span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span></span>
+              </div>`;
+          } else if (key === "coeff_over_coeff_xy") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span><span class="var-math">y</span><span class="square-icon"></span></span>
+              </div>`;
+          } else if (key === "coeff_x_over_coeff") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span></span>
+              </div>`;
+          } else if (key === "coeff_over_coeff_x") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span><span class="var-math">x</span><span class="square-icon"></span></span>
+              </div>`;
+          } else if (key === "coeff_y_over_coeff") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span><span class="var-math">y</span><span class="square-icon"></span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span></span>
+              </div>`;
+          } else if (key === "coeff_over_coeff_y") {
+            btn.innerHTML = `
+              <div class="btn-frac">
+                <span class="btn-frac-num"><span class="coeff-symbol">#</span></span>
+                <div class="btn-frac-line"></div>
+                <span class="btn-frac-den"><span class="coeff-symbol">#</span><span class="var-math">y</span><span class="square-icon"></span></span>
+              </div>`;
+          }
+
+          btn.onclick = function() { selectTemplate(key); };
+          selectorBar.appendChild(btn);
+        });
+
+        selectTemplate(activeProblem.templateKeys[0]);
+      }
+    }
+
+    /* TEMPLATE SELECTION & DYNAMIC ANSWER INPUT DISPLAY */
+    function selectTemplate(key) {
+      selectedTemplateKey = key;
+      
+      var btns = document.querySelectorAll('.template-btn');
+      btns.forEach(function(b) {
+        if (b.dataset.key === key) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+
+      var container = document.getElementById('inputControlsContainer');
+      container.innerHTML = "";
+
+      if (key === "x_pow") {
+        container.innerHTML = `
+          <div class="exp-wrapper">
+            <span class="var-math" style="font-size: 2.2rem; margin-right: 2px;">x</span>
+            <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+          </div>
+        `;
+      } else if (key === "one_over_x_pow") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">1</div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <div class="exp-wrapper">
+                <span class="var-math" style="font-size: 2rem; margin-right: 2px;">x</span>
+                <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (key === "one") {
+        container.innerHTML = `
+          <div style="font-size: 2.4rem; font-weight: 700; color: var(--deep-ocean);">1</div>
+        `;
+      } else if (key === "coeff_x_over_coeff_y") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_y_over_coeff_x") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_xy_over_coeff") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="">
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_over_coeff_xy") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#" autofocus>
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_x_over_coeff") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_over_coeff_x") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">x</span>
+              <input type="number" id="tmplExpX" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_y_over_coeff") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+            </div>
+          </div>
+        `;
+      } else if (key === "coeff_over_coeff_y") {
+        container.innerHTML = `
+          <div class="fraction-expr">
+            <div class="numerator">
+              <input type="number" id="tmplNumCoeff" class="math-input input-coeff" placeholder="#">
+            </div>
+            <div class="fraction-line"></div>
+            <div class="denominator">
+              <input type="number" id="tmplDenCoeff" class="math-input input-coeff" placeholder="#">
+              <span class="var-math" style="font-size: 2rem; margin: 0 2px;">y</span>
+              <input type="number" id="tmplExpY" class="math-input input-exp" placeholder="" autofocus>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    /* ANSWER VERIFICATION */
+    function handleAnswerSubmit(e) {
+      e.preventDefault();
+      var isCorrect = false;
+
+      if (activeProblem.type === "single_exponent") {
+        var coeffEl = document.getElementById('coeffInput');
+        var cVal = coeffEl ? parseInt(coeffEl.value) : 1;
+        var eVal = parseInt(document.getElementById('expInput').value);
+        if (cVal === activeProblem.correctCoeff && eVal === activeProblem.correctExp) {
+          isCorrect = true;
+        }
+      } else if (activeProblem.type === "evaluate_select") {
+        if (selectedTemplateKey === activeProblem.correctForm) {
+          if (selectedTemplateKey === "whole") {
+            isCorrect = Number(document.getElementById('singleValInput').value) === activeProblem.correctVal && document.getElementById('singleValInput').value !== "";
+          } else {
+            var nVal = Number(document.getElementById('numInput').value);
+            var dVal = Number(document.getElementById('denInput').value);
+            isCorrect = document.getElementById('numInput').value !== "" && document.getElementById('denInput').value !== "" && dVal !== 0 && nVal * activeProblem.den === dVal * activeProblem.num;
+          }
+        }
+      } else if (activeProblem.type === "evaluate") {
+        if (activeProblem.isFraction) {
+          var nVal = parseInt(document.getElementById('numInput').value);
+          var dVal = parseInt(document.getElementById('denInput').value);
+          if (nVal === activeProblem.num && dVal === activeProblem.den) isCorrect = true;
+        } else {
+          var vVal = parseFloat(document.getElementById('singleValInput').value);
+          if (vVal === activeProblem.correctVal) isCorrect = true;
+        }
+      } else if (activeProblem.type === "math_field") {
+        var mf = document.getElementById('mathInput');
+        if (mf) {
+          var userLaTeX = mf.value || "";
+          var userAscii = (typeof mf.getValue === 'function') ? mf.getValue('ascii-math') : userLaTeX;
+
+          var normUserLaTeX = cleanMathStr(userLaTeX);
+          var normUserAscii = cleanMathStr(userAscii);
+          var normTargetLaTeX = cleanMathStr(activeProblem.targetLaTeX);
+          var normTargetAscii = cleanMathStr(activeProblem.targetAscii);
+
+          if (normUserLaTeX === normTargetLaTeX ||
+              normUserAscii === normTargetAscii ||
+              cleanMathStr(userAscii).replace(/[()]/g, '') === cleanMathStr(activeProblem.targetAscii).replace(/[()]/g, '')) {
+            isCorrect = true;
+          }
+        }
+      } else if (activeProblem.type.startsWith("template_")) {
+        if (selectedTemplateKey === activeProblem.correctTemplateKey) {
+          if (selectedTemplateKey === "one") {
+            isCorrect = true;
+          } else if (selectedTemplateKey === "x_pow" || selectedTemplateKey === "one_over_x_pow") {
+            var userExpX = parseInt(document.getElementById('tmplExpX').value);
+            var targetExp = (activeProblem.correctExp !== undefined) ? activeProblem.correctExp : activeProblem.correctExpX;
+            if (userExpX === targetExp) isCorrect = true;
+          } else {
+            var getVal = function(id, defaultVal) {
+              var el = document.getElementById(id);
+              if (!el) return defaultVal;
+              var val = parseInt(el.value);
+              return isNaN(val) ? defaultVal : val;
+            };
+
+            var userNumCoeff = getVal('tmplNumCoeff', 1);
+            var userDenCoeff = getVal('tmplDenCoeff', 1);
+            var userExpX = getVal('tmplExpX', 0);
+            var userExpY = getVal('tmplExpY', 0);
+
+            var targetNumCoeff = activeProblem.correctNumCoeff !== undefined ? activeProblem.correctNumCoeff : 1;
+            var targetDenCoeff = activeProblem.correctDenCoeff !== undefined ? activeProblem.correctDenCoeff : 1;
+            var targetExpX = activeProblem.correctExpX !== undefined ? activeProblem.correctExpX : 0;
+            var targetExpY = activeProblem.correctExpY !== undefined ? activeProblem.correctExpY : 0;
+
+            if (userNumCoeff === targetNumCoeff &&
+                userDenCoeff === targetDenCoeff &&
+                userExpX === targetExpX &&
+                userExpY === targetExpY) {
+              isCorrect = true;
+            }
+          }
+        }
+      }
+
+      if (isCorrect) {
+        streaks[currentConcept][currentLevel]++;
+        showToast("Correct! 🎉", true);
+        saveProgress();
+
+        if (streaks[currentConcept][currentLevel] >= 5) {
+          triggerSeaShells();
+          returnToMain();
+        } else {
+          document.getElementById('currentStreakVal').innerText = streaks[currentConcept][currentLevel];
+          loadNextProblem();
+        }
+      } else {
+        streaks[currentConcept][currentLevel] = 0;
+        showToast("Not quite! Streak reset to 0. Try again! 💪", false);
+        document.getElementById('currentStreakVal').innerText = 0;
+        saveProgress();
+      }
+    }
+
+    function showToast(msg, isSuccess) {
+      var toast = document.getElementById('feedbackToast');
+      var icon = document.getElementById('toastIcon');
+      var text = document.getElementById('toastMsg');
+
+      toast.className = "feedback-toast " + (isSuccess ? "correct" : "incorrect");
+      icon.innerText = isSuccess ? "🎉" : "❌";
+      text.innerText = msg;
+
+      toast.classList.add('show');
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    function showMasteryModal() {
+      var charIdx = (currentConcept * 3) + currentLevel;
+      var charData = beachCharacters[charIdx];
+
+      document.getElementById('modalCharSvg').innerHTML = charData.svg;
+      document.getElementById('modalCharName').innerText = charData.name;
+      document.getElementById('victoryModal').style.display = 'flex';
+    }
+
+    function closeModalAndReturn() {
+      document.getElementById('victoryModal').style.display = 'none';
+      returnToMain();
+    }
+
+    /* CANVAS SCRATCHPAD CONTROLS */
+    function initScratchpad() {
+      padCanvas = document.getElementById('scratchpadCanvas');
+      padCtx = padCanvas.getContext('2d');
+
+      padCanvas.addEventListener('mousedown', startDraw);
+      padCanvas.addEventListener('mousemove', draw);
+      padCanvas.addEventListener('mouseup', stopDraw);
+      padCanvas.addEventListener('mouseleave', stopDraw);
+
+      padCanvas.addEventListener('touchstart', startDrawTouch);
+      padCanvas.addEventListener('touchmove', drawTouch);
+      padCanvas.addEventListener('touchend', stopDraw);
+    }
+
+    function resizeScratchpad() {
+      if (!padCanvas) return;
+      padCanvas.width = padCanvas.offsetWidth;
+      padCanvas.height = padCanvas.offsetHeight;
+      clearScratchpad();
+    }
+
+    function setPadTool(tool) {
+      currentPadTool = tool;
+      document.getElementById('penToolBtn').classList.toggle('active', tool === 'pen');
+      document.getElementById('eraserToolBtn').classList.toggle('active', tool === 'eraser');
+    }
+
+    function setPadColor(color, el) {
+      currentPadColor = color;
+      var dots = document.querySelectorAll('.color-dot');
+      dots.forEach(function(d) { d.classList.remove('selected'); });
+      if (el) el.classList.add('selected');
+      setPadTool('pen');
+    }
+
+    function clearScratchpad() {
+      if (padCtx && padCanvas) {
+        padCtx.clearRect(0, 0, padCanvas.width, padCanvas.height);
+      }
+    }
+
+    function getCanvasPos(e) {
+      var rect = padCanvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      var pos = getCanvasPos(e);
+      padCtx.beginPath();
+      padCtx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      var pos = getCanvasPos(e);
+      padCtx.lineWidth = currentPadTool === 'eraser' ? 16 : 3;
+      padCtx.lineCap = 'round';
+      if (currentPadTool === 'eraser') {
+        padCtx.globalCompositeOperation = 'destination-out';
+      } else {
+        padCtx.globalCompositeOperation = 'source-over';
+        padCtx.strokeStyle = currentPadColor;
+      }
+      padCtx.lineTo(pos.x, pos.y);
+      padCtx.stroke();
+    }
+
+    function stopDraw() {
+      isDrawing = false;
+    }
+
+    function startDrawTouch(e) {
+      if (e.touches.length === 1) {
+        startDraw(e.touches[0]);
+      }
+    }
+
+    function drawTouch(e) {
+      if (e.touches.length === 1) {
+        draw(e.touches[0]);
+        e.preventDefault();
+      }
+    }
+  </script>
+</body>
+</html>
