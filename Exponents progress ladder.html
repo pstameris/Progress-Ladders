@@ -861,11 +861,11 @@
         Evaluate Exponents in Expressions
       </div>
       <div class="rubric-cell" id="cell-2-0" onclick="openPractice(2, 0)">
-        <div class="cell-text">I can evaluate positive powers of whole numbers and fractions, and quotients of powers.</div>
+        <div class="cell-text">I can evaluate exponent expressions with positive numbers (including x<sup>0</sup> = 1).</div>
         <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-2-0">0</span>/5</span><span>Click to practice</span></div>
       </div>
       <div class="rubric-cell" id="cell-2-1" onclick="openPractice(2, 1)">
-        <div class="cell-text">I can evaluate negative powers of whole numbers and fractions.</div>
+        <div class="cell-text">I can consistently evaluate expressions with positive and negative bases.</div>
         <div class="cell-footer"><span class="streak-badge">🔥 <span id="streak-2-1">0</span>/5</span><span>Click to practice</span></div>
       </div>
       <div class="rubric-cell" id="cell-2-2" onclick="openPractice(2, 2)">
@@ -920,7 +920,7 @@
           <!-- Dynamic Input Controls Container -->
           <div id="inputControlsContainer" class="input-row"></div>
 
-          <button type="submit" class="btn submit-btn">Check Answer 🚀</button>
+          <button type="button" class="btn submit-btn" onclick="handleAnswerSubmit(event)">Check Answer 🚀</button>
         </form>
       </div>
 
@@ -1108,7 +1108,8 @@
       [0, 0, 0]
     ];
 
-    var concept3Counters = [0, 0];
+    var streakMistakes = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
     var concept4Counters = [0, 0, 0]; // Track sequential rotation indices for Concept 4 (L1, L2, L3)
     var concept1LastType = [-1, -1];
     var concept1TypeCount = [0, 0];
@@ -1132,15 +1133,20 @@
     };
 
     function loadProgress() {
+      var savedMistakes = localStorage.getItem('exponents_beach_streak_mistakes');
+      if (savedMistakes) {
+        try { streakMistakes = JSON.parse(savedMistakes); } catch(e) {}
+      }
       var saved = localStorage.getItem('exponents_beach_streaks');
       if (saved) {
         try { streaks = JSON.parse(saved); } catch(e) {}
       }
     }
 
-    function saveProgress() {
+    function saveProgress(silent) {
       localStorage.setItem('exponents_beach_streaks', JSON.stringify(streaks));
-      showToast("Progress Saved! 💾", true);
+      localStorage.setItem('exponents_beach_streak_mistakes', JSON.stringify(streakMistakes));
+      if (!silent) showToast("Progress Saved! 💾", true);
     }
 
     function resetProgress() {
@@ -1151,7 +1157,7 @@
           [0, 0, 0],
           [0, 0, 0]
         ];
-        concept3Counters = [0, 0];
+        streakMistakes = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
         concept4Counters = [0, 0, 0];
         concept1LastType = [-1, -1];
         concept1TypeCount = [0, 0];
@@ -1210,7 +1216,7 @@
         topParts.push(dy === 1 ? "y" : "y^{" + dy + "}");
       }
 
-      if (n2 !== 1 || hasBotVars) {
+      if (n2 !== 1) {
         botParts.push(n2);
       }
       if (dx < 0) {
@@ -1535,61 +1541,27 @@
 
       if (concept === 2) {
         if (level === 0) {
-          var pType = concept3Counters[0] % 3;
-          concept3Counters[0]++;
-          if (pType === 0) {
-            var base = Math.floor(Math.random() * 5) + 2;
-            var exp = Math.floor(Math.random() * 3) + 2;
-            return {
-              type: "evaluate_select",
-              expr: `${base}<sup>${exp}</sup>`,
-              correctForm: "whole",
-              correctVal: Math.pow(base, exp)
-            };
-          } else if (pType === 1) {
-            var den = Math.floor(Math.random() * 4) + 3;
-            var num = Math.floor(Math.random() * (den - 1)) + 1;
-            var exp = Math.floor(Math.random() * 2) + 2;
-            var powerNum = Math.pow(num, exp);
-            var powerDen = Math.pow(den, exp);
-            var divisor = gcd(powerNum, powerDen);
-            return {
-              type: "evaluate_select",
-              expr: `(<div class="fraction-expr"><div class="numerator">${num}</div><div class="fraction-line"></div><div class="denominator">${den}</div></div>)<sup>${exp}</sup>`,
-              correctForm: "fraction",
-              num: powerNum / divisor,
-              den: powerDen / divisor
-            };
-          } else {
-            var base = Math.floor(Math.random() * 5) + 2;
-            var lowerExp = Math.floor(Math.random() * 3) + 2;
-            var upperExp = lowerExp + Math.floor(Math.random() * 3) + 1;
-            return {
-              type: "evaluate_select",
-              expr: `<div class="fraction-expr"><div class="numerator">${base}<sup>${upperExp}</sup></div><div class="fraction-line"></div><div class="denominator">${base}<sup>${lowerExp}</sup></div></div>`,
-              correctForm: "whole",
-              correctVal: Math.pow(base, upperExp - lowerExp)
-            };
-          }
+          var base = Math.floor(Math.random() * 5) + 2;
+          var exp = Math.floor(Math.random() * 3);
+          return {
+            type: "evaluate",
+            expr: `${base}<sup>${exp}</sup>`,
+            correctVal: Math.pow(base, exp)
+          };
         } else if (level === 1) {
-          var pType = concept3Counters[1] % 2;
-          concept3Counters[1]++;
-          var base = Math.floor(Math.random() * 4) + 2;
-          var exp = Math.floor(Math.random() * 3) + 2;
-          if (pType === 0) {
+          var bVal = Math.floor(Math.random() * 4) + 2;
+          var useParen = Math.random() > 0.5;
+          if (useParen) {
             return {
-              type: "evaluate_select",
-              expr: `${base}<sup>-${exp}</sup>`,
-              correctForm: "fraction",
-              num: 1,
-              den: Math.pow(base, exp)
+              type: "evaluate",
+              expr: `(-${bVal})<sup>2</sup>`,
+              correctVal: Math.pow(-bVal, 2)
             };
           } else {
             return {
-              type: "evaluate_select",
-              expr: `(<div class="fraction-expr"><div class="numerator">1</div><div class="fraction-line"></div><div class="denominator">${base}</div></div>)<sup>-${exp}</sup>`,
-              correctForm: "whole",
-              correctVal: Math.pow(base, exp)
+              type: "evaluate",
+              expr: `-${bVal}<sup>2</sup>`,
+              correctVal: -Math.pow(bVal, 2)
             };
           }
         } else {
@@ -1808,6 +1780,7 @@
     }
 
     function loadNextProblem() {
+      streakMistakes[currentConcept][currentLevel] = 0;
       activeProblem = generateProblem(currentConcept, currentLevel);
       document.getElementById('problemExpr').innerHTML = activeProblem.expr;
 
@@ -1834,25 +1807,6 @@
             </div>
           `;
         }
-      } else if (activeProblem.type === "evaluate_select") {
-        ["whole", "fraction"].forEach(function(key) {
-          var btn = document.createElement('button');
-          btn.type = "button";
-          btn.className = "template-btn";
-          btn.dataset.key = key;
-          btn.innerText = key === "whole" ? "Whole number" : "Fraction";
-          btn.onclick = function() {
-            selectedTemplateKey = key;
-            selectorBar.querySelectorAll('.template-btn').forEach(function(b) {
-              b.classList.toggle('active', b.dataset.key === key);
-            });
-            container.innerHTML = key === "whole"
-              ? `<input type="number" id="singleValInput" class="math-input input-single" placeholder="Answer" autofocus>`
-              : `<div class="fraction-expr"><div class="numerator"><input type="number" id="numInput" class="math-input input-coeff" placeholder="Numerator" autofocus></div><div class="fraction-line"></div><div class="denominator"><input type="number" id="denInput" class="math-input input-coeff" placeholder="Denominator"></div></div>`;
-            container.querySelector('input').focus();
-          };
-          selectorBar.appendChild(btn);
-        });
       } else if (activeProblem.type === "evaluate") {
         if (activeProblem.isFraction) {
           container.innerHTML = `
@@ -2138,16 +2092,6 @@
         if (cVal === activeProblem.correctCoeff && eVal === activeProblem.correctExp) {
           isCorrect = true;
         }
-      } else if (activeProblem.type === "evaluate_select") {
-        if (selectedTemplateKey === activeProblem.correctForm) {
-          if (selectedTemplateKey === "whole") {
-            isCorrect = Number(document.getElementById('singleValInput').value) === activeProblem.correctVal && document.getElementById('singleValInput').value !== "";
-          } else {
-            var nVal = Number(document.getElementById('numInput').value);
-            var dVal = Number(document.getElementById('denInput').value);
-            isCorrect = document.getElementById('numInput').value !== "" && document.getElementById('denInput').value !== "" && dVal !== 0 && nVal * activeProblem.den === dVal * activeProblem.num;
-          }
-        }
       } else if (activeProblem.type === "evaluate") {
         if (activeProblem.isFraction) {
           var nVal = parseInt(document.getElementById('numInput').value);
@@ -2211,6 +2155,7 @@
       }
 
       if (isCorrect) {
+        streakMistakes[currentConcept][currentLevel] = 0;
         streaks[currentConcept][currentLevel]++;
         showToast("Correct! 🎉", true);
         saveProgress();
@@ -2223,10 +2168,16 @@
           loadNextProblem();
         }
       } else {
-        streaks[currentConcept][currentLevel] = 0;
-        showToast("Not quite! Streak reset to 0. Try again! 💪", false);
-        document.getElementById('currentStreakVal').innerText = 0;
-        saveProgress();
+        streakMistakes[currentConcept][currentLevel]++;
+        if (currentLevel !== 2 || streakMistakes[currentConcept][currentLevel] >= 2) {
+          streaks[currentConcept][currentLevel] = 0;
+          streakMistakes[currentConcept][currentLevel] = 0;
+          showToast("Not quite! Streak reset to 0. Try again! 💪", false);
+        } else {
+          showToast("You made 1 mistake. Your streak is safe—you have one more try! 💪", false);
+        }
+        document.getElementById('currentStreakVal').innerText = streaks[currentConcept][currentLevel];
+        saveProgress(true);
       }
     }
 
