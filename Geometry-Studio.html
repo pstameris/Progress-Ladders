@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometry Studio · Scale &amp; Similarity</title>
+<meta name="description" content="Explore dilations, coordinate rules, and similar figures in nine interactive geometry levels.">
+<style>
+:root {
+  --bg: #f4f5ef;
+  --ink: #18382f;
+  --muted: #587068;
+  --line: #d5dfd6;
+  --green: #19654f;
+  --lime: #ddf38b;
+  --paper: #fffef9;
+  --blue: #3165ba;
+  --orange: #c0662e;
+  --red: #aa3e32;
+  --gold: #b77800
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 system-ui, sans-serif
+}
+
+button,
+input {
+  font: inherit
+}
+
+button {
+  cursor: pointer
+}
+
+button:disabled {
+  cursor: default;
+  opacity: .5
+}
+
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #d99014;
+  outline-offset: 3px
+}
+
+header {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper)
+}
+
+header>div {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: -.6px;
+  font-size: 21px
+}
+
+.brand span {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  background: var(--green);
+  color: var(--lime);
+  border-radius: 9px
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 32px 26px 60px
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green)
+}
+
+h1 {
+  font: clamp(38px, 6vw, 66px)/1.07 Georgia, serif;
+  letter-spacing: -2px;
+  margin: 14px 0 20px
+}
+
+h2 {
+  font: 32px/1.2 Georgia, serif;
+  margin: 10px 0 16px
+}
+
+h3 {
+  margin: 0 0 12px;
+  font-size: 20px
+}
+
+p {
+  color: var(--muted)
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 30px
+}
+
+.hero p {
+  max-width: 560px;
+  font-size: 18px
+}
+
+.blueprint {
+  background: #153d33;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px #163b3018
+}
+
+.hero svg {
+  display: block;
+  width: 100%;
+  max-height: 260px
+}
+
+.tag {
+  background: #e8eee5;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 7px 14px;
+  font-size: 13px;
+  white-space: nowrap
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px
+}
+
+.secondary,
+.primary {
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-weight: 700;
+  background: var(--paper);
+  color: var(--ink)
+}
+
+.primary {
+  background: var(--green);
+  color: white;
+  border-color: var(--green)
+}
+
+.primary:hover:not(:disabled) {
+  background: #114b3a
+}
+
+.secondary:hover {
+  background: #e8eee5
+}
+
+.ladder {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper)
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px
+}
+
+th {
+  text-align: left;
+  padding: 17px 20px;
+  background: #e5ecdf;
+  font-size: 12px;
+  letter-spacing: 1px
+}
+
+td {
+  vertical-align: top;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+  width: 25%
+}
+
+.topic {
+  padding: 25px 20px
+}
+
+.topic small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--green);
+  font-weight: 800
+}
+
+.topic strong {
+  display: block;
+  font: 24px/1.2 Georgia, serif;
+  margin: 8px 0
+}
+
+.cell {
+  width: 100%;
+  min-height: 170px;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: #f6f8f0;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: var(--ink)
+}
+
+.cell:hover:not(:disabled) {
+  border-color: var(--green);
+  background: #edf3df
+}
+
+.cell.complete {
+  background: #e7f1db;
+  border-color: #99bb80
+}
+
+.cell span:last-child {
+  margin-top: auto;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--green)
+}
+
+.foot {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 22px
+}
+
+.titlebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center
+}
+
+.stars {
+  font-size: 39px;
+  letter-spacing: 8px;
+  color: #cbd2c6;
+  white-space: nowrap
+}
+
+.stars .on {
+  color: var(--gold)
+}
+
+.policy {
+  font-size: 13px;
+  margin-top: 0
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 20px
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--paper);
+  padding: 24px;
+  min-width: 0
+}
+
+.grid {
+  display: block;
+  width: 100%;
+  background: #fbfcf8;
+  border-radius: 9px;
+  touch-action: none;
+  border: 1px solid #dce4db
+}
+
+.legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  margin: 14px 0 0
+}
+
+.original {
+  color: var(--blue)
+}
+
+.image {
+  color: var(--orange)
+}
+
+.point-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0
+}
+
+.point-row label {
+  min-width: 26px;
+  font-weight: 750
+}
+
+.point-row input {
+  width: 90px;
+  min-width: 0
+}
+
+.entry,
+input {
+  border: 1px solid #a8bbb0;
+  border-radius: 7px;
+  padding: 10px;
+  background: white;
+  color: var(--ink)
+}
+
+input {
+  max-width: 100%
+}
+
+.given {
+  padding: 14px 18px;
+  background: #edf2e8;
+  border-radius: 10px;
+  margin: 15px 0;
+  color: var(--ink)
+}
+
+.given span {
+  display: inline-block;
+  margin-right: 15px
+}
+
+.factor {
+  font-size: 24px;
+  font-weight: 700
+}
+
+.feedback {
+  min-height: 62px;
+  margin: 18px 0 8px;
+  font-weight: 650
+}
+
+.feedback.good {
+  color: var(--green)
+}
+
+.feedback.bad {
+  color: var(--red)
+}
+
+.feedback.neutral {
+  color: var(--muted)
+}
+
+.tip {
+  font-size: 14px;
+  border-left: 3px solid #b4cf78;
+  padding-left: 14px;
+  margin-top: 18px
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap
+}
+
+.rule-entry {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 22px;
+  margin: 20px 0
+}
+
+.rule-entry input {
+  width: 100px
+}
+
+.big-input {
+  width: 150px;
+  font-size: 22px
+}
+
+.drawing {
+  width: 100%;
+  display: block;
+  min-height: 250px
+}
+
+.word {
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--ink)
+}
+
+.handle {
+  cursor: grab
+}
+
+.handle:active {
+  cursor: grabbing
+}
+
+.correspondence {
+  font-size: 13px
+}
+
+.mini-table {
+  min-width: 0
+}
+
+.mini-table td {
+  padding: 9px;
+  width: auto
+}
+
+.mini-table th {
+  padding: 9px;
+  letter-spacing: 0
+}
+
+.example {
+  font-size: 13px
+}
+
+dialog {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper);
+  color: var(--ink);
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  padding: 36px
+}
+
+dialog::backdrop {
+  background: #16352b99
+}
+
+.medal {
+  font-size: 65px
+}
+
+.burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10;
+  width: 9px;
+  height: 15px;
+  top: -20px;
+  background: var(--green);
+  animation: fall 2.2s forwards
+}
+
+@keyframes fall {
+  to {
+    transform: translate(var(--drift), 105vh) rotate(540deg)
+  }
+}
+
+@media(max-width:760px) {
+  main {
+    padding: 24px 16px
+  }
+
+  .hero,
+  .stage {
+    grid-template-columns: 1fr
+  }
+
+  .hero .blueprint {
+    display: none
+  }
+
+  .titlebar {
+    display: block
+  }
+
+  .stars {
+    font-size: 32px
+  }
+
+  .card {
+    padding: 17px
+  }
+
+  header>div {
+    padding: 16px
+  }
+
+  .brand {
+    font-size: 17px
+  }
+
+  .tag {
+    font-size: 11px
+  }
+
+  .point-row input {
+    width: 80px
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    animation: none !important
+  }
+}
+.annotation-board{position:relative}.annotation-board .drawing{display:block}.annotation-board #notesLayer{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}.annotation-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}.annotation-tools label{font-size:13px;font-weight:700}.annotation-tools input{width:130px}.annotation-tools button{font-size:13px;padding:8px 11px}.annotation-tools button[aria-pressed="true"]{background:var(--green);color:white}
+</style>
+</head>
+<body>
+<header>
+<div>
+<div class="brand">
+<span>△</span>GEOMETRY STUDIO</div>
+<div class="tag" id="mastery">0 / 4 concepts mastered</div>
+</div>
+</header>
+<main id="app">
+</main>
+<dialog id="award">
+<div class="medal">✦</div>
+<div class="eyebrow">Level complete</div>
+<h2 id="awardTitle">
+</h2>
+<p id="awardText">
+</p>
+<button class="primary" id="continue">Continue</button>
+<p>
+<button class="secondary" id="awardHome">Back to concepts</button>
+</p>
+</dialog>
+<script>
+'use strict';
+const TOPICS = ['Dilations', 'Rules for Dilation', 'Similarity'];
+const RUBRIC = [
+  ['Use the given coordinates and scale factor to enter the image points.', 'Read the graph and drag each image vertex using the scale factor.', 'Use the original and image coordinates to find the scale factor.'],
+  ['Use the given coordinates and dilation rule to enter the image points.', 'Read the graph and drag each image vertex using the dilation rule.', 'Use the original and image coordinates to write the dilation rule.'],
+  ['Find a missing side in two similar triangles.', 'Use partial segments to find missing lengths in nested similar triangles.', 'Solve real-world problems with similar figures.']
+];
+const KEY = 'geometry-scale-studio-v1';
+let progress;
+try {
+  progress = JSON.parse(localStorage.getItem(KEY));
+} catch {}
+if (!progress || !Array.isArray(progress.done) || progress.done.length < 3) progress = {
+  done: [0, 0, 0, 0]
+};
+while (progress.done.length < 4) progress.done.push(0);
+let session = null,
+  q = null,
+  advanceTimer = null,
+  locked = false;
+const app = document.getElementById('app');
+const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const pick = a => a[rand(0, a.length - 1)];
+const equal = (a, b) => Math.abs(a - b) < 1e-8;
+const samePoint = (a, b) => a && b && equal(a[0], b[0]) && equal(a[1], b[1]);
+const fmt = n => Number.isInteger(n) ? String(n) : String(Math.round(n * 10000) / 10000);
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch {}
+}
+
+function parseNumber(value) {
+  const s = value.trim().replace(/[−–]/g, '-');
+  if (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return Number(s);
+  const m = s.match(/^([+-]?\d+)\s*\/\s*(\d+)$/);
+  return m && +m[2] !== 0 ? +m[1] / +m[2] : null;
+}
+
+// Balanced six-factor cycle; fractions display exactly in prompts and rules.
+const SCALE_FACTORS = [[2,1],[2,3],[3,2],[1,3],[3,1],[1,2]];
+function scalePair(index) { return SCALE_FACTORS[index % SCALE_FACTORS.length]; }
+function factorText(k) {
+  for (const [n,d] of SCALE_FACTORS) if (equal(k,n/d)) return d===1 ? String(n) : n+'/'+d;
+  return fmt(k);
+}
+
+function ruleText(k) {
+  const t = factorText(k);
+  return `(x, y) → (${t}x, ${t}y)`;
+}
+
+function coefficient(value, variable) {
+  const s = value.toLowerCase().replace(/\s/g, '').replace(/[−–]/g, '-').replace(/×/g, '*');
+  if (s === variable || s === '+' + variable) return 1;
+  let m = s.match(new RegExp('^([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:/\\d+)?)\\*?' + variable + '$'));
+  if (m) return parseNumber(m[1]);
+  m = s.match(new RegExp('^' + variable + '/([1-9]\\d*)$'));
+  if (m) return 1 / +m[1];
+  m = s.match(new RegExp('^\\(([+-]?\\d+/[1-9]\\d*)\\)\\*?' + variable + '$'));
+  return m ? parseNumber(m[1]) : null;
+}
+
+function heroArt() {
+  return `<svg viewBox="0 0 420 260" aria-hidden="true"><defs><pattern id="mesh" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#ffffff13"/></pattern></defs><rect width="420" height="260" fill="url(#mesh)"/><path d="M55 218L360 218M75 238V25" stroke="#b5d5bb60"/><path d="M98 196L159 196L98 148Z" fill="#ddf38b30" stroke="#ddf38b" stroke-width="2"/><path d="M121 174L304 174L121 30Z" fill="#a4cfcb13" stroke="#a4cfcb" stroke-width="2"/><path d="M75 218L121 30M75 218L304 174" stroke="#ddf38b55" stroke-dasharray="5 6"/><text x="290" y="67" fill="#ddf38b" font-family="Georgia" font-size="35">× 3</text><text x="235" y="243" fill="#a4cfcb" font-size="11" letter-spacing="3">SAME SHAPE. NEW SCALE.</text></svg>`;
+}
+
+function home() {
+  clearTimeout(advanceTimer);
+  session = null;
+  locked = false;
+  document.getElementById('mastery').textContent = progress.done.filter(n => n === 3).length + ' / 4 concepts mastered';
+  app.innerHTML = `<section class="hero"><div><div class="eyebrow">The scale & similarity collection</div><h1>Small moves.<br>Big discoveries.</h1><p>Enlarge, shrink, and uncover what stays the same. Build your geometry skills one five-star level at a time.</p></div><div class="blueprint">${heroArt()}</div></section><div class="toolbar"><span class="tag">5 stars to advance · 1 error forgiven · Challenge: 2 errors forgiven per problem</span><button class="secondary" id="reset">Reset progress</button></div><div class="ladder"><table><thead><tr><th>YOUR CONCEPTS</th><th>LEVEL 1 · EXPLORE</th><th>LEVEL 2 · BUILD</th><th>LEVEL 3 · MASTER</th></tr></thead><tbody>${TOPICS.map((name,t)=>`<tr><td class="topic"><small>CONCEPT 0${t+1}</small><strong>${name}</strong>${progress.done[t]===3?'★ Mastered':''}</td>${RUBRIC[t].map((text,i)=>`<td><button class="cell ${progress.done[t]>i?'complete':''}" data-topic="${t}" data-level="${i+1}" ${progress.done[t]<i?'disabled':''}><b>${text}</b><span>${progress.done[t]<i?'🔒 Complete Level '+i+' first':progress.done[t]>i?'✓ Complete · Practice again':'Start exploring →'}</span></button></td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="foot">Each concept unlocks separately. Progress saves on this browser.<br>All coordinate dilations are centered at the origin. Challenge: dilations appear in 2 of every 3 problems.</p>`;
+  app.querySelectorAll('[data-topic]').forEach(b => b.onclick = () => start(+b.dataset.topic, +b.dataset.level));
+  document.getElementById('reset').onclick = () => {
+    if (confirm('Reset all saved geometry progress on this browser?')) {
+      progress = {
+        done: [0, 0, 0, 0]
+      };
+      save();
+      home();
+    }
+  };
+}
+
+function start(topic, level) {
+  session = {
+    topic,
+    level,
+    count: 0,
+    turn: 0,
+    errors: 0,
+    lastSignature: ''
+  };
+  next();
+}
+
+function dilationQuestion() {
+  const [numerator,denominator]=scalePair(session.turn),k=numerator/denominator;
+  for(let attempt=0;attempt<100;attempt++) {
+    const sx=pick([-1,1]),sy=pick([-1,1]),bx=rand(-1,1),by=rand(-1,1);
+    const base=[[bx,by],[bx+rand(1,2),by],[bx,by+rand(1,2)]];
+    const p=base.map(([x,y])=>[x*sx*denominator,y*sy*denominator]);
+    const target=p.map(v=>v.map(a=>a*k));
+    const signature=JSON.stringify([p,k]);
+    if(signature===session.lastSignature)continue;
+    session.lastSignature=signature;
+    return {kind:'dilation',p,target,k,placed:p.map(v=>v.slice()),showRays:false};
+  }
+  throw Error('Unable to generate dilation');
+}
+function similarityQuestion(nested) {
+  if(nested) return nestedSegmentQuestion();
+  const [numerator,denominator]=scalePair(session.turn),k=numerator/denominator;
+  const triple=pick([[3,4,5],[5,12,13],[6,8,10]]);
+  const multiplier=rand(1,3)*denominator;
+  const sides=triple.map(v=>v*multiplier),image=sides.map(v=>v*k);
+  const missing=rand(0,nested?1:2);
+  // Alternate the target size independently of the enlargement/reduction factor.
+  const largerImage=k>1?1:0;
+  const which=session.turn%2===0?largerImage:1-largerImage;
+  return {kind:'similarity',nested,k,sides,image,missing,which,answer:(which?image:sides)[missing]};
+}
+
+function wordQuestion() {
+  const [n,d]=scalePair(session.turn),k=n/d,variant=session.turn%5;
+  if(variant===0) {
+    const a=10*d,b=10*n,h=8*d,newHeight=8*n;
+    return {kind:'word',art:'ladder',k,text:`Two ladders lean against a wall and make the same angle with the ground. The ${a}-ft ladder reaches ${h} ft up the wall. How much ${k>1?'farther up':'lower on'} the wall does the ${b}-ft ladder reach?`,answer:Math.abs(newHeight-h),units:'ft',hint:'Use the ratio of ladder lengths to find the other height. Then find the difference between the heights.',detail:`Other height = ${h} × ${factorText(k)} = ${newHeight} ft. Difference = ${Math.abs(newHeight-h)} ft.`};
+  }
+  if(variant===1) {
+    const person=pick([1.5,1.6,1.8]),shadow=2.9*d,otherShadow=2.9*n,name=k>1?'tower':'statue';
+    const answer=Math.round(person*k*10)/10;
+    return {kind:'word',art:'shadow',k,text:`On a sunny day, Josée is ${person} m tall and her shadow is ${fmt(shadow)} m long. At the same time, a ${name}'s shadow is ${fmt(otherShadow)} m long. How tall is the ${name}? Round to the nearest tenth of a meter.`,answer,units:'m',round:true,hint:'The sun creates similar triangles. Height ÷ shadow length stays the same.',detail:`Height = ${person} × ${fmt(otherShadow)} ÷ ${fmt(shadow)} ≈ ${fmt(answer)} m.`};
+  }
+  if(variant===2) {
+    const width=6*d,height=4*d,newWidth=6*n;
+    return {kind:'word',art:'poster',k,text:`A rectangular photograph is ${width} cm wide and ${height} cm tall. It is ${k>1?'enlarged':'reduced'} without changing its shape until it is ${newWidth} cm wide. How tall is the new photograph?`,answer:4*n,units:'cm',hint:'The width and height must use the same scale factor.',detail:`Scale factor = ${newWidth}/${width} = ${factorText(k)}. New height = ${4*n} cm.`};
+  }
+  if(variant===3) {
+    return {kind:'word',art:'shadow',k,text:`A ${2*d}-m measuring pole casts a ${3*d}-m shadow. At the same time, a young tree casts a ${3*n}-m shadow. What is the height of the tree?`,answer:2*n,units:'m',hint:'Compare the height-to-shadow ratios of the two similar triangles.',detail:`Tree height = ${2*d} × ${factorText(k)} = ${2*n} m.`};
+  }
+  return {kind:'word',art:'poster',k,text:`A rectangular stage backdrop is ${3*d} ft wide and ${6*d} ft tall. A similar backdrop in a new design is ${3*n} ft wide. How tall is the new backdrop?`,answer:6*n,units:'ft',hint:'Use the ratio of the widths as the scale factor for the heights.',detail:`New height = ${6*d} × ${factorText(k)} = ${6*n} ft.`};
+}
+
+function next() {
+  clearTimeout(advanceTimer);
+  locked = false;
+  session.errors = 0;
+  q = session.topic === 3 ? challengeQuestion() : session.topic < 2 ? dilationQuestion() : session.level === 3 ? wordQuestion() : similarityQuestion(session.level === 2);
+  session.turn++;
+  render();
+}
+
+function renderTop() {
+  const stars = Array.from({length: 5}, (_, i) => '<span class="' + (i < session.count ? 'on' : '') + '">' + (i < session.count ? '★' : '☆') + '</span>').join('');
+  return `<div class="toolbar"><button class="secondary" id="back">← Concepts</button><span class="tag">Concept ${session.topic+1} · Level ${session.level}</span></div><div class="titlebar"><div><div class="eyebrow">${['Explore','Build','Master'][session.level-1]} · ${TOPICS[session.topic]}</div><h2>${TOPICS[session.topic]}${session.topic<2?' · '+(q.k>1?'Enlarge':'Shrink'):''}</h2></div><div class="stars" id="stars" aria-label="${session.count} of 5 stars">${stars}</div></div><p class="policy" id="policy">${errorPolicy()}</p>`;
+}
+function errorPolicy() {
+  if(session.topic === 3) return `${Math.max(0,2-session.errors)} of 2 errors remaining for this problem. The third error resets your streak.`;
+  return session.errors === 0 ? 'One incorrect check is forgiven on this problem.' : session.errors === 1 ? 'Your forgiven error is used. A second error resets your streak.' : 'Your streak has reset. Keep working on this problem; the next problem gets a fresh error allowance.';
+}
+function controls() {
+  return '<div id="feedback" class="feedback neutral" role="status" aria-live="polite"></div><div class="actions"><button class="primary" id="check">Check answer</button><button class="secondary" id="tip">Hint</button></div><div class="tip" id="hint" hidden></div>';
+}
+
+  function render() {
+    if(session.topic === 3) { renderChallenge(); return; }
+    app.innerHTML = renderTop() + (q.kind === 'dilation' ? renderDilation() : renderSimilarity());
+    document.getElementById('back').onclick = home;
+    document.getElementById('check').onclick = check;
+    document.getElementById('tip').onclick = () => {
+      const el = document.getElementById('hint');
+      el.hidden = false;
+      el.textContent = q.kind === 'dilation' ? (session.level === 3 ? 'Compare an image coordinate with its matching nonzero original coordinate: image ÷ original. The same factor applies to both x and y.' : 'Multiply both coordinates by the factor in the dilation. A factor greater than 1 enlarges; a factor between 0 and 1 shrinks.') : (q.kind === 'word' || q.segmentProblem) ? q.hint : 'Match corresponding sides. Divide one known image side by its original side, then use that same scale factor for the missing side.';
+    };
+    if (q.kind === 'dilation' && session.level === 1) document.querySelectorAll('[data-coordinate]').forEach(i => i.oninput = updateTyped);
+    if (q.kind === 'dilation' && session.level === 2) bindDrag();
+    if(q.kind === 'word') bindAnnotations();
+  }
+
+  function renderDilation() {
+    const level = session.level,
+      rules = session.topic === 1;
+    const given = rules ? ruleText(q.k) : `Scale factor: ${factorText(q.k)}`;
+    let prompt = level === 1 ? 'Enter the coordinates of A′, B′, and C′.' : level === 2 ? 'Drag A′, B′, and C′ to their image locations.' : rules ? 'Write the dilation rule from ABC to A′B′C′.' : 'What scale factor maps ABC to A′B′C′?';
+    const points = `<div class="given">${q.p.map((p,i)=>`<span><b>${'ABC'[i]}</b> (${p.map(fmt).join(', ')})</span>`).join('')}</div>`;
+    const table = `<table class="mini-table"><thead><tr><th>Original</th><th>Image</th></tr></thead><tbody>${q.p.map((p,i)=>`<tr><td>${'ABC'[i]} (${p.map(fmt).join(', ')})</td><td>${'ABC'[i]}′ (${q.target[i].map(fmt).join(', ')})</td></tr>`).join('')}</tbody></table>`;
+    const entry = level === 1 ? q.p.map((_, i) => `<div class="point-row"><label for="x${i}">${'ABC'[i]}′</label><span>(</span><input id="x${i}" data-coordinate type="text" inputmode="decimal" aria-label="${'ABC'[i]} prime x coordinate"><span>,</span><input id="y${i}" data-coordinate type="text" inputmode="decimal" aria-label="${'ABC'[i]} prime y coordinate"><span>)</span></div>`).join('') : level === 2 ? `<p>Read the original points from the graph. Drag the orange handles or select a handle and use the arrow keys. Each step is one grid unit.</p><button class="secondary" id="resetPoints" onclick="resetPoints()">Reset image points</button>` : rules ? `<div class="rule-entry"><span>(x, y) → (</span><input id="ruleX" aria-label="First coordinate expression" placeholder="e.g. 1/2x"><span>,</span><input id="ruleY" aria-label="Second coordinate expression" placeholder="e.g. 1/2y"><span>)</span></div><p class="example">Use expressions such as 3x and 3y, or 1/2x and 1/2y.</p>` : `<label for="answer">Scale factor</label><p><input id="answer" class="big-input" autocomplete="off" placeholder="e.g. 3 or 1/2"></p><p class="example">Enter a whole number or a fraction.</p>`;
+    return `<div class="stage"><section class="card"><div id="graph">${grid()}</div><div class="legend"><span class="original">● Original ABC</span><span class="image">● Image A′B′C′</span></div><p class="example">Center of dilation: O (0, 0). Every grid square is 1 unit.</p></section><section class="card"><h3>${prompt}</h3>${level<3?`<div class="given factor">${given}</div>`:''}${level===1?points:level===3?table:''}${entry}${controls()}</section></div>`;
+  }
+  const pos = ([x, y]) => [240 + x * 21, 240 - y * 21];
+
+  function polygon(points, color, prime) {
+    return `<polygon points="${points.map(v=>pos(v).join(',')).join(' ')}" fill="${color}15" stroke="${color}" stroke-width="2.5"/>` + points.map((v, i) => {
+      const [x, y] = pos(v);
+      return `<circle cx="${x}" cy="${y}" r="4" fill="${color}"/><text x="${x+(prime?8:-18)}" y="${y+(prime?17:-9)}" fill="${color}" font-size="13" font-weight="700">${'ABC'[i]}${prime?'′':''}</text>`;
+    }).join('');
+  }
+
+  function grid() {
+    let s = '';
+    for (let i = -10; i <= 10; i++) {
+      const a = 240 + i * 21;
+      s += `<path d="M${a} 30V450 M30 ${a}H450" stroke="${i===0?'#6c8377':'#dee6dc'}" stroke-width="${i===0?1.6:.7}"/>`;
+      if (i && i % 2 === 0) s += `<text x="${a}" y="256" text-anchor="middle" fill="#57695f" font-size="10">${i}</text><text x="226" y="${240-i*21+4}" text-anchor="end" fill="#57695f" font-size="10">${i}</text>`;
+    }
+    s += `<text x="456" y="234" font-size="13">x</text><text x="247" y="23" font-size="13">y</text><text x="226" y="256" font-size="10">O</text>`;
+    if (q.showRays) {
+      q.p.forEach((p, i) => {
+        const far = q.k > 1 ? q.target[i] : p;
+        const [x, y] = pos(far);
+        s += `<path d="M240 240L${240+(x-240)*1.12} ${240+(y-240)*1.12}" stroke="#729a53" stroke-width="2" stroke-dasharray="6 4"/>`;
+      });
+    }
+    s += polygon(q.p, '#3165ba', false);
+    if (session.level === 3 || q.showRays) s += polygon(q.target, '#c0662e', true);
+    else if (session.level === 2) {
+      s += polygon(q.placed, '#c0662e', true);
+      s += q.placed.map((v, i) => {
+        const [x, y] = pos(v);
+        return `<g class="handle" data-vertex="${i}" transform="translate(${x} ${y})" role="button" tabindex="0" aria-label="Move ${'ABC'[i]} prime with arrow keys"><circle r="10" fill="#c0662e" stroke="white" stroke-width="2"/><text y="4" fill="white" text-anchor="middle" font-size="10">${'ABC'[i]}</text></g>`;
+      }).join('');
+    } else if (q.typed) {
+      if (q.typed.every(Boolean)) s += polygon(q.typed, '#c0662e', true);
+      else q.typed.forEach((p, i) => {
+        if (p) {
+          const [x, y] = pos(p);
+          s += `<circle cx="${x}" cy="${y}" r="5" fill="#c0662e"/><text x="${x+8}" y="${y-8}" fill="#c0662e">${'ABC'[i]}′</text>`;
+        }
+      });
+    }
+    return `<svg class="grid" id="grid" viewBox="0 0 480 480" role="group" aria-label="Coordinate grid from negative ten to ten; blue original triangle and orange image">${s}</svg>`;
+  }
+
+  function refreshGrid() {
+    document.getElementById('graph').innerHTML = q.kind === 'challenge' ? challengeGrid() : grid();
+    if ((session.level === 2 || q.kind === 'challenge') && !locked) bindDrag();
+  }
+
+  function updateTyped() {
+    q.typed = q.p.map((_, i) => {
+      const x = parseNumber(document.getElementById('x' + i).value),
+        y = parseNumber(document.getElementById('y' + i).value);
+      return x !== null && y !== null && Math.abs(x) <= 10 && Math.abs(y) <= 10 ? [x, y] : null;
+    });
+    refreshGrid();
+  }
+
+  function resetPoints() {
+    if (locked) return;
+    q.placed = q.p.map(v => v.slice());
+    refreshGrid();
+  }
+
+  function bindDrag() {
+    document.querySelectorAll('[data-vertex]').forEach(h => {
+      const i = +h.dataset.vertex;
+      let active = false;
+      h.onpointerdown = e => {
+        if (locked) return;
+        e.preventDefault();
+        active = true;
+        h.setPointerCapture(e.pointerId);
+      };
+      h.onpointermove = e => {
+        if (!active || locked) return;
+        const svg = document.getElementById('grid'),
+          p = svg.createSVGPoint();
+        p.x = e.clientX;
+        p.y = e.clientY;
+        const loc = p.matrixTransform(svg.getScreenCTM().inverse());
+        q.placed[i] = [Math.max(-10, Math.min(10, Math.round((loc.x - 240) / 21))), Math.max(-10, Math.min(10, Math.round((240 - loc.y) / 21)))];
+        const [x, y] = pos(q.placed[i]);
+        h.setAttribute('transform', `translate(${x} ${y})`);
+      };
+      h.onpointerup = () => {
+        active = false;
+        if (!locked) refreshGrid();
+      };
+      h.onpointercancel = () => {
+        active = false;
+        if (!locked) refreshGrid();
+      };
+      h.onkeydown = e => {
+        if (locked) return;
+        const d = {
+          ArrowLeft: [-1, 0],
+          ArrowRight: [1, 0],
+          ArrowUp: [0, 1],
+          ArrowDown: [0, -1]
+        } [e.key];
+        if (d) {
+          e.preventDefault();
+          q.placed[i] = q.placed[i].map((n, j) => Math.max(-10, Math.min(10, n + d[j])));
+          refreshGrid();
+          document.querySelector(`[data-vertex="${i}"]`).focus();
+        }
+      };
+    });
+  }
+
+  function triangleDiagram() {
+    const nested = q.nested,
+      large = q.k > 1 ? 1 : 0,
+      ratio = Math.min(q.k, 1 / q.k);
+    const small = [
+        [70, 275],
+        [70 + 320 * ratio, 275],
+        [70, 275 - 210 * ratio]
+      ],
+      big = [
+        [70, 275],
+        [390, 275],
+        [70, 65]
+      ];
+    const left = [
+        [35, 245],
+        [165, 245],
+        [35, 80]
+      ],
+      right = [
+        [255, 245],
+        [450, 245],
+        [255, 30]
+      ];
+    const original = nested ? (large ? small : big) : (q.k > 1 ? left : right),
+      image = nested ? (large ? big : small) : (q.k > 1 ? right : left);
+
+    function triangle(points, color, labels, which) {
+      let out = `<polygon points="${points.map(v=>v.join(',')).join(' ')}" fill="${color}10" stroke="${color}" stroke-width="2.8"/>`;
+      const edges = [
+          [0, 1],
+          [0, 2],
+          [1, 2]
+        ],
+        lengths = which ? q.image : q.sides;
+      points.forEach(([x, y], i) => {
+        out += `<text x="${x+(i===1?7:-18)}" y="${y+(i===2?-10:20)}" font-size="14" fill="${color}" font-weight="700">${labels[i]}</text>`;
+      });
+      edges.forEach(([a, b], i) => {
+        if(q.nested && i===2) return;
+        const x = (points[a][0] + points[b][0]) / 2,
+          y = (points[a][1] + points[b][1]) / 2;
+        const value = q.which === which && q.missing === i ? '?' : fmt(lengths[i]);
+        out += `<text x="${x+(i===1?-28:i===2?16:0)}" y="${y+(i===0?which?45:23:0)}" text-anchor="middle" fill="${color}" stroke="#fffef9" stroke-width="5" paint-order="stroke" font-size="17" font-weight="750">${value}</text>`;
+      });
+      return out;
+    }
+    return `<svg class="drawing" viewBox="0 0 500 345" role="img" aria-label="${nested?'Nested similar triangles with a shared vertex':'Two similar triangles'}; corresponding side lengths appear in the table">${triangle(original,'#3165ba',['A','B','C'],0)}${triangle(image,'#c0662e',nested?['A','D','E']:['D','E','F'],1)}</svg>`;
+  }
+
+  function wordArt() {
+    return q.art === 'ladder' ? `<svg class="drawing" viewBox="0 0 500 330" aria-label="Two ladders against a wall at the same angle; diagram not to scale"><path d="M90 25V285H450" stroke="#62766b" stroke-width="4" fill="none"/><path d="M90 150L250 285M90 50L370 285" stroke="#c0662e" stroke-width="7"/><path d="M220 285A30 30 0 0 1 229 265M340 285A30 30 0 0 1 349 265" stroke="#3165ba" fill="none" stroke-width="2"/><text x="105" y="100" fill="#19654f">Height difference?</text><path d="M70 50V150" stroke="#19654f" stroke-width="2" stroke-dasharray="4 3"/></svg>` : q.art === 'shadow' ? `<svg class="drawing" viewBox="0 0 500 330" aria-label="A small object and a tall object with shadows; diagram not to scale"><circle cx="415" cy="45" r="25" fill="#e8c35b"/><path d="M35 280H475" stroke="#62766b" stroke-width="3"/><path d="M65 280V195L170 280Z" stroke="#3165ba" fill="#3165ba15" stroke-width="3"/><path d="M235 280V75L455 280Z" stroke="#c0662e" fill="#c0662e10" stroke-width="3"/><path d="M65 195L170 280M235 75L455 280" stroke="#c5a957" stroke-dasharray="5 5" stroke-width="2"/><text x="80" y="305" fill="#3165ba">shadow</text><text x="320" y="305" fill="#c0662e">shadow</text></svg>` : `<svg class="drawing" viewBox="0 0 500 330" aria-label="Two similar rectangular figures; diagram not to scale"><rect x="40" y="145" width="130" height="100" rx="2" fill="#3165ba15" stroke="#3165ba" stroke-width="3"/><rect x="245" y="75" width="221" height="170" rx="2" fill="#c0662e10" stroke="#c0662e" stroke-width="3"/><path d="M190 185H225M215 175L225 185L215 195" fill="none" stroke="#19654f" stroke-width="2"/></svg>`;
+  }
+
+  function renderSimilarity() {
+    if(q.segmentProblem) return renderNestedSegments();
+    if (q.kind === 'word') return `<div class="stage"><section class="card">${annotatedFigure()}<p class="example">Illustration only; use the measurements in the problem.</p></section><section class="card"><div class="eyebrow">Similarity in the real world</div><p class="word">${q.text}</p><label for="answer">Your answer (${q.units})</label><p><input id="answer" class="big-input" placeholder="${q.round?'Nearest tenth':'Number or fraction'}" autocomplete="off"></p>${controls()}</section></div>`;
+    const pairs = q.nested ? ['AB ↔ AD', 'AC ↔ AE', 'BC ↔ DE'] : ['AB ↔ DE', 'AC ↔ DF', 'BC ↔ EF'];
+    return `<div class="stage"><section class="card">${triangleDiagram()}<div class="legend"><span class="original">● ${q.nested?'△ABC':'△ABC'}</span><span class="image">● ${q.nested?'△ADE':'△DEF'}</span></div><p class="example">Figures are similar. Diagrams are not drawn to an exact scale.</p></section><section class="card"><h3>Find the missing side length.</h3><p>${q.nested?(q.k>1?'Triangles ABC and ADE share vertex A. B lies on AD and C lies on AE; BC ∥ DE.':'Triangles ABC and ADE share vertex A. D lies on AB and E lies on AC; DE ∥ BC.'):'Triangle ABC is similar to triangle DEF. Vertices correspond in the order shown.'}</p><table class="mini-table"><thead><tr><th>Corresponding sides</th><th class="original">Original</th><th class="image">Image</th></tr></thead><tbody>${pairs.map((pair,i)=> q.nested && i===2 ? '' : `<tr><td>${pair}</td><td>${q.which===0&&q.missing===i?'?':fmt(q.sides[i])}</td><td>${q.which===1&&q.missing===i?'?':fmt(q.image[i])}</td></tr>`).join('')}</tbody></table><p><label for="answer">Missing side length (units)</label></p><input id="answer" class="big-input" placeholder="Number or fraction" autocomplete="off">${controls()}</section></div>`;
+  }
+
+  function message(text, type = 'neutral') {
+    const f = document.getElementById('feedback');
+    f.textContent = text;
+    f.className = 'feedback ' + type;
+  }
+
+  function check() {
+    if (locked) return;
+    let ok = false;
+    if (q.kind === 'dilation') {
+      if (session.level === 1) {
+        const entered = q.p.map((_, i) => [parseNumber(document.getElementById('x' + i).value), parseNumber(document.getElementById('y' + i).value)]);
+        if (entered.some(p => p.some(v => v === null))) {
+          message('Enter all six coordinates as numbers or fractions.');
+          return;
+        }
+        ok = entered.every((v, i) => samePoint(v, q.target[i]));
+      } else if (session.level === 2) ok = q.placed.every((v, i) => samePoint(v, q.target[i]));
+      else if (session.topic === 0) {
+        const v = parseNumber(document.getElementById('answer').value);
+        if (v === null) {
+          message('Enter a whole number or fraction for the scale factor.');
+          return;
+        }
+        ok = equal(v, q.k);
+      } else {
+        const a = document.getElementById('ruleX').value,
+          b = document.getElementById('ruleY').value;
+        if (!a.trim() || !b.trim()) {
+          message('Enter both coordinate expressions.');
+          return;
+        }
+        const x = coefficient(a, 'x'),
+          y = coefficient(b, 'y');
+        ok = x !== null && y !== null && equal(x, q.k) && equal(y, q.k);
+      }
+    } else {
+      const v = parseNumber(document.getElementById('answer').value);
+      if (v === null) {
+        message('Enter a number or fraction before checking.');
+        return;
+      }
+      ok = equal(v, q.answer);
+    }
+    if (!ok) {
+      session.errors++;
+      if (session.errors > 1) session.count = 0;
+      updateStatus();
+      message(session.errors === 1 ? 'One error forgiven — your stars stay. Check your work and try again.' : 'Your streak reset. Try this problem again; you can still earn its star.', 'bad');
+      return;
+    }
+    locked = true;
+    session.count++;
+    updateStatus();
+    app.querySelectorAll('input,button').forEach(el => {
+      if (el.id !== 'back') el.disabled = true;
+    });
+    if (q.kind === 'dilation' && session.level === 2) {
+      q.showRays = true;
+      refreshGrid();
+      message('Correct! The dashed rays pass from the origin through each original point and its image.', 'good');
+    } else message('Correct! ' + session.count + ' of 5 stars earned.' + (q.kind === 'word' ? ' ' + q.detail : ''), 'good');
+    advanceTimer = setTimeout(() => session.count >= 5 ? award() : next(), q.kind === 'dilation' && session.level === 2 ? 3000 : q.kind === 'word' ? 3200 : 1700);
+  }
+
+  function updateStatus() {
+    document.getElementById('stars').innerHTML = Array.from({
+      length: 5
+    }, (_, i) => `<span class="${i<session.count?'on':''}">${i<session.count?'★':'☆'}</span>`).join('');
+    document.getElementById('stars').setAttribute('aria-label', session.count + ' of 5 stars');
+    document.getElementById('policy').textContent = errorPolicy();
+  }
+
+  function award() {
+    const {
+      topic,
+      level
+    } = session;
+    progress.done[topic] = Math.max(progress.done[topic], level);
+    save();
+    document.getElementById('mastery').textContent = progress.done.filter(n => n === 3).length + ' / 4 concepts mastered';
+    document.getElementById('awardTitle').textContent = level === 3 ? TOPICS[topic] + ' mastered!' : 'Five-star work!';
+    document.getElementById('awardText').textContent = level === 3 ? 'You completed all three levels. Your geometry toolkit just got bigger.' : 'Level ' + (level + 1) + ' is now unlocked for ' + TOPICS[topic] + '.';
+    const d = document.getElementById('award');
+    d.showModal();
+    document.getElementById('continue').textContent = level === 3 ? 'Choose another concept' : 'Start Level ' + (level + 1);
+    document.getElementById('continue').onclick = () => {
+      d.close();
+      level === 3 ? home() : start(topic, level + 1);
+    };
+    document.getElementById('awardHome').onclick = () => {
+      d.close();
+      home();
+    };
+    d.oncancel = home;
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+      for (let i = 0; i < 45; i++) {
+        const c = document.createElement('i');
+        c.className = 'burst';
+        c.style.left = rand(0, 100) + 'vw';
+        c.style.background = pick(['#19654f', '#ddf38b', '#c0662e', '#3165ba']);
+        c.style.setProperty('--drift', rand(-100, 100) + 'px');
+        document.body.append(c);
+        setTimeout(() => c.remove(), 2500);
+      }
+  }
+// Fourth concept: complete two moves, then connect the original and final images.
+TOPICS.push('Challenge Level: Two Transformations');
+RUBRIC.push([
+  'Complete and check two transformations, one at a time.',
+  'Complete two transformations and enter coordinates for the final image only.',
+  'Complete two transformations and write one rule from ABC to A″B″C″.'
+]);
+function applyMove(p, t) {
+  const [x,y] = p;
+  switch(t.kind) {
+    case 'd': return [x*t.k,y*t.k];
+    case 't': return [x+t.dx,y+t.dy];
+    case 'fx': return [x,-y];
+    case 'fy': return [-x,y];
+    case 'r90': return [-y,x];
+    case 'r270': return [y,-x];
+    case 'r180': return [-x,-y];
+  }
+}
+function describeMove(t) {
+  if(t.kind==='d') return 'Dilate by a factor of '+factorText(t.k)+' about the origin';
+  if(t.kind==='t') return 'Translate '+Math.abs(t.dx)+' units '+(t.dx<0?'left':'right')+' and '+Math.abs(t.dy)+' units '+(t.dy<0?'down':'up');
+  return {fx:'Reflect over the x-axis',fy:'Reflect over the y-axis',r90:'Rotate 90° counterclockwise about the origin',r270:'Rotate 90° clockwise about the origin',r180:'Rotate 180° about the origin'}[t.kind];
+}
+function challengeQuestion() {
+  // The first two problems in each block of three contain one dilation.
+  const hasDilation=session.turn%3!==2;
+  const dilationIndex=Math.floor(session.turn/3)*2+session.turn%3;
+  const [numerator,denominator]=scalePair(dilationIndex),k=numerator/denominator;
+  for(let attempt=0;attempt<5000;attempt++) {
+    const unit=hasDilation?denominator:1;
+    const rigid=()=>({kind:pick(['t','fx','fy','r90','r270','r180']),dx:pick([-2,-1,1,2])*unit,dy:pick([-2,-1,1,2])*unit});
+    let steps=hasDilation?[{kind:'d',k},rigid()]:[rigid(),rigid()];
+    if(hasDilation&&session.turn%2)steps.reverse();
+    const sx=pick([-1,1]),sy=pick([-1,1]),bx=rand(-2,1),by=rand(-2,1);
+    const p=[[bx,by],[bx+2,by],[bx,by+3]].map(([x,y])=>[x*sx*unit,y*sy*unit]);
+    const mid=p.map(v=>applyMove(v,steps[0]));
+    const target=mid.map(v=>applyMove(v,steps[1]));
+    if([...p,...mid,...target].some(v=>v.some(a=>Math.abs(a)>9||!equal(a,Math.round(a)))))continue;
+    if(p.some((v,i)=>samePoint(v,mid[i])||samePoint(v,target[i]))||mid.some((v,i)=>samePoint(v,target[i])))continue;
+    const signature=JSON.stringify([p,steps]);
+    if(signature===session.lastSignature)continue;
+    session.lastSignature=signature;
+    return {kind:'challenge',p,mid,target,steps,phase:0,placed:p.map(v=>v.slice()),hasDilation};
+  }
+  throw Error('Unable to generate a two-transformation challenge');
+}
+function challengeGrid() {
+  const saved=q,phase=q.phase;
+  // Reuse the coordinate grid and its draggable image points.
+  q={...saved,kind:'dilation',showRays:false};
+  const savedLevel=session.level;
+  session.level=phase===2?3:2;
+  let svg=grid();
+  session.level=savedLevel;
+  q=saved;
+  // Existing image labels become double-prime for the final image.
+  if(phase>0)svg=svg.replaceAll('′','″').replaceAll(' prime with',' double prime with');
+  if(phase>0)svg=svg.replace('</svg>',polygon(q.mid,'#69853d',true)+'</svg>');
+  return svg;
+}
+function renderChallenge() {
+  locked=false;
+  const phase=q.phase,rulePhase=phase===2,coords=session.level===2&&phase===1;
+  const heading=rulePhase?'Write one rule from ABC directly to A″B″C″.':describeMove(q.steps[phase])+'.';
+  const reminder=rulePhase?`<div class="given"><b>Your two transformations, in order:</b><ol><li><b>ABC → A′B′C′:</b> ${describeMove(q.steps[0])}.</li><li><b>A′B′C′ → A″B″C″:</b> ${describeMove(q.steps[1])}.</li></ol><p>Use A → A″, B → B″, and C → C″ to combine both moves into one coordinate rule.</p></div>`:'';
+  const fields=coords?['A″','B″','C″'].map((name,i)=>`<div class="point-row"><label>${name}</label><span>(</span><input id="finalX${i}" aria-label="${name} x coordinate"><span>,</span><input id="finalY${i}" aria-label="${name} y coordinate"><span>)</span></div>`).join(''):rulePhase?`<div class="rule-entry"><span>(x, y) → (</span><input id="overallX" aria-label="Overall x expression" placeholder="e.g. 2x + 3"><span>,</span><input id="overallY" aria-label="Overall y expression" placeholder="e.g. −2y"><span>)</span></div><p class="example">Fractions work too: 1/2x, x/2, −y/2 + 3.</p>`:'';
+  app.innerHTML=renderTop()+`<div class="stage"><section class="card"><div id="graph">${challengeGrid()}</div><div class="legend"><span class="original">● Original ABC</span>${phase>0?'<span style="color:#69853d">● First image A′B′C′</span>':''}<span class="image">● ${phase?'Final image A″B″C″':'First image A′B′C′'}</span></div><p class="example">All dilations and rotations are centered at the origin.</p></section><section class="card"><div class="eyebrow">${rulePhase?'Final step · Combined rule':'Transformation '+(phase+1)+' of 2'}</div><h3>${heading}</h3><p>${rulePhase?'Both moves are correct! Now connect the original triangle directly to the final image.':phase?'✓ First transformation correct. Apply the second move to A′B′C′.':'Complete the first move. The second transformation appears after your first move is correct.'}</p>${rulePhase?'':'<p>Drag the orange vertices or select a handle and use the arrow keys.</p>'}${reminder}${fields}${controls()}</section></div>`;
+  document.getElementById('back').onclick=home;
+  document.getElementById('check').onclick=checkChallenge;
+  document.getElementById('tip').onclick=()=>{const el=document.getElementById('hint');el.hidden=false;el.textContent=rulePhase?'Start with (x, y). Apply the first move to both expressions, then apply the second move to that result. Combine and simplify.':'Follow corresponding vertices. A dilation multiplies both coordinates; a translation adds; a reflection changes a sign; a rotation swaps coordinates or changes signs.';};
+  if(!rulePhase)bindDrag();
+}
+function combinedCoefficients() {
+  const f=p=>q.steps.reduce((v,t)=>applyMove(v,t),p);
+  const o=f([0,0]),x=f([1,0]),y=f([0,1]);
+  return [[x[0]-o[0],y[0]-o[0],o[0]],[x[1]-o[1],y[1]-o[1],o[1]]];
+}
+function linearExpression(value) {
+  let s=value.toLowerCase().replace(/\s/g,'').replace(/[−–]/g,'-').replace(/×/g,'*');
+  s=s.replace(/\(([+-]?\d+\/[1-9]\d*)\)/g,'$1');
+  if(!s||!/^[xy\d.+*/-]+$/.test(s))return null;
+  const terms=s.match(/[+-]?[^+-]+/g);
+  if(!terms||terms.join('')!==s)return null;
+  const result=[0,0,0];
+  for(const term of terms) {
+    let m=term.match(/^([+-]?)([xy])(?:\/([1-9]\d*))?$/);
+    if(m){result[m[2]==='x'?0:1]+=(m[1]==='-'?-1:1)/(m[3]?+m[3]:1);continue;}
+    m=term.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:\/[1-9]\d*)?)\*?([xy])$/);
+    if(m){const c=parseNumber(m[1]);if(c===null)return null;result[m[2]==='x'?0:1]+=c;continue;}
+    const c=parseNumber(term);if(c===null)return null;result[2]+=c;
+  }
+  return result.every(Number.isFinite)?result:null;
+}
+function checkChallenge() {
+  if(locked)return;
+  let ok=false;
+  if(q.phase===2) {
+    const x=document.getElementById('overallX').value,y=document.getElementById('overallY').value;
+    if(!x.trim()||!y.trim()){message('Enter both coordinate expressions.');return;}
+    const got=[linearExpression(x),linearExpression(y)],expected=combinedCoefficients();
+    ok=got.every((v,i)=>v&&v.every((n,j)=>equal(n,expected[i][j])));
+  }else {
+    const target=q.phase?q.target:q.mid;
+    ok=q.placed.every((v,i)=>samePoint(v,target[i]));
+    if(session.level===2&&q.phase===1) {
+      const entered=q.target.map((_,i)=>[parseNumber(document.getElementById('finalX'+i).value),parseNumber(document.getElementById('finalY'+i).value)]);
+      if(entered.some(v=>v.some(n=>n===null))){message('Enter all three final image coordinates.');return;}
+      ok=ok&&entered.every((v,i)=>samePoint(v,q.target[i]));
+    }
+  }
+  if(!ok) {
+    session.errors++;
+    if(session.errors>2)session.count=0;
+    updateStatus();
+    message(session.errors<=2?`${2-session.errors} of 2 errors remaining for this problem. Check your work and try again.`:'Your streak reset. Keep working on this problem.','bad');
+    return;
+  }
+  locked=true;
+  document.getElementById('check').disabled=true;
+  app.querySelectorAll('input').forEach(el=>el.disabled=true);
+  if(q.phase===0||(q.phase===1&&session.level===3)) {
+    message('✓ Transformation '+(q.phase+1)+' is correct!','good');
+    advanceTimer=setTimeout(()=>{q.phase++;q.placed=q.mid.map(v=>v.slice());renderChallenge();},1400);
+    return;
+  }
+  session.count++;
+  updateStatus();
+  message('✓ '+(q.phase===2?'Combined rule correct!':'Both transformations correct!')+' '+session.count+' of 5 stars earned.','good');
+  advanceTimer=setTimeout(()=>session.count>=5?award():next(),1800);
+}
+
+home();
+// Student notes stay on this problem and never change grading.
+function annotationTools() {
+  return `<div class="annotation-tools"><button type="button" class="secondary" id="penTool" aria-pressed="true">✎ Draw</button><label for="dimensionText">Dimension label</label><input id="dimensionText" maxlength="32" placeholder="e.g. 8 ft" aria-label="Dimension label"><button type="button" class="secondary" id="labelTool" aria-pressed="false">Place label</button><button type="button" class="secondary" id="undoNote">Undo</button><button type="button" class="secondary" id="clearNotes">Clear marks</button></div><p class="example" id="annotationHelp" role="status">Draw on the figure with a mouse, finger, or stylus. To type a dimension, enter it above, choose Place label, and click the figure.</p>`;
+}
+function annotatedFigure() {
+  return `<div class="annotation-board">${wordArt()}<svg id="notesLayer" viewBox="0 0 500 330" tabindex="0" role="group" aria-label="Draw dimensions on this figure, or place a typed label. Press Enter to place a label in the center."><g id="studentMarks"></g></svg></div>${annotationTools()}`;
+}
+function escapeNote(text) {
+  return text.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function noteMarkup(notes) {
+  return notes.map(note=>note.kind==='label'?`<text x="${note.x}" y="${note.y}" fill="#114b3a" stroke="#fffef9" stroke-width="4" paint-order="stroke" font-size="18" font-weight="750">${escapeNote(note.text)}</text>`:`<path d="${note.points.map((p,i)=>(i?'L':'M')+p.join(' ')).join(' ')}" fill="none" stroke="#114b3a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
+}
+function bindAnnotations() {
+  q.notes=q.notes||[];
+  let mode='pen',active=null;
+  const svg=document.getElementById('notesLayer'),marks=document.getElementById('studentMarks'),input=document.getElementById('dimensionText'),help=document.getElementById('annotationHelp');
+  const repaint=()=>marks.innerHTML=noteMarkup(q.notes);
+  const setMode=value=>{mode=value;document.getElementById('penTool').setAttribute('aria-pressed',String(mode==='pen'));document.getElementById('labelTool').setAttribute('aria-pressed',String(mode==='label'));svg.style.cursor=mode==='pen'?'crosshair':'text';help.textContent=mode==='pen'?'Draw on the figure. Undo removes the most recent mark.':'Click the figure to place your dimension label. You can also focus the figure and press Enter to place it in the center.';};
+  const coordinate=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const loc=p.matrixTransform(svg.getScreenCTM().inverse());return [Math.max(0,Math.min(500,loc.x)),Math.max(0,Math.min(330,loc.y))];};
+  const addLabel=p=>{const text=input.value.trim();if(!text){help.textContent='Enter a dimension label first, such as 8 ft.';input.focus();return;}q.notes.push({kind:'label',x:p[0],y:p[1],text});repaint();};
+  document.getElementById('penTool').onclick=()=>setMode('pen');
+  document.getElementById('labelTool').onclick=()=>setMode('label');
+  document.getElementById('undoNote').onclick=()=>{if(locked)return;q.notes.pop();repaint();};
+  document.getElementById('clearNotes').onclick=()=>{if(locked)return;q.notes=[];repaint();};
+  svg.onpointerdown=e=>{if(locked)return;e.preventDefault();if(mode==='label'){addLabel(coordinate(e));return;}active={kind:'stroke',points:[coordinate(e)]};q.notes.push(active);svg.setPointerCapture(e.pointerId);repaint();};
+  svg.onpointermove=e=>{if(!active||locked)return;active.points.push(coordinate(e));repaint();};
+  const finish=e=>{if(!active)return;active=null;if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);};
+  svg.onpointerup=finish;svg.onpointercancel=finish;
+  svg.onkeydown=e=>{if(!locked&&(e.key==='Enter'||e.key===' ')){e.preventDefault();addLabel([180,165]);}};
+  repaint();
+}
+
+// Similarity Level 2: combine proportional sides with segment addition/subtraction.
+function nestedSegmentQuestion() {
+  const pair=scalePair(session.turn);
+  const numerator=Math.max(...pair),denominator=Math.min(...pair),k=numerator/denominator;
+  const m=rand(1,3),base=pick([[3,4],[4,5],[5,6]]);
+  const AB=base[0]*denominator*m,AC=base[1]*denominator*m;
+  const AD=base[0]*numerator*m,AE=base[1]*numerator*m;
+  const lengths={AB,AC,AD,AE,BD:AD-AB,CE:AE-AC};
+  const patterns=[
+    {given:['AB','AC','AE'],target:'BD',hint:'First use AE ÷ AC to find the scale factor from ABC to ADE. Find AD, then subtract AB to get BD.'},
+    {given:['CE','AB','BD'],target:'AC',hint:'First add AB + BD to find AD. Use AD ÷ AB as the scale factor. The extra vertical part CE equals AE − AC.'},
+    {given:['AB','AC','AD'],target:'CE',hint:'Use AD ÷ AB to find the scale factor. Find AE, then subtract AC to get CE.'},
+    {given:['AC','CE','BD'],target:'AB',hint:'First add AC + CE to find AE. Use AE ÷ AC as the scale factor. The extra horizontal part BD equals AD − AB.'}
+  ];
+  const pattern=patterns[session.turn%patterns.length];
+  return {kind:'similarity',nested:true,segmentProblem:true,k,lengths,...pattern,answer:lengths[pattern.target]};
+}
+function nestedSegmentDiagram() {
+  const A=[90,280],D=[430,280],E=[90,45];
+  const B=[A[0]+(D[0]-A[0])/q.k,A[1]],C=[A[0],A[1]-(A[1]-E[1])/q.k];
+  const points={A,B,C,D,E};
+  let drawing=`<polygon points="${[A,D,E].map(v=>v.join(',')).join(' ')}" fill="#c0662e0d" stroke="#c0662e" stroke-width="2.8"/><polygon points="${[A,B,C].map(v=>v.join(',')).join(' ')}" fill="#3165ba12" stroke="#3165ba" stroke-width="2.8"/>`;
+  for(const [name,[x,y]] of Object.entries(points)) {
+    drawing+=`<circle cx="${x}" cy="${y}" r="3.5" fill="#18382f"/><text x="${x+(name==='B'||name==='D'?8:-20)}" y="${y+(name==='C'||name==='E'?-9:21)}" fill="#18382f" font-size="15" font-weight="750">${name}</text>`;
+  }
+  // Parallel markers identify the shared-angle similarity, without diagonal lengths.
+  for(const [p1,p2] of [[B,C],[D,E]]) {
+    const x=(p1[0]+p2[0])/2,y=(p1[1]+p2[1])/2;
+    drawing+=`<path d="M${x-5} ${y+7}L${x+3} ${y-1}L${x+9} ${y+6}" fill="none" stroke="#577063" stroke-width="2"/>`;
+  }
+  function dimension(segment,value) {
+    const [p1,p2]=segment.split('').map(name=>points[name]);
+    const label=segment+' = '+value;
+    if(segment==='AE'||segment==='AC'||segment==='CE') {
+      const x=segment==='AE'?25:58;
+      return `<path d="M${x} ${p1[1]}V${p2[1]}M${x-5} ${p1[1]}H${x+5}M${x-5} ${p2[1]}H${x+5}" fill="none" stroke="#698071" stroke-width="1.2"/><text transform="translate(${x-9} ${(p1[1]+p2[1])/2}) rotate(-90)" text-anchor="middle" font-size="14" font-weight="700" fill="#19654f" stroke="#fffef9" stroke-width="4" paint-order="stroke">${label}</text>`;
+    }
+    const y=segment==='AD'?350:321;
+    return `<path d="M${p1[0]} ${y}H${p2[0]}M${p1[0]} ${y-5}V${y+5}M${p2[0]} ${y-5}V${y+5}" fill="none" stroke="#698071" stroke-width="1.2"/><text x="${(p1[0]+p2[0])/2}" y="${y+20}" text-anchor="middle" font-size="14" font-weight="700" fill="#19654f" stroke="#fffef9" stroke-width="4" paint-order="stroke">${label}</text>`;
+  }
+  for(const segment of q.given)drawing+=dimension(segment,fmt(q.lengths[segment]));
+  drawing+=dimension(q.target,'?');
+  return `<svg class="drawing" viewBox="0 0 500 390" role="img" aria-label="Nested similar triangles ABC and ADE, with B between A and D and C between A and E. Only the given segment lengths and the requested unknown are marked.">${drawing}</svg>`;
+}
+function renderNestedSegments() {
+  return `<div class="stage"><section class="card">${nestedSegmentDiagram()}<p class="example">△ABC ∼ △ADE · BC ∥ DE<br>Diagram not drawn to exact scale. BD and CE are the outer portions of the sides.</p></section><section class="card"><div class="eyebrow">Similarity · Parts and whole sides</div><h3>Find ${q.target}.</h3><p>B lies between A and D. C lies between A and E. Use the given segments to find the missing length.</p><table class="mini-table"><thead><tr><th>Given segment</th><th>Length</th></tr></thead><tbody>${q.given.map(name=>`<tr><td>${name}</td><td>${fmt(q.lengths[name])}</td></tr>`).join('')}</tbody></table><p><label for="answer">${q.target} (units)</label></p><input id="answer" class="big-input" placeholder="Number or fraction" autocomplete="off">${controls()}</section></div>`;
+}
+
+</script>
+</body>
+</html>
